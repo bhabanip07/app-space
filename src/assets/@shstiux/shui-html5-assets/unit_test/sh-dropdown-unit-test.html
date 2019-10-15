@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+
+    <title>sh-checkbox-test</title>
+    <script type="module" src="../src/sh-dropdown.js"></script>
+    <script type="module" src="../src/sh-icon.js"></script>
+    <script type="module" src="../src/sh-checkbox.js"></script>
+    <script type="module" src="../src/sh-text.js"></script>
+    <script type="module" src="../src/sh-menu-item.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+</head>
+
+<body>
+    <test-fixture id="SHDropdown">
+        <template>
+            <sh-dropdown value="Lung">
+                <sh-menu-item label='Lung'></sh-menu-item>
+                <sh-menu-item label='Head'></sh-menu-item>
+                <sh-menu-item label='Bone'></sh-menu-item>
+            </sh-dropdown>
+        </template>
+    </test-fixture>
+    <test-fixture id="SHMultiSelectDropdown">
+        <template>
+            <sh-dropdown multi-select>
+                <sh-menu-item label='Lung'></sh-menu-item>
+                <sh-menu-item label='Head'></sh-menu-item>
+                <sh-menu-item label='Bone'></sh-menu-item>
+            </sh-dropdown>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('Dropdown', function () {
+            var dropdown,
+                drowpdownWrapper,
+                dropDownContentWrapper,
+                dropdownInput,
+                arrowIcon,
+                dropdownLabel,
+                itemsWrapper;
+            setup(function () {
+                dropdown = fixture('SHDropdown');
+                drowpdownWrapper = dropdown.shadowRoot.querySelector('.dropdown-wrapper');
+                dropDownContentWrapper = dropdown.shadowRoot.querySelector('.content-wrapper');
+                dropdownInput = dropDownContentWrapper.querySelector('input');
+                dropdownLabel = dropDownContentWrapper.querySelector('.dropdown-label');
+                arrowIcon = dropdown.shadowRoot.querySelector('#dropdown-icon');
+                itemsWrapper = dropdown.shadowRoot.querySelector('.items-wrapper');
+                labelWrapper = dropdown.shadowRoot.querySelector('.label-wrapper');
+                expectedLabel = 'Body Parts';
+                dropdown.label = 'Body Parts';
+                dropdown.classList.add('testing');
+            })
+
+            test('Dropdown Label', function () {
+                assert.equal(labelWrapper.innerText, "Body Parts", "Testing Label");
+            })
+
+            test('Dropdown Mouseover', function () {
+                var event = new Event('mouseover');
+                dropdownInput.dispatchEvent(event);
+                assert.equal(dropdown.title, '', "Title removed")
+            })
+
+            test('Blur Event', function () {
+                var event = new Event('blur');
+                dropdown.dispatchEvent(event);
+                assert.equal(arrowIcon.style.outline, '', "Blur event");
+            })
+
+            test('Dropdown Value', function () {
+                assert.equal(dropdown.value, "Lung", "Dropdown value")
+            })
+
+            test('MenuItemWrapper keyup', function () {
+                itemsWrapper.dispatchEvent(new KeyboardEvent('keyup', { 'keyCode': 13 }));
+                assert.equal(dropdown.shadowRoot.querySelector('#dropdown-icon').style.outline, 'rgb(59, 153, 252) solid 2px');
+            })
+        })
+
+        suite('Multiselect Dropdown', function () {
+            setup(function () {
+                multiDropdown = fixture('SHMultiSelectDropdown');
+            })
+            test('MenuItem with Checkbox', function (done) {
+                flush(function() {
+                    dropDownContentWrapper = multiDropdown.shadowRoot.querySelector('.content-wrapper');
+                    dropdownInput = dropDownContentWrapper.querySelector('input');
+                    assert.equal(multiDropdown.querySelectorAll('sh-menu-item')[0].checkbox, true, "MenuItem has checkbox");
+                    done();
+                });
+            })
+        })
+    </script>
+</body>
+
+</html>

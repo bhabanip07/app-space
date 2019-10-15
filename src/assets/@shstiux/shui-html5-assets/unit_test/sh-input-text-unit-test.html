@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <link rel="stylesheet" href="../src/shui-styles.css">
+    <title>sh-accessbar-test</title>
+    <!-- <script type="module" src="../src/sh-access-bar.js"></script> -->
+    <!-- <script type="module" src="../src/sh-accordion.js"></script> -->
+    <!-- <script type="module" src="../src/sh-badge.js"></script> -->
+    <!-- <script type="module" src="../src/sh-button.js"></script> -->
+    <!-- <script type="module" src="../src/sh-breadcrumbs.js"></script> -->
+    <!-- <script type="module" src="../src/sh-breadcrumb-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-card.js"></script> -->
+    <!-- <script type="module" src="../src/sh-checkbox.js"></script> -->
+    <!-- <script type="module" src="../src/sh-datepicker.js"></script> -->
+    <!-- <script type="module" src="../src/sh-divider.js"></script> -->
+    <!-- <script type="module" src="../src/sh-drawer.js"></script> -->
+    <!-- <script type="module" src="../src/sh-dropdown.js"></script> -->
+    <!-- <script type="module" src="../src/sh-empty-state.js"></script> -->
+    <!-- <script type="module" src="../src/sh-grid.js"></script> -->
+    <!-- <script type="module" src="../src/sh-home-screen.js"></script> -->
+    <!-- <script type="module" src="../src/sh-home-card.js"></script> -->
+    <script type="module" src="../src/sh-icon.js"></script>
+    <!-- <script type="module" src="../src/sh-input-number.js"></script> -->
+    <script type="module" src="../src/sh-input-text.js"></script>
+    <!-- <script type="module" src="../src/sh-menu-group.js"></script> -->
+    <!-- <script type="module" src="../src/sh-menu-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-modal.js"></script> -->
+    <!-- <script type="module" src="../src/sh-nav-bar.js"></script> -->
+    <!-- <script type="module" src="../src/sh-notifications.js"></script> -->
+    <!-- <script type="module" src="../src/sh-notification-item.js"></script> -->
+    <script type="module" src="../src/sh-page.js"></script>
+    <!-- <script type="module" src="../src/sh-pagination.js"></script> -->
+    <!-- <script type="module" src="../src/sh-pane.js"></script> -->
+    <!-- <script type="module" src="../src/sh-patient-illustration.js"></script> -->
+    <!-- <script type="module" src="../src/sh-popover.js"></script> -->
+    <!-- <script type="module" src="../src/sh-progress.js"></script> -->
+    <!-- <script type="module" src="../src/sh-progress-radial.js"></script> -->
+    <!-- <script type="module" src="../src/sh-radio-button.js"></script> -->
+    <!-- <script type="module" src="../src/sh-radio-group.js"></script> -->
+    <!-- <script type="module" src="../src/sh-search.js"></script> -->
+    <!-- <script type="module" src="../src/sh-slider.js"></script> -->
+    <!-- <script type="module" src="../src/sh-spinner.js"></script> -->
+    <!-- <script type="module" src="../src/sh-splash-screen.js"></script> -->
+    <!-- <script type="module" src="../src/sh-stepper.js"></script> -->
+    <!-- <script type="module" src="../src/sh-stepper-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-switch.js"></script> -->
+    <!-- <script type="module" src="../src/sh-switch-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table-cell.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table-head.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table-row.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tabs.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tab-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tag.js"></script> -->
+    <!-- <script type="module" src="../src/sh-text.js"></script> -->
+    <!-- <script type="module" src="../src/sh-thumbnail.js"></script> -->
+    <!-- <script type="module" src="../src/sh-timepicker.js"></script> -->
+    <!-- <script type="module" src="../src/sh-toggle.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tools.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tool.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tooltip.js"></script> -->
+    <!-- <script type="module" src="../src/sh-user-identifier.js"></script> -->
+    <!-- <script type="module" src="../src/sh-workline.js"></script> -->
+    <!-- <script type="module" src="../src/sh-workline-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-wrapper.js"></script> -->
+    <!-- <script type="module" src="../src/global-styles.js"></script> -->
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <script type="text/javascript">
+        var webcomponentsjsBase = "../node_modules/@webcomponents/webcomponentsjs/";
+    </script>
+</head>
+
+<body>
+
+    <test-fixture id="input-text">
+        <template>
+            <sh-page>
+                <sh-input-text label='Empty' value='hello'></sh-input-text>
+                <sh-input-text label="Icon Slot">
+                    <sh-icon icon="plus" button size="s" slot="icon"></sh-icon>
+                </sh-input-text>
+                <sh-input-text label='Empty' textarea></sh-input-text>
+            </sh-page>
+        </template>
+    </test-fixture>
+    </sh-page>
+
+    <script>
+        var html = document.querySelector('html');
+        suite('input-text', function () {
+            let inputText, inputTextWithIconSlot, page, textarea,
+                clearIcon;
+            setup(function () {
+                page = fixture('input-text');
+                inputText = page.children[0];
+                inputTextWithIconSlot = page.children[1];
+                textarea = page.children[2];
+                clearIcon = inputText.shadowRoot.querySelector('#clear');
+            })
+            test('input-text', function () {
+                assert.equal(inputTextWithIconSlot.getAttribute('iconslot'), '')
+            })
+            test('input-text click listener on body', function () {
+                document.body.click();
+                inputText.addEventListener('focus', function () {
+                    inputText.randomAttribute = true
+                })
+                assert.equal(inputText.randomAttribute, null);
+            })
+            test('input-text click listener on input text without textarea', function () {
+                inputText.click();
+                inputText.addEventListener('focus', function () {
+                    inputText.randomAttribute = true
+                })
+                assert.equal(inputText.randomAttribute, null);
+            })
+            test('input-text focus keyup on input text', function () {
+                textarea.click();
+                textarea.addEventListener('focus', function () {
+                    textarea.randomAttribute = true
+                })
+                assert.equal(textarea.randomAttribute, null);
+            })
+            test('input-text focus keyup=9 on input text', function () {
+                let focusEvent = new Event('focus');
+                inputText.dispatchEvent(focusEvent);
+                let keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 9, 'which': 9 });
+                inputText.dispatchEvent(keyupEvent);
+                assert.equal(clearIcon.getAttribute('tabindex'), 0);
+            })
+            test('input-text focus keyup=9 on input text clear icon tabindex', function (done) {
+                inputText.value = '';
+                let focusEvent = new Event('focus');
+                let keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 9, 'which': 9 });
+                inputText.dispatchEvent(focusEvent);
+                inputText.dispatchEvent(keyupEvent);
+                flush(function () {
+                    assert.equal(clearIcon.getAttribute('tabindex'), null);
+                    done();
+                })
+                // assert.equal(textarea.randomAttribute, null);
+            })
+            test('clear icon focus keyup=9 on input text outline', function (done) {
+                let focusEvent = new Event('focus');
+                let keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 9, 'which': 9 });
+                clearIcon.dispatchEvent(focusEvent);
+                clearIcon.dispatchEvent(keyupEvent);
+                flush(function () {
+                    assert.equal(clearIcon.style.outline, 'rgb(59, 153, 252) solid 2px');
+                    done();
+                })
+            })
+            test('clear icon focus keyup=32 on input text outline ', function (done) {
+                let focusEvent = new Event('focus');
+                let keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 32, 'which': 32 });
+                clearIcon.dispatchEvent(focusEvent);
+                clearIcon.dispatchEvent(keyupEvent);
+                flush(function () {
+                    assert.equal(clearIcon.style.outline, '');
+                    done();
+                })
+            })
+            test('input-text blur', function () {
+                let focusEvent = new Event('focus');
+                let blurEvent = new Event('blur');
+                let keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 32, 'which': 32 });
+                clearIcon.dispatchEvent(focusEvent);
+                inputText.dispatchEvent(keyupEvent);
+                clearIcon.dispatchEvent(blurEvent);
+                assert.equal(inputText.style.opacity, '');
+            })
+            test('resizeObserver method for textarea input', function () {
+                textarea.resizable = true;
+                innerTextArea = textarea.shadowRoot.querySelector('textarea');
+                assert.equal(innerTextArea.style.resize, 'vertical');
+            })
+            test('resizeObserver method for normal input', function () {
+                inputText.resizable = true;
+                innerTextArea = inputText.shadowRoot.querySelector('textarea');
+                assert.equal(innerTextArea.style.resize, 'none');
+            })
+            test('condensedObserver method', function () {
+                inputText.condensed = true;
+                assert.equal(inputText.getAttribute('condensed'), 'true');
+            })
+            test('condensedObserver method', function () {
+                assert.equal(inputText.getAttribute('condensed'), null);
+            })
+            test('clearField method', function (done) {
+                let input = inputText.shadowRoot.querySelector('#input');
+                input.addEventListener('focus', function () {
+                    inputText.randomAttribute = true;
+                })
+                clearIcon.click();
+                flush(function () {
+                    assert.equal();
+                    done();
+                })
+            })
+
+        })
+    </script>
+</body>
+
+</html>

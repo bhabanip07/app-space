@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+
+    <title>sh-checkbox-test</title>
+    <script type="module" src="../src/sh-patient-illustration.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+</head>
+
+<body>
+    <sh-page>
+        <test-fixture id="SHPatientIllustration">
+            <template>
+                <sh-patient-illustration columns="3" image="ct_adult_vascular" disabled='["2", "9"]'>
+                </sh-patient-illustration>
+            </template>
+        </test-fixture>
+    </sh-page>
+
+    <script>
+        var body = document.querySelector('html');
+        suite('Patient Illustration', function () {
+            setup(function (done) {
+                patientIllustration = fixture('SHPatientIllustration');
+                regions = patientIllustration.shadowRoot.querySelectorAll('.region');
+                svgs = patientIllustration.shadowRoot.querySelectorAll('svg');
+                patientIllustration.classList.add('testing');
+                setTimeout(function () { done(); }, 0);
+            })
+
+            test('Region Click Event : Undefined', function(){
+                var event = new Event('click');
+                patientIllustration.dispatchEvent(event);
+                assert.equal(patientIllustration.active, undefined);
+            })
+
+            test('Region Click Event', function(){
+                var event = new Event('click');
+                regions[0].dispatchEvent(event);
+                assert.equal(patientIllustration.active, regions[0].getAttribute('index'));
+            })
+            
+            test('Region MouseEnter Event', function(){
+                var event = new Event('mouseenter');
+                regions[0].dispatchEvent(event);
+
+                assert.equal(regions[0].getAttribute('hover'), 'true');
+            })
+
+            test('Region MouseLeave Event', function(){
+                var event = new Event('mouseleave');
+                regions[0].dispatchEvent(event);
+
+                assert.equal(regions[0].getAttribute('hover'), null);
+            })
+
+            test('Active Changed', function(){
+                patientIllustration.active = "2";
+                assert.equal(regions[1].getAttribute('active'), 'true');
+            })
+
+            test('Region Disabled', function(){
+                patientIllustration.disabled = ["1", "2", "9"];
+                assert.equal(regions[0].getAttribute('disabled'), 'true');
+            })
+
+            test('Query Image', function(){
+                patientIllustration.image = 'ct_adult_vascular';
+                assert.equal(svgs[1].getAttribute('hidden'), null);
+
+            })
+        })
+    </script>
+</body>
+
+</html>

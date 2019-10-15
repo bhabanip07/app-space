@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+
+    <title>sh-checkbox-test</title>
+    <script type="module" src="../src/sh-pagination.js"></script>
+    <script type="module" src="../src/sh-icon.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+</head>
+
+<body>
+    <p id="theme_description"></p>
+    <p id="description"></p>
+    <p id="status"></p>
+    <test-fixture id="SHPagination">
+        <template>
+            <sh-pagination>
+            </sh-pagination>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('Pagination', function(){
+            let hasCondensedClass,
+            currentItem,
+            currentItemNumber;
+
+            setup(function(){
+                pagination = fixture('SHPagination');
+                pagination.classList.add('.testing');
+                pagination.pages = 10;
+            })
+            
+            test('Pagination display block', function(){
+                assert.equal(pagination.style.display, "block", "Display block");
+            })
+
+            test('Page : 1, PrevIconDisabled', function(){
+                pagination.currentPage = 1;
+                assert.equal(pagination.shadowRoot.querySelector('.prevPageIcon').classList.contains('disabled'), true, "Contains disabled class");
+            })
+
+            test('Highlight Page Item OnClick', function(done){
+                flush(function(){
+                    pagination.shadowRoot.querySelectorAll('.sh-pagination-item')[1].click();
+                    currentItem = pagination.shadowRoot.querySelectorAll('.sh-pagination-item')[1].getAttribute('active');
+                    assert.equal(currentItem, '', "Current Item active");
+                    done();
+                });
+                
+            })
+
+            test('Page : Last, NextIconDisabled', function(){
+                pagination.currentPage = 10;
+                assert.equal(pagination.shadowRoot.querySelector('.nextPageIcon').classList.contains('disabled'), true, "Contains disabled class");
+            })
+
+            test('Pagination display none', function(){
+                pagination.pages = 1;
+                assert.equal(pagination.style.display, "none", "Display none");
+            })
+
+            suite('Highlight item', function(){
+                let activeItem;
+                test('Highlight current pagination item', function(done){  
+                    pagination.pages = 10;
+                    pagination.currentPage = 1;
+                flush(function() {
+                    activeItem = pagination.shadowRoot.querySelectorAll('.sh-pagination-item')[0].getAttribute('active'); 
+                    assert.equal(activeItem, '');
+                    done();
+                });
+                })
+                test('Highlight current pagination item', function(done){  
+                    pagination.pages = 10;
+                    pagination.currentPage = 1;
+                    flush(function() {
+                        activeItem = pagination.shadowRoot.querySelectorAll('.sh-pagination-item')[1].getAttribute('active'); 
+                        assert.equal(activeItem, null);
+                        done();
+                    });
+                });
+            })
+            
+            test('Pagination display condensed : Pages > 999', function(){
+                pagination.pages = 1000;
+                hasCondensedClass = pagination.shadowRoot.querySelector('.pagination-wrapper').classList.contains('condensed');
+                assert.equal(hasCondensedClass, true, "Condensed class");
+            })
+
+            test('PrevIcon Click', function(done){
+                pagination.currentPage = 2;
+                flush(function(){
+                    pagination.shadowRoot.querySelector('.prevPageIcon').click();
+                    assert.equal(pagination.currentPage, 1, "Prev Icon Clicked");
+                    done();
+                })
+            })
+            test('Next Icon Click', function(done){
+                pagination.currentPage = 2;
+                flush(function(){
+                    pagination.shadowRoot.querySelector('.nextPageIcon').click();
+                    assert.equal(pagination.currentPage, 3, "Next Icon Clicked");
+                    done();
+                })
+            })
+        })
+    </script>
+
+</body>
+
+</html>

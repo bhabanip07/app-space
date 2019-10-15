@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+
+    <title>sh-button-test</title>
+    <script type="module"src="../src/sh-button.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+  <body>
+    <test-fixture id="SHButton">
+        <template>
+            <sh-button></sh-button>
+        </template>
+    </test-fixture>
+          
+    <script>
+        var body = document.querySelector('html');
+        suite('Button',function(){
+            var button,btnIcon,btnContent,btnLabel;
+            setup(function(){
+                button = fixture('SHButton');
+                btnLabel = button.shadowRoot.querySelector('.button-label');
+                button.classList.add('testing');
+            })
+
+            test('Button : Click', function(){
+                var event = new Event('click');
+                button.dispatchEvent(event);
+                assert.equal(this.href, undefined, "Click event");
+            })
+
+            test('Button : OnPress Tab', function(){
+                var event = new Event('focus');
+                button.dispatchEvent(event);
+                button.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':9}));
+                assert.equal(button.style.outline, 'rgb(59, 153, 252) solid 2px',"On Tab pressed");
+            })
+
+            test('Button : Blur', function(){
+                var event = new Event('blur');
+                button.dispatchEvent(event);
+                assert.equal(button.style.outline, '',"Blur");
+            })
+
+        })
+    </script>
+  </body>

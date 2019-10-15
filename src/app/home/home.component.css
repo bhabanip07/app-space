@@ -1,0 +1,151 @@
+/* .main-body div{
+    margin: 16px;
+}
+.main-body{
+    overflow-y: scroll;
+}
+/* #datepickerLabel{
+    position: relative;
+    left:8px;
+    transition:0.2s all ease-in-out;
+    cursor:text
+}
+
+.label-without-input {
+    top:-27px;
+    color:var(--text-secondary);
+    font:var(--body-1);
+}
+
+.label-with-input-focused {
+    font:var(--body-2);
+    color:var(--text-highlight);
+    top:-38px
+}
+
+    .label-with-input-clicked-out{
+    font:var(--body-2) ;
+    color:var(--text-secondary) ;
+    top:-38px
+}
+
+    #datepickerInput {
+    height:40px;
+    border:1px solid transparent !important;
+    box-shadow: none;
+    padding-top: 23px;
+    padding-left: 8px;
+    background-color:rgba(var(--ui-1),var(--opacity-7));
+    font:var(--body-1);
+    color:var(--text-primary);
+    cursor:text;
+    z-index:0;
+}
+
+    #datepickerInput:hover{
+    background-color:rgba(var(--ui-1),var(--opacity-6));
+}
+
+    #datetimepicker1{
+    height: 40px;
+
+}
+
+    #termsOfUsage{
+    position:relative;
+    top:10px;
+}
+    .date{
+    width:100%;
+}
+
+    #calendarIcon {
+    position:relative;
+    top:-52px;
+    left:90%;
+    color:rgba(var(--ui-1),var(--opacity-4))
+}
+    #calendarIcon:hover{
+    color:rgba(var(--ui-1),var(--opacity-2))
+}
+
+.order-elements-container{
+    width: 288px;
+}
+.display-in-straight-line{
+    display: flex;
+    justify-content: space-between;
+}
+.extend-time-selector > *{
+    margin-top: 16px
+}
+.success-message{
+    display: flex;
+    justify-content: center;
+    color: rgba(var(--functional-green));
+}
+
+.bounding-div {
+    overflow: hidden;
+    width: fit-content;
+    margin: 8px auto;
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+    .desktop-div {
+      display: none;
+    }
+    .mobile-div {
+        display: block;
+    }
+  }
+
+  @media only screen and (max-width: 767px) {
+        .desktop-div {
+            display: none !important;
+        }
+        .mobile-div {
+            display: block !important;
+        }
+  }
+
+  @media only screen and (max-width: 767px) and (orientation: landscape){
+      .active-mobile-table {
+        height: 50% !important
+      }
+      .inactive-mobile-table {
+        height: 50% !important
+      }
+      .drawer-layout-div {
+        flex-direction: row !important;
+    }
+  }
+.mobile-div {
+    overflow: hidden;
+    width: 100%;
+    margin: 8px auto;
+    height:100%;
+    display: none
+}
+
+.inactive-mobile-table {
+    display: none;
+    height: 100%
+}
+.active-mobile-table {
+    height: 100%;
+}
+.desktop-div {
+    display: block;
+}
+.drawer-layout-div {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.table-space {
+    grid-template-rows: 300px 1fr !important;
+  }
+    */
+:host{ height: 100%;}
+#leftSideColumn > * { margin: 8px;}

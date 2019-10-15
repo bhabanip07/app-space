@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-checkbox-test</title>
+    <script type="module"src="../src/sh-thumbnail.js"></script>
+    <script type="module"src="../src/sh-icon.js"></script>
+    <script type="module"src="../src/sh-menu-item.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+
+    <body>
+        <test-fixture id= "SHThumbnail">
+            <template>
+                <sh-grid style="grid-template-columns: repeat(4, 1fr); padding: 16px;" spacing="m">
+                    <sh-thumbnail icon="image" checked
+                        src="https://images.radiopaedia.org/images/4170261/c5d7c3ed6c7fe53e59c2dd902e44b9_big_gallery.jpg"
+                        label="Thumbnail">
+                        <sh-menu-item label="Print" active></sh-menu-item>
+                        <sh-menu-item label="Export"></sh-menu-item>
+                        <sh-menu-item label="Delete"></sh-menu-item>
+                    </sh-thumbnail>
+                    <sh-button></sh-button>
+                </sh-grid>
+            </template>
+        </test-fixture>
+    </body>
+
+    <script>
+        suite('Text Component', function(){
+            let grid,thumbnail;
+            setup(function(){
+                grid = fixture("SHThumbnail");
+                thumbnail = grid.children[0]; 
+            })
+            test('check for label property', function(){
+                assert.equal(thumbnail.label, 'Thumbnail');
+            })
+            test('check for checkbox active property', function(){
+                let checkbox;
+                checkbox = thumbnail.shadowRoot.querySelector('#thumbnailCheckbox').active
+                assert.equal(checkbox, true);
+            })
+            test('check for options property', function(){
+                assert.equal(thumbnail.options, true);
+            })
+            test('check for menu item active property', function(done){
+                let menuItem;
+                menuItem = thumbnail.querySelectorAll('sh-menu-item')[0];
+                flush(function() {
+                  menuItem.click();
+                  assert.equal(menuItem.active, false);
+                  done();
+                })
+            })
+            test('should show popover on more icon click', function(done){
+                let moreIcon, popover;
+                moreIcon = thumbnail.shadowRoot.querySelector('#optionsIcon');
+                flush(function() {
+                    moreIcon.click();
+                    popover = thumbnail.shadowRoot.querySelector('#popover').visible;
+                    assert.equal(popover, true);
+                    done();
+                })
+            })
+            test('should uncheck checkbox on click', function(done){
+                let moreIcon, checkbox;
+                checkbox = thumbnail.shadowRoot.querySelector('#thumbnailCheckbox');
+                debugger;
+                flush(function() {
+                    checkbox.click();
+                    debugger;
+                    assert.equal(checkbox.active, false);
+                    done();
+                })
+            })
+            test('should hide popover on document click', function(done){
+                let moreIcon, popover;
+                moreIcon = thumbnail.shadowRoot.querySelector('#optionsIcon');
+                flush(function() {
+                    moreIcon.click();
+                    popover = thumbnail.shadowRoot.querySelector('#popover').visible;
+                    grid.querySelector('sh-button').click();
+                    assert.equal(popover, false);
+                    done();
+                })
+            })
+        })
+
+    </script>
+</html>

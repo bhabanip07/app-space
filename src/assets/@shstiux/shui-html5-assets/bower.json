@@ -1,0 +1,25 @@
+{
+  "name": "shui-html5-assets",
+  "description": "SHUI HTML5 component library written in Polymer",
+  "main": "",
+  "authors": [
+    "[object Object]",
+    "[object Object]",
+    "[object Object]"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "web-component-tester": "^6.5.0"
+  },
+  "devDependencies": {
+    "web-component-tester": "^6.5.0"
+  }
+}

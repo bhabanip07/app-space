@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+
+    <title>sh-Accordion-test</title>
+    <script type="module"src="../src/sh-accordion.js"></script>
+    <script type="module"src="../src/sh-checkbox.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+</head>
+
+<body>
+    <test-fixture id="SHAccordion">
+        <template>
+            <sh-accordion>
+                <sh-checkbox Label="abc"></sh-checkbox>
+                <sh-checkbox Label="xyz"></sh-checkbox>
+            </sh-accordion>   
+        </template>
+    </test-fixture>
+    <script>
+        var html = document.querySelector('html');
+        suite('Accordion', function () {
+            var acc, accIcon, accContent, accWrapper, accHeaderWrapper, expanded;
+            setup(function () {
+                acc = fixture('SHAccordion');
+            })
+            test('Accordion  : Expanded', function () {
+                expanded = acc.expanded;
+                acc._handleExpand();
+                assert.notEqual(expanded, acc.expanded, "Accordion Expanded");
+            })
+            test('Accordion : Disabled', function(){
+                acc.disabled = true;;
+                acc._handleDisabled();
+                assert.equal(expanded, false, "Accordion Disabled");
+            })
+        })
+    </script>
+</body>
+</html>

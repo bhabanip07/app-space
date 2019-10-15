@@ -1,0 +1,71 @@
+<div >
+  <sh-search label="Filter A Contact Document" search-array='["John Doe","Alan Watts","Bhabani P"]' style="width:30%;">
+    <sh-empty-state slot="empty" icon="document" label="No record found."></sh-empty-state>
+  </sh-search>
+<div column="12" style="padding-top: 20px;">
+<sh-table>
+  <sh-table-row slot="header">
+      <sh-table-head columns="6">Site Location</sh-table-head>
+      <sh-table-head columns="6">Operating Company</sh-table-head>
+      <sh-table-head columns="6">Facility Manager</sh-table-head>
+      <sh-table-head columns="6">RD</sh-table-head>
+      <sh-table-head columns="8">RSO</sh-table-head>
+      <sh-table-head columns="6">RHP</sh-table-head>
+      <sh-table-head columns="6">Attahement</sh-table-head>
+      <sh-table-head icon>
+        <sh-icon button icon="more" size="s" ></sh-icon>
+    </sh-table-head>
+  </sh-table-row>
+  <sh-table-row>
+      <sh-table-cell columns="6">Renew</sh-table-cell>
+      <sh-table-cell columns="6">Lorem Ipsum</sh-table-cell>
+      <sh-table-cell columns="6">Lorem Ipsum dolor</sh-table-cell> 
+      <sh-table-cell columns="6">RD</sh-table-cell>
+      <sh-table-cell columns="6">RSO</sh-table-cell>
+      <sh-table-cell columns="6">RHP</sh-table-cell>
+      <sh-table-cell columns="6">newlorem.pdf</sh-table-cell>
+      <sh-table-cell icon>
+          <sh-icon button icon="more" (click)="editLicenseDocument()"></sh-icon>
+      </sh-table-cell>
+  </sh-table-row>
+  <sh-table-row>
+    <sh-table-cell columns="6">Renew</sh-table-cell>
+    <sh-table-cell columns="6">Lorem Ipsum</sh-table-cell>
+    <sh-table-cell columns="6">Lorem Ipsum dolor</sh-table-cell> 
+    <sh-table-cell columns="6">RD</sh-table-cell>
+    <sh-table-cell columns="6">RSO</sh-table-cell>
+    <sh-table-cell columns="6">RHP</sh-table-cell>
+    <sh-table-cell columns="6">newlorem.pdf</sh-table-cell>
+    <sh-table-cell icon>
+        <sh-icon button icon="more" (click)="editLicenseDocument()"></sh-icon>
+    </sh-table-cell>
+  </sh-table-row>
+  <sh-table-row>
+    <sh-table-cell columns="6">Renew</sh-table-cell>
+    <sh-table-cell columns="6">Lorem Ipsum</sh-table-cell>
+    <sh-table-cell columns="6">Lorem Ipsum dolor</sh-table-cell> 
+    <sh-table-cell columns="6">RD</sh-table-cell>
+    <sh-table-cell columns="6">RSO</sh-table-cell>
+    <sh-table-cell columns="6">RHP</sh-table-cell>
+    <sh-table-cell columns="6">newlorem.pdf</sh-table-cell>
+    <sh-table-cell icon>
+        <sh-icon button icon="more" (click)="editLicenseDocument()"></sh-icon>
+    </sh-table-cell>
+  </sh-table-row>
+  <sh-table-row>
+    <sh-table-cell columns="6">Renew</sh-table-cell>
+    <sh-table-cell columns="6">Lorem Ipsum</sh-table-cell>
+    <sh-table-cell columns="6">Lorem Ipsum dolor</sh-table-cell> 
+    <sh-table-cell columns="6">RD</sh-table-cell>
+    <sh-table-cell columns="6">RSO</sh-table-cell>
+    <sh-table-cell columns="6">RHP</sh-table-cell>
+    <sh-table-cell columns="6">newlorem.pdf</sh-table-cell>
+    <sh-table-cell icon>
+        <sh-icon button icon="more" (click)="editLicenseDocument()"></sh-icon>
+    </sh-table-cell>
+  </sh-table-row>
+</sh-table>
+<a class="float" [routerLink]="['/contact-doc', 0]">
+  <i class="fa fa-plus my-float" style="font-size: 20px;"></i>
+ </a>
+

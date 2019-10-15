@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-checkbox-test</title>
+    <script type="module"src="../src/sh-modal.js"></script>
+    <script type="module"src="../src/sh-icon.js"></script>
+    <script type="module"src="../src/sh-text.js"></script>
+    <script type="module"src="../src/sh-button.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+
+    <body>
+        <test-fixture id= "SHModal">
+            <template>
+                <sh-modal visible id="demo-standard" modal-height='200px' modal-width='320px'>
+                    This is the modal's description text.
+                    <sh-button color='tertiary' slot='footer' label='Cancel'></sh-button>
+                    <sh-button color='secondary' slot='footer' label='Delete'></sh-button>
+                  </sh-modal>
+            </template>
+        </test-fixture>
+
+    </body>
+
+    <script>
+        suite('Modal Component', function(){
+            setup(function(){
+                modal = fixture("SHModal");
+                modal.label = "Modal Label";
+                modalButton = modal.querySelectorAll('sh-button')[0];       
+            })
+            test('check for modal label', function(){
+                assert.equal(modal.label, "Modal Label");
+            })
+            test('check for modal visible property', function(){
+                assert.equal(modal.visible, true);
+            })
+            test('check for modal visible property when escape is pressed', function(){
+                var event = new Event('focus');
+                modal.dispatchEvent(event);
+                modal.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':27}));
+                assert.equal(modal.visible, false);
+            })
+            test('check for tabindex when modal is visible', function(){
+                assert.equal(modalButton.tabIndex, 0);
+            })
+
+        })
+    </script>
+</html>

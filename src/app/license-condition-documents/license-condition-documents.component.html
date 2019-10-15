@@ -1,0 +1,59 @@
+<div column="12" style="padding-top: 5px;">
+    <div style="position:absolute;right:4%;display:flex;">
+        <sh-icon icon="export" id="exportToExcel" size="m" button (click)="exportAsXLSX()"></sh-icon>
+        <sh-tooltip label="Export To Excel" target="exportToExcel" placement="bottom" variation="short" style="width:100px;" ></sh-tooltip>
+   </div>
+   <div style="position:absolute;left:0;">
+    <sh-button color='secondary' onclick="document.querySelector('#sticky-modal').visible = true" label="Search A Record" style="margin-left:50px;" shape="pill-m"></sh-button>
+</div>
+</div>
+<div column="12" style="padding-top: 50px;">
+<sh-table>
+    <sh-table-row slot="header">
+        <sh-table-head columns="4">
+            <sh-checkbox label='Select All'></sh-checkbox>
+        </sh-table-head>
+        <sh-table-head columns="6">License No</sh-table-head>
+        <sh-table-head columns="4">Type</sh-table-head>
+        <sh-table-head columns="6">Site Location</sh-table-head>
+        <sh-table-head columns="6">Issue Date</sh-table-head>
+        <sh-table-head columns="6">Exp Date</sh-table-head>
+        <sh-table-head columns="6">Renew Date</sh-table-head>
+        <sh-table-head icon>
+            <sh-icon button icon="more" size="s" ></sh-icon>
+        </sh-table-head>
+    </sh-table-row>
+    <sh-table-row *ngFor="let lc of licenseConditions">
+        <sh-table-cell columns="4">
+         <sh-checkbox label=''></sh-checkbox>
+        </sh-table-cell>
+        <sh-table-cell columns="6">{{lc.licenseNumber}}</sh-table-cell>
+        <sh-table-cell columns="6">{{lc.licenseType}}</sh-table-cell>
+        <sh-table-cell columns="6">{{lc.siteLocation}}</sh-table-cell>
+        <sh-table-cell columns="8">{{lc.issueDate}}</sh-table-cell>
+        <sh-table-cell columns="6">{{lc.expirationDate}}</sh-table-cell>
+        <sh-table-cell columns="6">{{lc.renewalDate}}</sh-table-cell>
+        <sh-table-cell icon>
+            <sh-icon button icon="more" (click)="editLicenseDocument()"></sh-icon>
+        </sh-table-cell>
+    </sh-table-row>
+</sh-table>
+<a class="float" [routerLink]="['/license-cond-form', 0]">
+ <i class="fa fa-plus my-float" style="font-size: 20px;"></i>
+</a>
+</div>
+  <!-- search modal -->
+  <sh-modal sticky id="sticky-modal" label='Search Record' modal-height='400px' modal-width='540px'>
+    <div style="display: flex">
+      <sh-dropdown label='License Type' style="width:220px; padding-right:5px;">
+        <sh-menu-item label='EHS'></sh-menu-item>
+        <sh-menu-item label='RAMPROD'></sh-menu-item>
+        <sh-menu-item label='PERMIT'></sh-menu-item>
+      </sh-dropdown>
+      <sh-datepicker label='Due Date' style="width:220px;padding-right:5px;"></sh-datepicker>
+    </div>
+    <sh-input-text label='Attched File' value="licen1235.pdf" readonly mandatory ></sh-input-text>
+    <sh-button color='secondary' slot='footer' label='Cancel' onclick="document.querySelector('#sticky-modal').visible = false"></sh-button>
+    <sh-button slot='footer' label='Search' onclick="document.querySelector('#sticky-modal').visible = false"></sh-button>
+  </sh-modal>
+

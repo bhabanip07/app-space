@@ -1,0 +1,22 @@
+<sh-page theme="{{theme}}">
+ <sh-access-bar label="EHS Regulatory Website" slot="access">
+    <sh-user-identifier style="margin-right:60px;"slot="user" name="Jack Thomas" id="userPopUp"></sh-user-identifier>
+    <sh-icon button icon="circle-half" size="l" slot="functions" (click)="switchTheme()" style="margin-top:-4px;margin-right:24px;"></sh-icon>
+  </sh-access-bar>
+ 
+ <sh-pane slot='left' behavior="collapse">
+   <sh-menu-item label='License Condition Documents' id="licenseConditionForm" routerLink="/license-condition-documents" (click)="writeHeader($event,this)"></sh-menu-item>
+    <sh-menu-item id="licenseCalender" label='License Calender' routerLink="/license-calender" (click)="writeHeader($event,this)"></sh-menu-item>
+    <sh-menu-item label='Regulatory Record Documents' id="regultRecordDoc" routerLink="/regulatory-record-doc" (click)="writeHeader($event,this)"></sh-menu-item>
+    <sh-menu-item label='Regulatory Inispection Documents' id="regultInspectionDoc" routerLink="/regulatory-inispection-doc" (click)="writeHeader($event,this)">        </sh-menu-item>
+    <sh-menu-item label='Contact Documents' id="contactDoc"  routerLink="/contact-documents" (click)="writeHeader($event,this)">
+    </sh-menu-item>
+    </sh-pane>
+
+<sh-card>
+    <sh-popover target="userPopUp" position="right">
+        <sh-menu-item label="Sign Out" routerLink="/log-out" ></sh-menu-item>
+      </sh-popover>
+  <router-outlet></router-outlet>
+</sh-card>
+</sh-page>

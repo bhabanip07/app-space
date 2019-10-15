@@ -1,0 +1,112 @@
+<p>
+  <sh-text size='body-1' color="primary" style="font-size: 20px;padding-bottom: 5px;">{{pageTitle}}</sh-text>
+  <span style="position:absolute;top:30px;right:62%;display:flex;" *ngIf="isView">
+    <sh-button color='tertiary' label="Edit" (click)="editThis()"></sh-button>
+  </span>
+</p>
+<sh-grid style="padding-left: 2%;">
+  <div  columns="6" >
+    <sh-input-text label='License Number' value="" style="width:60%;"></sh-input-text>
+    <sh-dropdown label='License Type' style="width:60%;">
+      <sh-menu-item *ngFor="let lt of licenseTypes" [label]=lt>
+      </sh-menu-item>
+    </sh-dropdown>
+    <sh-dropdown label='Site Location' style="width:60%;">
+        <sh-menu-item *ngFor="let st of siteLocations" [label]=st>
+        </sh-menu-item>
+      </sh-dropdown>
+    <sh-datepicker label='Issue Date' style="width:60%;"></sh-datepicker>
+    <sh-datepicker label='Expiration Date' style="width:60%;"></sh-datepicker>
+    <sh-datepicker label='Renewal Submital Date' style="width:60%;"></sh-datepicker>
+    <sh-dropdown label='Physical Presence' multi-select style="width:60%;">
+      <sh-menu-item label='All' active></sh-menu-item>
+      <sh-menu-item label='Authorized Nuclear Pharmacist'></sh-menu-item>
+      <sh-menu-item label='Authorized Users'></sh-menu-item>
+      <sh-menu-item label='Cyclotrone Operators'></sh-menu-item>
+      <sh-menu-item label='None'></sh-menu-item>
+    </sh-dropdown>
+    <sh-text size='body-1' color="primary" style="width:60%;">Sealed Source</sh-text>
+    <div style="display: flex;width:60%;">
+      <sh-input-number label='Leak Test' value="20" style="padding: 2px;"></sh-input-number>
+      <sh-input-number label='Inventory' value="20" style="padding: 2px;"></sh-input-number>
+    </div>
+  </div>
+  
+  <div columns="6" >
+    <!-- <sh-input-text label="RSO" value="" style="width:75%;">
+      <sh-icon icon="search" button size="s" slot="icon"></sh-icon>
+    </sh-input-text> -->
+    <sh-search style="width:75%;" label="RSO" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
+    </sh-search>
+    <sh-search style="width:75%;" label="Authorized Nuclear Pharmacist" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
+    </sh-search>
+    <sh-search style="width:75%;" label="Authorize Users" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
+    </sh-search>
+    <sh-search style="width:75%;" label="Cyclotron Operators" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
+    </sh-search>
+    
+    <sh-input-text label='Free Payment Instruction' value="" style="width:75%;"></sh-input-text>
+    <sh-datepicker label='Last Fee Paid Date' style="width:75%;"></sh-datepicker>
+      <sh-input-text textarea rows="3" label='Other Requirements' value="" style="width:75%;"></sh-input-text>
+  </div>
+  <div columns="8" >
+    <sh-text size='body-1' color="primary" style="width:70%;">Possesion Limits</sh-text>
+    <div style="display: flex;width:70%;">
+      <sh-input-number label='Flourine' value="20" style="padding: 2px;"></sh-input-number>
+      <sh-input-number label='Nitrogen' value="20" style="padding: 2px;"></sh-input-number>
+      <sh-input-number label='Oxygen' value="20" style="padding: 2px;"></sh-input-number>
+      <sh-input-number label='Carbon' value="20" style="padding: 2px;"></sh-input-number>
+    </div>
+  </div>
+  <div columns="12" >
+    <sh-text size='body-1' color="primary" style="width:80%;">Reports *</sh-text>
+    <sh-button color='secondary' onclick="document.querySelector('#sticky-modal').visible = true" label="ADD NEW REPORT" shape="pill-l" style="display: flex; margin-right: 75%;"></sh-button>
+    <div style="display: flex;width:80%;">
+      <sh-table>
+        <sh-table-row slot="header">
+            <sh-table-head columns="12">Report Type</sh-table-head>
+            <sh-table-head columns="10">Due Date</sh-table-head>
+            <sh-table-head columns="10">Attched File</sh-table-head>
+        </sh-table-row>
+        <sh-table-row>
+            <sh-table-cell columns="12">Air</sh-table-cell>
+            <sh-table-cell columns="10">10/10/2019</sh-table-cell>
+            <sh-table-cell columns="6">license.pdf</sh-table-cell>
+            <sh-table-cell icon>
+              <sh-icon button icon="delete"></sh-icon>
+            </sh-table-cell>
+            <sh-table-cell icon>
+              <sh-icon button icon="edit" onclick="document.querySelector('#sticky-modal').visible = true"></sh-icon>
+          </sh-table-cell>
+        </sh-table-row>
+    </sh-table>
+    </div>
+  </div>
+    <!-- BUtton -->
+  <div columns="10" style="padding-top: 50px;" >
+    <div  style="display:flex; justify-content: flex-end" *ngIf="isNew" >
+    <sh-button color='secondary' label="Back"  (click)="resetAndBack()"></sh-button>
+    <sh-button color='Primary' style="margin-left:40px;" label="Save"></sh-button>
+  </div>
+  <div style="display:flex; justify-content: flex-end" *ngIf="isEditClick">
+      <sh-button color='secondary' label="Back" (click)="resetAndBack()"></sh-button>
+      <sh-button color='Primary' style="margin-left:40px;" label="Update"></sh-button>
+  </div>
+  </div>
+</sh-grid>
+  <!-- Report modal -->
+  <sh-modal sticky id="sticky-modal" label='New Report' modal-height='400px' modal-width='540px'>
+    <div style="display: flex">
+      <sh-dropdown label='Report Type' style="width:220px; padding-right:5px;">
+        <sh-menu-item label='Air'></sh-menu-item>
+        <sh-menu-item label='Water'></sh-menu-item>
+        <sh-menu-item label='Emission'></sh-menu-item>
+      </sh-dropdown>
+      <sh-datepicker label='Due Date' style="width:220px;padding-right:5px;"></sh-datepicker>
+      <sh-icon icon="upload" id="attachFile"></sh-icon>
+      <sh-tooltip label="Attach A File" target="attachFile" placement="bottom" variation="short" style="width:90px;" ></sh-tooltip>
+    </div>
+    <sh-input-text label='Attched File' value="licen1235.pdf" readonly mandatory ></sh-input-text>
+    <sh-button color='secondary' slot='footer' label='Cancel' onclick="document.querySelector('#sticky-modal').visible = false"></sh-button>
+    <sh-button slot='footer' label='Add' onclick="document.querySelector('#sticky-modal').visible = false"></sh-button>
+  </sh-modal>

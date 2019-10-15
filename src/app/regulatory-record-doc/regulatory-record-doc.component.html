@@ -1,0 +1,68 @@
+<div >
+  <sh-search label="Filter A Record Document" search-array='["John Doe","Alan Watts","Bhabani P"]' style="width:30%;">
+    <sh-empty-state slot="empty" icon="document" label="No record found."></sh-empty-state>
+  </sh-search>
+<div column="12" style="padding-top: 20px;">
+<sh-table>
+  <sh-table-row slot="header">
+      <sh-table-head columns="6">Record Type</sh-table-head>
+      <sh-table-head columns="6">Date Initiated</sh-table-head>
+      <sh-table-head columns="6">License Type</sh-table-head>
+      <sh-table-head columns="6">License Number</sh-table-head>
+      <sh-table-head columns="8">License Tie Down</sh-table-head>
+      <sh-table-head columns="6">Attachemnt</sh-table-head>
+      <sh-table-head icon>
+        <sh-icon button icon="more" size="s" ></sh-icon>
+    </sh-table-head>
+  </sh-table-row>
+  <sh-table-row>
+      <sh-table-cell columns="6">Row Item</sh-table-cell>
+      <sh-table-cell columns="6">12/02/2019</sh-table-cell>
+      <sh-table-cell columns="6">Lorem Ipsum</sh-table-cell>
+      <sh-table-cell columns="6">#LIC52486</sh-table-cell>
+      <sh-table-cell columns="8">Lorem Ipsum</sh-table-cell>
+      <sh-table-cell columns="6">newlorem.pdf</sh-table-cell>
+      <sh-table-cell icon>
+          <sh-icon button icon="more" (click)="editLicenseDocument()"></sh-icon>
+      </sh-table-cell>
+  </sh-table-row>
+  <sh-table-row>
+    <sh-table-cell columns="6">Row Item</sh-table-cell>
+    <sh-table-cell columns="6">12/02/2019</sh-table-cell>
+    <sh-table-cell columns="6">Lorem Ipsum</sh-table-cell>
+    <sh-table-cell columns="6">#LIC52486</sh-table-cell>
+    <sh-table-cell columns="8">Lorem Ipsum</sh-table-cell>
+    <sh-table-cell columns="6">newlorem.pdf</sh-table-cell>
+    <sh-table-cell icon>
+        <sh-icon button icon="more" (click)="editLicenseDocument()"></sh-icon>
+    </sh-table-cell>
+  </sh-table-row>
+  <sh-table-row>
+    <sh-table-cell columns="6">Row Item</sh-table-cell>
+    <sh-table-cell columns="6">12/02/2019</sh-table-cell>
+    <sh-table-cell columns="6">Lorem Ipsum</sh-table-cell>
+    <sh-table-cell columns="6">#LIC52486</sh-table-cell>
+    <sh-table-cell columns="8">Lorem Ipsum</sh-table-cell>
+    <sh-table-cell columns="6">newlorem.pdf</sh-table-cell>
+    <sh-table-cell icon>
+        <sh-icon button icon="more" (click)="editLicenseDocument()"></sh-icon>
+    </sh-table-cell>
+  </sh-table-row>
+  <sh-table-row>
+    <sh-table-cell columns="6">Row Item</sh-table-cell>
+    <sh-table-cell columns="6">12/02/2019</sh-table-cell>
+    <sh-table-cell columns="6">Lorem Ipsum</sh-table-cell>
+    <sh-table-cell columns="6">#LIC52486</sh-table-cell>
+    <sh-table-cell columns="8">Lorem Ipsum</sh-table-cell>
+    <sh-table-cell columns="6">newlorem.pdf</sh-table-cell>
+    <sh-table-cell icon>
+        <sh-icon button icon="more" (click)="editLicenseDocument()"></sh-icon>
+    </sh-table-cell>
+  </sh-table-row>
+</sh-table>
+</div>
+</div>
+<a class="float" [routerLink]="['/regulatory-record', 0]">
+  <i class="fa fa-plus my-float" style="font-size: 20px;"></i>
+ </a>
+
