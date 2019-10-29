@@ -31,7 +31,7 @@
       <sh-input-number label='Inventory' value="20" style="padding: 2px;"></sh-input-number>
     </div>
   </div>
-  
+
   <div columns="6" >
     <!-- <sh-input-text label="RSO" value="" style="width:75%;">
       <sh-icon icon="search" button size="s" slot="icon"></sh-icon>
@@ -44,7 +44,7 @@
     </sh-search>
     <sh-search style="width:75%;" label="Cyclotron Operators" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
     </sh-search>
-    
+
     <sh-input-text label='Free Payment Instruction' value="" style="width:75%;"></sh-input-text>
     <sh-datepicker label='Last Fee Paid Date' style="width:75%;"></sh-datepicker>
       <sh-input-text textarea rows="3" label='Other Requirements' value="" style="width:75%;"></sh-input-text>
@@ -58,8 +58,32 @@
       <sh-input-number label='Carbon' value="20" style="padding: 2px;"></sh-input-number>
     </div>
   </div>
+  <!-- fee table -->
   <div columns="12" >
-    <sh-text size='body-1' color="primary" style="width:80%;">Reports *</sh-text>
+    <sh-text size='body-1' color="primary" style="width:80%;">Fee *</sh-text>
+    <sh-button color='secondary' onclick="document.querySelector('#fee-modal').visible = true" label="ADD FEE" shape="pill-l" style="display: flex; margin-right: 75%;"></sh-button>
+    <div style="display: flex;width:80%;">
+      <sh-table>
+        <sh-table-row slot="header">
+            <sh-table-head columns="11">Fee Type</sh-table-head>
+            <sh-table-head columns="10">Fee Date</sh-table-head>
+        </sh-table-row>
+        <sh-table-row>
+            <sh-table-cell columns="12">Application Fee</sh-table-cell>
+            <sh-table-cell columns="10">10/10/2019</sh-table-cell>
+            <sh-table-cell icon>
+              <sh-icon button icon="delete"></sh-icon>
+            </sh-table-cell>
+            <sh-table-cell icon>
+              <sh-icon button icon="edit" onclick="document.querySelector('#fee-modal').visible = true"></sh-icon>
+          </sh-table-cell>
+        </sh-table-row>
+    </sh-table>
+    </div>
+  </div>
+  <!-- report table -->
+  <div columns="12" >
+    <sh-text size='body-1' color="primary" style="width:80%; padding-top: 10px;">Reports *</sh-text>
     <sh-button color='secondary' onclick="document.querySelector('#sticky-modal').visible = true" label="ADD NEW REPORT" shape="pill-l" style="display: flex; margin-right: 75%;"></sh-button>
     <div style="display: flex;width:80%;">
       <sh-table>
@@ -109,4 +133,18 @@
     <sh-input-text label='Attched File' value="licen1235.pdf" readonly mandatory ></sh-input-text>
     <sh-button color='secondary' slot='footer' label='Cancel' onclick="document.querySelector('#sticky-modal').visible = false"></sh-button>
     <sh-button slot='footer' label='Add' onclick="document.querySelector('#sticky-modal').visible = false"></sh-button>
+  </sh-modal>
+  <!-- fee  modal -->
+  <sh-modal sticky id="fee-modal" label='Add Fee' modal-height='400px' modal-width='540px'>
+    <div style="display: flex">
+      <sh-dropdown label='Fee Type' style="width:220px; padding-right:5px;">
+        <sh-menu-item label='Application Fee'></sh-menu-item>
+        <sh-menu-item label='Amendment Fee'></sh-menu-item>
+        <sh-menu-item label='Annual Fee'></sh-menu-item>
+        <sh-menu-item label='Non-routine Inspection Fee'></sh-menu-item>
+      </sh-dropdown>
+      <sh-datepicker label='Fee Date' style="width:220px;padding-right:5px;"></sh-datepicker>
+    </div>
+    <sh-button color='secondary' slot='footer' label='Cancel' onclick="document.querySelector('#fee-modal').visible = false"></sh-button>
+    <sh-button slot='footer' label='Add' onclick="document.querySelector('#fee-modal').visible = false"></sh-button>
   </sh-modal>
