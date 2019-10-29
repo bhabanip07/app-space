@@ -24,7 +24,6 @@
     "@fullcalendar/daygrid": "^4.3.0",
     "@fullcalendar/list": "^4.3.0",
     "@fullcalendar/timegrid": "^4.3.0",
-    "@shstiux/shui-html5-assets": "^1.6.2",
     "core-js": "^2.5.4",
     "file-saver": "^2.0.2",
     "http-server": "^0.11.1",
