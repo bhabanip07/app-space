@@ -59,20 +59,24 @@
     </div>
   </div>
   <!-- fee table -->
+
   <div columns="12" >
+    <!-- <sh-divider></sh-divider> -->
     <sh-text size='body-1' color="primary" style="width:80%;">Fee *</sh-text>
-    <sh-button color='secondary' onclick="document.querySelector('#fee-modal').visible = true" label="ADD FEE" shape="pill-l" style="display: flex; margin-right: 75%;"></sh-button>
+    <sh-button color='secondary' onclick="document.querySelector('#fee-modal').visible = true" label="Add Fee"  style="display: flex; margin-right: 82%;"></sh-button>
     <div style="display: flex;width:80%;">
       <sh-table>
         <sh-table-row slot="header">
-            <sh-table-head columns="11">Fee Type</sh-table-head>
-            <sh-table-head columns="10">Fee Date</sh-table-head>
+            <sh-table-head columns="12">Fee Type</sh-table-head>
+            <sh-table-head columns="10">Fee ($)</sh-table-head>
+            <sh-table-head columns="12">Due Date</sh-table-head>
         </sh-table-row>
         <sh-table-row>
             <sh-table-cell columns="12">Application Fee</sh-table-cell>
-            <sh-table-cell columns="10">10/10/2019</sh-table-cell>
+            <sh-table-cell columns="10">200</sh-table-cell>
+            <sh-table-cell columns="8">20/12/2019</sh-table-cell>
             <sh-table-cell icon>
-              <sh-icon button icon="delete"></sh-icon>
+              <sh-icon button icon="delete" onclick="document.querySelector('#delete-fee-modal').visible = true"></sh-icon>
             </sh-table-cell>
             <sh-table-cell icon>
               <sh-icon button icon="edit" onclick="document.querySelector('#fee-modal').visible = true"></sh-icon>
@@ -84,7 +88,7 @@
   <!-- report table -->
   <div columns="12" >
     <sh-text size='body-1' color="primary" style="width:80%; padding-top: 10px;">Reports *</sh-text>
-    <sh-button color='secondary' onclick="document.querySelector('#sticky-modal').visible = true" label="ADD NEW REPORT" shape="pill-l" style="display: flex; margin-right: 75%;"></sh-button>
+    <sh-button color='secondary' onclick="document.querySelector('#sticky-modal').visible = true" label="Add New Report" shape="pill-l" style="display: flex; margin-right: 75%;"></sh-button>
     <div style="display: flex;width:80%;">
       <sh-table>
         <sh-table-row slot="header">
@@ -97,10 +101,10 @@
             <sh-table-cell columns="10">10/10/2019</sh-table-cell>
             <sh-table-cell columns="6">license.pdf</sh-table-cell>
             <sh-table-cell icon>
-              <sh-icon button icon="delete"></sh-icon>
+              <sh-icon button icon="delete" onclick="document.querySelector('#delete-report-modal').visible = true"></sh-icon>
             </sh-table-cell>
             <sh-table-cell icon>
-              <sh-icon button icon="edit" onclick="document.querySelector('#sticky-modal').visible = true"></sh-icon>
+              <sh-icon button icon="edit" onclick="document.querySelector('#report-modal').visible = true"></sh-icon>
           </sh-table-cell>
         </sh-table-row>
     </sh-table>
@@ -119,7 +123,7 @@
   </div>
 </sh-grid>
   <!-- Report modal -->
-  <sh-modal sticky id="sticky-modal" label='New Report' modal-height='400px' modal-width='540px'>
+  <sh-modal sticky id="report-modal" label='New Report' modal-height='400px' modal-width='540px'>
     <div style="display: flex">
       <sh-dropdown label='Report Type' style="width:220px; padding-right:5px;">
         <sh-menu-item label='Air'></sh-menu-item>
@@ -131,20 +135,37 @@
       <sh-tooltip label="Attach A File" target="attachFile" placement="bottom" variation="short" style="width:90px;" ></sh-tooltip>
     </div>
     <sh-input-text label='Attched File' value="licen1235.pdf" readonly mandatory ></sh-input-text>
-    <sh-button color='secondary' slot='footer' label='Cancel' onclick="document.querySelector('#sticky-modal').visible = false"></sh-button>
-    <sh-button slot='footer' label='Add' onclick="document.querySelector('#sticky-modal').visible = false"></sh-button>
+    <sh-button color='secondary' slot='footer' label='Cancel' onclick="document.querySelector('#report-modal').visible = false"></sh-button>
+    <sh-button slot='footer' label='Add' onclick="document.querySelector('#report-modal').visible = false"></sh-button>
   </sh-modal>
   <!-- fee  modal -->
   <sh-modal sticky id="fee-modal" label='Add Fee' modal-height='400px' modal-width='540px'>
     <div style="display: flex">
-      <sh-dropdown label='Fee Type' style="width:220px; padding-right:5px;">
+      <sh-dropdown label='Fee Type' style="width:120px; padding-right:5px;">
         <sh-menu-item label='Application Fee'></sh-menu-item>
         <sh-menu-item label='Amendment Fee'></sh-menu-item>
         <sh-menu-item label='Annual Fee'></sh-menu-item>
         <sh-menu-item label='Non-routine Inspection Fee'></sh-menu-item>
       </sh-dropdown>
-      <sh-datepicker label='Fee Date' style="width:220px;padding-right:5px;"></sh-datepicker>
+      <sh-input-text label='Fee ($)' value="200" style="width:150px; padding-right:5px;"></sh-input-text>
+      <sh-datepicker label='Due Date' style="width:220px;padding-right:5px;"></sh-datepicker>
     </div>
     <sh-button color='secondary' slot='footer' label='Cancel' onclick="document.querySelector('#fee-modal').visible = false"></sh-button>
     <sh-button slot='footer' label='Add' onclick="document.querySelector('#fee-modal').visible = false"></sh-button>
   </sh-modal>
+  <!-- Delete fee modal -->
+<sh-modal id="delete-fee-modal" label='Delete Fee' modal-height='200px' modal-width='320px'>
+  Are you sure to delete this fee record.
+  <br>
+  <br>
+  <sh-button slot="footer" color="secondary" label="Cancel" onclick="document.querySelector('#delete-fee-modal').visible = false"></sh-button>
+  <sh-button slot="footer" label="Confirm" onclick="document.querySelector('#delete-fee-modal').visible = false"></sh-button>
+</sh-modal>
+<!-- Delete Report modal -->
+<sh-modal id="delete-report-modal" label='Delete Report' modal-height='200px' modal-width='320px'>
+Are you sure to delete this Report record.
+<br>
+<br>
+<sh-button slot="footer" color="secondary" label="Cancel" onclick="document.querySelector('#delete-report-modal').visible = false"></sh-button>
+<sh-button slot="footer" label="Confirm" onclick="document.querySelector('#delete-report-modal').visible = false"></sh-button>
+</sh-modal>
