@@ -7,12 +7,12 @@
   <sh-input-text label='License Number' value="#LIC5852486"></sh-input-text>
   <sh-input-text label='Location' value="Washington,US"></sh-input-text>
   <sh-input-text label='Description' textarea value="newly created"></sh-input-text>
-      
+
 <div  style="position:absolute;bottom:100px;right:25%;display:flex;" *ngIf="isNew">
     <sh-button color='tertiary' label="Back"  (click)="resetAndBack()"></sh-button>
-    <sh-button color='Primary' label="Save"></sh-button>
+    <sh-button color='Primary' label="Save" style="margin-left:40px;"></sh-button>
   </div>
   <div  style="position:absolute;bottom:100px;right:25%;display:flex;" *ngIf="isEditClick">
       <sh-button color='tertiary' label="Back" (click)="resetAndBack()"></sh-button>
-      <sh-button color='Primary' label="Update"></sh-button>
+      <sh-button color='Primary' label="Update" style="margin-left:40px;"></sh-button>
   </div>
