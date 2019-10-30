@@ -1,2 +1,5 @@
 sh-grid > div >* { margin: 8px auto;}
-
+.mandatory{
+  color: #D85808;
+  padding: 2px;
+}
