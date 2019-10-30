@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from "@angular/router";
 import {ConstantValues} from '../model/constant-values';
+import {LicenseCondition} from '../model/license-condition';
+import {LicenseConditionsService} from '../services/license-conditions.service';
 
 @Component({
   selector: 'app-license-cond-form',
@@ -17,12 +19,24 @@ export class LicenseCondFormComponent implements OnInit {
   isEditClick = false;
   licenseTypes= [];
   siteLocations= [];
+  model = new LicenseCondition();
+
+  showProgressBar=false;
+  showAlertSuccess= false;
+  showAlertSuccessBody= '';
+  progressValue= '30';
+  showAlertMessage= false;
+  errorMessage ='';
+  successFlag:boolean = false;
+  errorFlag:boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private licenseConditionsService: LicenseConditionsService,
   ) { }
 
-  
+
   ngOnInit() {
 
   //populating the dropdownlist
@@ -38,9 +52,31 @@ export class LicenseCondFormComponent implements OnInit {
     this.pageTitle = 'View License Condition Document';
     this.isView = true;
   }
-    
+
   }
- 
+  saveLicenseCond() {
+    this.licenseConditionsService.save(this.model)
+    .subscribe(data =>
+       {
+         this.progressValue = '100' ;
+         this.showProgressBar = false;
+
+        this.showAlertSuccess= true;
+        this.showAlertSuccessBody= 'New License condition document is created !';
+      },
+      error =>
+      {
+        console.log(`error occured after calling the licenseConditionsService/save().`);
+        this.showProgressBar = false;
+        this.showAlertMessage= false;
+
+        this.errorFlag=true;
+        this.errorMessage='Error while creating licenseConditionsDocument, please try again !';
+
+      }
+  	)
+  }
+
   editThis() {
     this.isEditClick = true;
     this.pageTitle = 'Edit License Condition Document';

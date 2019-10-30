@@ -18,9 +18,12 @@ import { RegulatoryInispectionComponent } from './regulatory-inispection/regulat
 import { RegulatoryRecordComponent } from './regulatory-record/regulatory-record.component';
 import { ContactDocComponent } from './contact-doc/contact-doc.component';
 import { LogOutComponent } from './log-out/log-out.component';
-import { HttpClientModule } from '@angular/common/http'
 import { ExcelService } from './services/excel.service';
 import { FormsModule } from '@angular/forms';
+
+import { HttpClientModule } from '@angular/common/http';
+import { LicenseConditionsService } from './services/license-conditions.service';
+import { HttpModule } from '@angular/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,9 +47,10 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     FullCalendarModule,
     HttpClientModule,
-    FormsModule, 
+    FormsModule,
+    HttpModule,
   ],
-  providers: [AppspaceService, ExcelService],
+  providers: [AppspaceService, ExcelService, LicenseConditionsService],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

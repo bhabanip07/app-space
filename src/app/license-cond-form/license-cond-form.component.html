@@ -5,20 +5,24 @@
   </span>
 </p>
 <sh-grid style="padding-left: 2%;">
-  <div  columns="6" >
-    <sh-input-text label='License Number' value="" style="width:60%;"></sh-input-text>
-    <sh-dropdown label='License Type' style="width:60%;">
+  <div columns="6" class="alert alert-success" *ngIf='successFlag'>{{message}}</div>
+  <div columns="6" class="alert alert-danger" *ngIf='errorFlag'>{{errorMessage}}</div>
+
+  <div class="form-group" columns="6" >
+    <sh-input-text label='License Number' value="" style="width:60%;" (value-changed)="model.licenseNumber=$event.target.value"
+      [value]=model.licenseNumber mandatory></sh-input-text>
+    <sh-dropdown label='License Type' style="width:60%;" mandatory>
       <sh-menu-item *ngFor="let lt of licenseTypes" [label]=lt>
       </sh-menu-item>
     </sh-dropdown>
-    <sh-dropdown label='Site Location' style="width:60%;">
+    <sh-dropdown label='Site Location' style="width:60%;" mandatory>
         <sh-menu-item *ngFor="let st of siteLocations" [label]=st>
         </sh-menu-item>
       </sh-dropdown>
-    <sh-datepicker label='Issue Date' style="width:60%;"></sh-datepicker>
-    <sh-datepicker label='Expiration Date' style="width:60%;"></sh-datepicker>
-    <sh-datepicker label='Renewal Submital Date' style="width:60%;"></sh-datepicker>
-    <sh-dropdown label='Physical Presence' multi-select style="width:60%;">
+    <sh-datepicker mandatory label='Issue Date' style="width:60%;"></sh-datepicker>
+    <sh-datepicker mandatory label='Expiration Date' style="width:60%;"></sh-datepicker>
+    <sh-datepicker mandatory label='Renewal Submital Date' style="width:60%;"></sh-datepicker>
+    <sh-dropdown mandatory label='Physical Presence' multi-select style="width:60%;">
       <sh-menu-item label='All' active></sh-menu-item>
       <sh-menu-item label='Authorized Nuclear Pharmacist'></sh-menu-item>
       <sh-menu-item label='Authorized Users'></sh-menu-item>
@@ -27,12 +31,14 @@
     </sh-dropdown>
     <sh-text size='body-1' color="primary" style="width:60%;">Sealed Source</sh-text>
     <div style="display: flex;width:60%;">
-      <sh-input-number label='Leak Test' value="20" style="padding: 2px;"></sh-input-number>
-      <sh-input-number label='Inventory' value="20" style="padding: 2px;"></sh-input-number>
+      <sh-input-number label='Leak Test' value="20" style="padding: 2px;" (value-changed)="model.sealedSourceLeakTest=$event.target.value"
+        [value]=model.sealedSourceLeakTest ></sh-input-number>
+      <sh-input-number label='Inventory' value="20" style="padding: 2px;" (value-changed)="model.sealedSourceInventory=$event.target.value"
+        [value]=model.sealedSourceInventory ></sh-input-number>
     </div>
   </div>
 
-  <div columns="6" >
+  <div columns="6" class="form-group">
     <!-- <sh-input-text label="RSO" value="" style="width:75%;">
       <sh-icon icon="search" button size="s" slot="icon"></sh-icon>
     </sh-input-text> -->
@@ -47,22 +53,27 @@
 
     <sh-input-text label='Free Payment Instruction' value="" style="width:75%;"></sh-input-text>
     <sh-datepicker label='Last Fee Paid Date' style="width:75%;"></sh-datepicker>
-      <sh-input-text textarea rows="3" label='Other Requirements' value="" style="width:75%;"></sh-input-text>
+      <sh-input-text textarea rows="3" label='Other Requirements' value="" style="width:75%;" (value-changed)="model.otherRequirements=$event.target.value"
+        [value]=model.otherRequirements></sh-input-text>
   </div>
-  <div columns="8" >
+  <div columns="8" class="form-group">
     <sh-text size='body-1' color="primary" style="width:70%;">Possesion Limits</sh-text>
     <div style="display: flex;width:70%;">
-      <sh-input-number label='Flourine' value="20" style="padding: 2px;"></sh-input-number>
-      <sh-input-number label='Nitrogen' value="20" style="padding: 2px;"></sh-input-number>
-      <sh-input-number label='Oxygen' value="20" style="padding: 2px;"></sh-input-number>
-      <sh-input-number label='Carbon' value="20" style="padding: 2px;"></sh-input-number>
+      <sh-input-number label='Flourine' value="20" style="padding: 2px;" (value-changed)="model.possessionLimitsFlourine=$event.target.value"
+        [value]=model.possessionLimitsFlourine></sh-input-number>
+      <sh-input-number label='Nitrogen' value="20" style="padding: 2px;" (value-changed)="model.possessionLimitsNitrogen=$event.target.value"
+        [value]=model.possessionLimitsNitrogen></sh-input-number>
+      <sh-input-number label='Oxygen' value="20" style="padding: 2px;" (value-changed)="model.possessionLimitsOxygen=$event.target.value"
+        [value]=model.possessionLimitsOxygen></sh-input-number>
+      <sh-input-number label='Carbon' value="20" style="padding: 2px;" (value-changed)="model.possessionLimitsCarbon=$event.target.value"
+        [value]=model.possessionLimitsCarbon></sh-input-number>
     </div>
   </div>
   <!-- fee table -->
 
-  <div columns="12" >
+  <div columns="12" class="form-group">
     <!-- <sh-divider></sh-divider> -->
-    <sh-text size='body-1' color="primary" style="width:80%;">Fee *</sh-text>
+    <sh-text size='body-1' color="primary" style="width:80%;">Fee <span class="mandatory">*</span></sh-text>
     <sh-button color='secondary' onclick="document.querySelector('#fee-modal').visible = true" label="Add Fee"  style="display: flex; margin-right: 82%;"></sh-button>
     <div style="display: flex;width:80%;">
       <sh-table>
@@ -86,8 +97,8 @@
     </div>
   </div>
   <!-- report table -->
-  <div columns="12" >
-    <sh-text size='body-1' color="primary" style="width:80%; padding-top: 10px;">Reports *</sh-text>
+  <div columns="12" class="form-group" >
+    <sh-text size='body-1' color="primary" style="width:80%; padding-top: 10px;">Reports <span class="mandatory">*</span></sh-text>
     <sh-button color='secondary' onclick="document.querySelector('#sticky-modal').visible = true" label="Add New Report" shape="pill-l" style="display: flex; margin-right: 75%;"></sh-button>
     <div style="display: flex;width:80%;">
       <sh-table>
@@ -114,13 +125,18 @@
   <div columns="10" style="padding-top: 50px;" >
     <div  style="display:flex; justify-content: flex-end" *ngIf="isNew" >
     <sh-button color='secondary' label="Back"  (click)="resetAndBack()"></sh-button>
-    <sh-button color='Primary' style="margin-left:40px;" label="Save"></sh-button>
+    <sh-button color='Primary' style="margin-left:40px;" (click)="saveLicenseCond()" label="Save"></sh-button>
   </div>
   <div style="display:flex; justify-content: flex-end" *ngIf="isEditClick">
       <sh-button color='secondary' label="Back" (click)="resetAndBack()"></sh-button>
-      <sh-button color='Primary' style="margin-left:40px;" label="Update"></sh-button>
+      <sh-button color='Primary' style="margin-left:40px;" (click)="saveLicenseCond()" label="Update"></sh-button>
   </div>
   </div>
+
+  <div *ngIf='showProgressBar' style="position:relative;top:2%">
+    <sh-spinner size="m" label="Creating License Condition ..."></sh-spinner>
+ </div>
+
 </sh-grid>
   <!-- Report modal -->
   <sh-modal sticky id="report-modal" label='New Report' modal-height='400px' modal-width='540px'>
@@ -168,4 +184,9 @@ Are you sure to delete this Report record.
 <br>
 <sh-button slot="footer" color="secondary" label="Cancel" onclick="document.querySelector('#delete-report-modal').visible = false"></sh-button>
 <sh-button slot="footer" label="Confirm" onclick="document.querySelector('#delete-report-modal').visible = false"></sh-button>
+</sh-modal>
+<!-- confirm message -->
+<sh-modal style="position:absolute" id="demo1" type="alert" label="Request Booking" modal-height="300px" modal-width="400px" role="dialog" [visible]=showAlertSuccess>
+  <sh-text>{{showAlertSuccessBody}}</sh-text>
+  <sh-button color="tertiary" slot="footer" label="Ok" (click)="goToDelete()" shape="pill-s" role="button"></sh-button>
 </sh-modal>

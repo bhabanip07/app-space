@@ -31,7 +31,6 @@ export class LicenseCondition {
     public physicalPresenceRequirement: string;
     public sealedSourceLeakTest: number;
     public sealedSourceInventory: number;
-    public otherRequirements: number;
+    public otherRequirements: string;
 
 }
-
