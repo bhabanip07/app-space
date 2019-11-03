@@ -4,25 +4,24 @@
     <sh-button color='tertiary' label="Edit" (click)="editThis()"></sh-button>
   </span>
 </p>
-<sh-grid style="padding-left: 2%;">
-  <div columns="6" class="alert alert-success" *ngIf='successFlag'>{{message}}</div>
-  <div columns="6" class="alert alert-danger" *ngIf='errorFlag'>{{errorMessage}}</div>
-
+<span columns="6" class="alert alert-success" *ngIf='successFlag'>License condition document is saved Successfuly !</span>
+<span columns="6" class="alert alert-danger" *ngIf='errorFlag'>Error while saving License Conditions Document, please try again !</span>
+<sh-grid style="padding-left: 2%; padding-top: 12px;">
   <div class="form-group" columns="6" >
     <sh-input-text label='License Number' value="" style="width:60%;" (value-changed)="model.licenseNumber=$event.target.value"
       [value]=model.licenseNumber mandatory></sh-input-text>
-    <sh-dropdown label='License Type' style="width:60%;" mandatory>
+    <sh-dropdown label='License Type' style="width:60%;" mandatory (value-changed)="updateLicenseType($event.target.value)">
       <sh-menu-item *ngFor="let lt of licenseTypes" [label]=lt>
       </sh-menu-item>
     </sh-dropdown>
-    <sh-dropdown label='Site Location' style="width:60%;" mandatory>
+    <sh-dropdown label='Site Location' style="width:60%;" mandatory (value-changed)="updateSiteLocation($event.target.value)">
         <sh-menu-item *ngFor="let st of siteLocations" [label]=st>
         </sh-menu-item>
       </sh-dropdown>
     <sh-datepicker mandatory label='Issue Date' style="width:60%;"></sh-datepicker>
     <sh-datepicker mandatory label='Expiration Date' style="width:60%;"></sh-datepicker>
     <sh-datepicker mandatory label='Renewal Submital Date' style="width:60%;"></sh-datepicker>
-    <sh-dropdown mandatory label='Physical Presence' multi-select style="width:60%;">
+    <sh-dropdown mandatory label='Physical Presence' multi-select style="width:60%;" (value-changed)="updatePhysicalPresnce($event.target.value)">
       <sh-menu-item label='All' active></sh-menu-item>
       <sh-menu-item label='Authorized Nuclear Pharmacist'></sh-menu-item>
       <sh-menu-item label='Authorized Users'></sh-menu-item>
@@ -99,7 +98,7 @@
   <!-- report table -->
   <div columns="12" class="form-group" >
     <sh-text size='body-1' color="primary" style="width:80%; padding-top: 10px;">Reports <span class="mandatory">*</span></sh-text>
-    <sh-button color='secondary' onclick="document.querySelector('#sticky-modal').visible = true" label="Add New Report" shape="pill-l" style="display: flex; margin-right: 75%;"></sh-button>
+    <sh-button color='secondary' onclick="document.querySelector('#report-modal').visible = true" label="Add New Report" shape="pill-l" style="display: flex; margin-right: 75%;"></sh-button>
     <div style="display: flex;width:80%;">
       <sh-table>
         <sh-table-row slot="header">
@@ -133,31 +132,35 @@
   </div>
   </div>
 
-  <div *ngIf='showProgressBar' style="position:relative;top:2%">
-    <sh-spinner size="m" label="Creating License Condition ..."></sh-spinner>
+  <div *ngIf='showProgressBar' style="position:relative;top:20%">
+    <sh-spinner size="m" label="Saving License Condition ..."></sh-spinner>
  </div>
 
 </sh-grid>
   <!-- Report modal -->
   <sh-modal sticky id="report-modal" label='New Report' modal-height='400px' modal-width='540px'>
     <div style="display: flex">
-      <sh-dropdown label='Report Type' style="width:220px; padding-right:5px;">
+      <sh-dropdown label='Report Type' style="width:150px; padding-right:5px;" (value-changed)="updateReportType($event.target.value)">
         <sh-menu-item label='Air'></sh-menu-item>
         <sh-menu-item label='Water'></sh-menu-item>
         <sh-menu-item label='Emission'></sh-menu-item>
       </sh-dropdown>
       <sh-datepicker label='Due Date' style="width:220px;padding-right:5px;"></sh-datepicker>
-      <sh-icon icon="upload" id="attachFile"></sh-icon>
-      <sh-tooltip label="Attach A File" target="attachFile" placement="bottom" variation="short" style="width:90px;" ></sh-tooltip>
+      <input type="file" style="width: 100px;padding-top: 10px;margin-left: 6px;" icon="upload" (change)="upload($event.target.files)" />
+      <!-- <sh-icon icon="upload" id="attachFile"></sh-icon>
+      <sh-tooltip label="Attach A File" target="attachFile" placement="bottom" variation="short" style="width:90px;" ></sh-tooltip> -->
     </div>
+    <ng-container *ngIf="uploadSuccess">
+      <span style="color: red;font-size: medium;">Upload Successful</span>
+    </ng-container>
     <sh-input-text label='Attched File' value="licen1235.pdf" readonly mandatory ></sh-input-text>
     <sh-button color='secondary' slot='footer' label='Cancel' onclick="document.querySelector('#report-modal').visible = false"></sh-button>
-    <sh-button slot='footer' label='Add' onclick="document.querySelector('#report-modal').visible = false"></sh-button>
+    <sh-button slot='footer' label='Add' onclick="saveReport()"></sh-button>
   </sh-modal>
   <!-- fee  modal -->
   <sh-modal sticky id="fee-modal" label='Add Fee' modal-height='400px' modal-width='540px'>
     <div style="display: flex">
-      <sh-dropdown label='Fee Type' style="width:120px; padding-right:5px;">
+      <sh-dropdown label='Fee Type' style="width:120px; padding-right:5px;" (value-changed)="updateFeeType($event.target.value)">
         <sh-menu-item label='Application Fee'></sh-menu-item>
         <sh-menu-item label='Amendment Fee'></sh-menu-item>
         <sh-menu-item label='Annual Fee'></sh-menu-item>
@@ -185,8 +188,4 @@ Are you sure to delete this Report record.
 <sh-button slot="footer" color="secondary" label="Cancel" onclick="document.querySelector('#delete-report-modal').visible = false"></sh-button>
 <sh-button slot="footer" label="Confirm" onclick="document.querySelector('#delete-report-modal').visible = false"></sh-button>
 </sh-modal>
-<!-- confirm message -->
-<sh-modal style="position:absolute" id="demo1" type="alert" label="Request Booking" modal-height="300px" modal-width="400px" role="dialog" [visible]=showAlertSuccess>
-  <sh-text>{{showAlertSuccessBody}}</sh-text>
-  <sh-button color="tertiary" slot="footer" label="Ok" (click)="goToDelete()" shape="pill-s" role="button"></sh-button>
-</sh-modal>
+

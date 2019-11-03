@@ -1,5 +1,6 @@
 export class LicenseCondition {
     public id: number;
+    public licenseCondition_Id: string; // for relationship with fee and reprts
     public licenseNumber: string;
     public licenseType: string; // dropdown
     public siteLocation: string; // dropdown
@@ -20,10 +21,10 @@ export class LicenseCondition {
     public nonroutineInspectionFeeDate: Date;
     public feePaymentInstruction: string;
     public lastFeeDate: Date;
-    public reportType: string; // dropdown
-    public reportAirDate: Date;
-    public reportWaterDate: Date;
-    public reportWasteDate: Date;
+    // public reportType: string; //moved to separet model
+    // public reportAirDate: Date;
+    // public reportWaterDate: Date;
+    // public reportWasteDate: Date;
     public rso: string;
     public authorizedNuclearPharmacist: string;
     public authorizedUser: string;

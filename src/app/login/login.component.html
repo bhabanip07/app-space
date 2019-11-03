@@ -1,0 +1,14 @@
+<sh-page [visible]=!isLogedIn theme="{{theme}}">
+<div style="margin:auto;width: 400px;">
+  <div >
+    <sh-text size='body-1' color="primary" style="font-size: 20px;padding-bottom: 5px;">Login</sh-text>
+    <div class="form-group">
+        <sh-input-text id="login-user-name" label='Email' mandatory ></sh-input-text>
+    </div>
+    <div class="form-group">
+        <sh-input-text id="login-pwd" label='Password' mandatory type="password"></sh-input-text>
+    </div>
+    <sh-button color='primary' label="Login" (click)="login()"></sh-button>
+  </div>
+</div>
+</sh-page>

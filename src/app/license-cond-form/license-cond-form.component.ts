@@ -5,7 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from "@angular/router";
 import {ConstantValues} from '../model/constant-values';
 import {LicenseCondition} from '../model/license-condition';
+// import {FeeTypeModel} from '../model/fee-type.model';
+// import {ReportAddModel} from '../model/report-add.model';
 import {LicenseConditionsService} from '../services/license-conditions.service';
+import {HttpClientModule, HttpClient, HttpRequest, HttpResponse, HttpEventType} from '@angular/common/http';
 
 @Component({
   selector: 'app-license-cond-form',
@@ -19,21 +22,24 @@ export class LicenseCondFormComponent implements OnInit {
   isEditClick = false;
   licenseTypes= [];
   siteLocations= [];
+  reportArray = [];
+  feeTypeModel = [];
   model = new LicenseCondition();
 
   showProgressBar=false;
   showAlertSuccess= false;
-  showAlertSuccessBody= '';
   progressValue= '30';
-  showAlertMessage= false;
   errorMessage ='';
   successFlag:boolean = false;
   errorFlag:boolean = false;
+  percentDone: number;
+  uploadSuccess: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private licenseConditionsService: LicenseConditionsService,
+    private http: HttpClient,
   ) { }
 
 
@@ -54,25 +60,36 @@ export class LicenseCondFormComponent implements OnInit {
   }
 
   }
+  updatePhysicalPresnce(value) {
+    this.model.physicalPresenceRequirement = value;
+  }
+  updateLicenseType(value) {
+    this.model.licenseType = value;
+  }
+  updateSiteLocation(value) {
+    this.model.siteLocation = value;
+  }
+  updateFeeType(value) {}
+  updateReportType(value) {}
+
   saveLicenseCond() {
+    this.showProgressBar = true;
     this.licenseConditionsService.save(this.model)
     .subscribe(data =>
        {
          this.progressValue = '100' ;
          this.showProgressBar = false;
-
-        this.showAlertSuccess= true;
-        this.showAlertSuccessBody= 'New License condition document is created !';
+         this.errorFlag=false;
+        this.successFlag=true;
+        this.router.navigate(['/license-condition-documents']);
       },
       error =>
       {
         console.log(`error occured after calling the licenseConditionsService/save().`);
+        
         this.showProgressBar = false;
-        this.showAlertMessage= false;
-
+        this.successFlag= false;
         this.errorFlag=true;
-        this.errorMessage='Error while creating licenseConditionsDocument, please try again !';
-
       }
   	)
   }
@@ -83,6 +100,63 @@ export class LicenseCondFormComponent implements OnInit {
   }
   resetAndBack() {
     this.router.navigate(['/license-condition-documents']);
+  }
+
+  saveReport() {
+    // document.querySelector('#report-modal').setAttribute('[visible]', false);
+    //pushTo reportArray();
+  }
+
+
+  upload(files: File[]){
+    //pick from one of the 4 styles of file uploads below
+    this.uploadAndProgress(files);
+  }
+
+  basicUpload(files: File[]){
+    var formData = new FormData();
+    Array.from(files).forEach(f => formData.append('file', f))
+    this.http.post('https://file.io', formData)
+      .subscribe(event => {  
+        console.log('done')
+      })
+  }
+  
+  //this will fail since file.io dosen't accept this type of upload
+  //but it is still possible to upload a file with this style
+  basicUploadSingle(file: File){    
+    this.http.post('https://file.io', file)
+      .subscribe(event => {  
+        console.log('done')
+      })
+  }
+  
+  uploadAndProgress(files: File[]){
+    console.log(files)
+    var formData = new FormData();
+    Array.from(files).forEach(f => formData.append('file',f))
+    
+    this.http.post('https://file.io', formData, {reportProgress: true, observe: 'events'})
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.percentDone = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.uploadSuccess = true;
+        }
+    });
+  }
+  
+  //this will fail since file.io dosen't accept this type of upload
+  //but it is still possible to upload a file with this style
+  uploadAndProgressSingle(file: File){    
+    this.http.post('https://file.io', file, {reportProgress: true, observe: 'events'})
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.percentDone = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.uploadSuccess = true;
+        }
+    });
   }
 
 }
