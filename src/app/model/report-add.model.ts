@@ -2,6 +2,7 @@ export class ReportAddModel {
     public id: string;
     public reportType: string;
     public fileUrl: string;
+    public fileName: string;
     public dueDate: Date;
     public licenseCondition_Id: string; // for one-many relation ship
 

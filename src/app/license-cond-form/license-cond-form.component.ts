@@ -5,8 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from "@angular/router";
 import {ConstantValues} from '../model/constant-values';
 import {LicenseCondition} from '../model/license-condition';
-// import {FeeTypeModel} from '../model/fee-type.model';
-// import {ReportAddModel} from '../model/report-add.model';
+import {FeeTypeModel} from '../model/fee-type.model';
+import {ReportAddModel} from '../model/report-add.model';
 import {LicenseConditionsService} from '../services/license-conditions.service';
 import {HttpClientModule, HttpClient, HttpRequest, HttpResponse, HttpEventType} from '@angular/common/http';
 
@@ -25,6 +25,8 @@ export class LicenseCondFormComponent implements OnInit {
   reportArray = [];
   feeTypeModel = [];
   model = new LicenseCondition();
+  modelFeeType = new FeeTypeModel();
+  modelReportAdd = new ReportAddModel();
 
   showProgressBar=false;
   showAlertSuccess= false;
@@ -69,11 +71,16 @@ export class LicenseCondFormComponent implements OnInit {
   updateSiteLocation(value) {
     this.model.siteLocation = value;
   }
-  updateFeeType(value) {}
-  updateReportType(value) {}
+  updateFeeType(value) {
+    this.modelFeeType.feeType = value;
+  }
+  updateReportType(value) {
+    this.modelReportAdd.reportType = value;
+  }
 
   saveLicenseCond() {
     this.showProgressBar = true;
+    debugger;
     this.licenseConditionsService.save(this.model)
     .subscribe(data =>
        {
@@ -133,6 +140,7 @@ export class LicenseCondFormComponent implements OnInit {
   
   uploadAndProgress(files: File[]){
     console.log(files)
+    this.modelReportAdd.fileName = files[0].name;
     var formData = new FormData();
     Array.from(files).forEach(f => formData.append('file',f))
     
@@ -142,6 +150,8 @@ export class LicenseCondFormComponent implements OnInit {
           this.percentDone = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
           this.uploadSuccess = true;
+          debugger;
+          this.modelReportAdd.fileUrl =  event.body[0].link;
         }
     });
   }

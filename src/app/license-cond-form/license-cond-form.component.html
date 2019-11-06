@@ -8,7 +8,7 @@
 <span columns="6" class="alert alert-danger" *ngIf='errorFlag'>Error while saving License Conditions Document, please try again !</span>
 <sh-grid style="padding-left: 2%; padding-top: 12px;">
   <div class="form-group" columns="6" >
-    <sh-input-text label='License Number' value="" style="width:60%;" (value-changed)="model.licenseNumber=$event.target.value"
+    <sh-input-text label='License Number' style="width:60%;" (value-changed)="model.licenseNumber=$event.target.value"
       [value]=model.licenseNumber mandatory></sh-input-text>
     <sh-dropdown label='License Type' style="width:60%;" mandatory (value-changed)="updateLicenseType($event.target.value)">
       <sh-menu-item *ngFor="let lt of licenseTypes" [label]=lt>
@@ -18,12 +18,12 @@
         <sh-menu-item *ngFor="let st of siteLocations" [label]=st>
         </sh-menu-item>
       </sh-dropdown>
-    <sh-datepicker mandatory label='Issue Date' style="width:60%;"></sh-datepicker>
+    <sh-datepicker mandatory label='Issue Date' style="width:60%;" (value-changed)="model.issueDate=$event.target.value"
+    [value]=model.issueDate></sh-datepicker>
     <sh-datepicker mandatory label='Expiration Date' style="width:60%;"></sh-datepicker>
     <sh-datepicker mandatory label='Renewal Submital Date' style="width:60%;"></sh-datepicker>
     <sh-dropdown mandatory label='Physical Presence' multi-select style="width:60%;" (value-changed)="updatePhysicalPresnce($event.target.value)">
-      <sh-menu-item label='All' active></sh-menu-item>
-      <sh-menu-item label='Authorized Nuclear Pharmacist'></sh-menu-item>
+      <sh-menu-item label='Authorized Nuclear Pharmacist' active></sh-menu-item>
       <sh-menu-item label='Authorized Users'></sh-menu-item>
       <sh-menu-item label='Cyclotrone Operators'></sh-menu-item>
       <sh-menu-item label='None'></sh-menu-item>
@@ -41,17 +41,21 @@
     <!-- <sh-input-text label="RSO" value="" style="width:75%;">
       <sh-icon icon="search" button size="s" slot="icon"></sh-icon>
     </sh-input-text> -->
-    <sh-search style="width:75%;" label="RSO" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
+    <sh-search style="width:75%;" label="RSO" (value-changed)="model.rso=$event.target.value"
+    [value]=model.rso multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
     </sh-search>
-    <sh-search style="width:75%;" label="Authorized Nuclear Pharmacist" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
+    <sh-search style="width:75%;"  (value-changed)="model.authorizedNuclearPharmacist=$event.target.value"
+    [value]=model.authorizedNuclearPharmacist label="Authorized Nuclear Pharmacist" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
     </sh-search>
-    <sh-search style="width:75%;" label="Authorize Users" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
+    <sh-search style="width:75%;"  (value-changed)="model.authorizedUser=$event.target.value"
+    [value]=model.authorizedUser label="Authorize Users" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
     </sh-search>
-    <sh-search style="width:75%;" label="Cyclotron Operators" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
+    <sh-search style="width:75%;"  (value-changed)="model.cyclotronOperator=$event.target.value"
+    [value]=model.cyclotronOperator label="Cyclotron Operators" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"Kevin Smith","email":"Kevin.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"}]'>
     </sh-search>
 
-    <sh-input-text label='Free Payment Instruction' value="" style="width:75%;"></sh-input-text>
-    <sh-datepicker label='Last Fee Paid Date' style="width:75%;"></sh-datepicker>
+    <sh-input-text label='Free Payment Instruction' (value-changed)="model.feePaymentInstruction=$event.target.value" [value]=model.feePaymentInstruction style="width:75%;"></sh-input-text>
+    <sh-datepicker label='Last Fee Paid Date' (value-changed)="model.lastFeeDate=$event.target.value" [value]=model.lastFeeDate  style="width:75%;"></sh-datepicker>
       <sh-input-text textarea rows="3" label='Other Requirements' value="" style="width:75%;" (value-changed)="model.otherRequirements=$event.target.value"
         [value]=model.otherRequirements></sh-input-text>
   </div>
@@ -153,7 +157,7 @@
     <ng-container *ngIf="uploadSuccess">
       <span style="color: red;font-size: medium;">Upload Successful</span>
     </ng-container>
-    <sh-input-text label='Attched File' value="licen1235.pdf" readonly mandatory ></sh-input-text>
+    <sh-input-text label='Attched File'  [value]=modelReportAdd.fileName  readonly mandatory ></sh-input-text>
     <sh-button color='secondary' slot='footer' label='Cancel' onclick="document.querySelector('#report-modal').visible = false"></sh-button>
     <sh-button slot='footer' label='Add' onclick="saveReport()"></sh-button>
   </sh-modal>
@@ -166,7 +170,7 @@
         <sh-menu-item label='Annual Fee'></sh-menu-item>
         <sh-menu-item label='Non-routine Inspection Fee'></sh-menu-item>
       </sh-dropdown>
-      <sh-input-text label='Fee ($)' value="200" style="width:150px; padding-right:5px;"></sh-input-text>
+      <sh-input-text label='Fee ($)' (value-changed)="modelFeeType.fee=$event.target.value" [value]=modelFeeType.fee style="width:150px; padding-right:5px;"></sh-input-text>
       <sh-datepicker label='Due Date' style="width:220px;padding-right:5px;"></sh-datepicker>
     </div>
     <sh-button color='secondary' slot='footer' label='Cancel' onclick="document.querySelector('#fee-modal').visible = false"></sh-button>
