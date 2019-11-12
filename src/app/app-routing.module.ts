@@ -14,9 +14,12 @@ import { RegulatoryInispectionComponent } from './regulatory-inispection/regulat
 import { RegulatoryRecordComponent } from './regulatory-record/regulatory-record.component';
 import { ContactDocComponent } from './contact-doc/contact-doc.component';
 import { LogOutComponent } from './log-out/log-out.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
+  // { path: '', component: LoginComponent},
+  // { path: 'dashboard', component: HomeComponent},
   { path: 'license-calender', component: LicenseCalenderComponent },
   { path: 'ehs-outof-office', component: EhsOutofOfficeComponent },
   { path: 'recent', component: RecentComponent },

@@ -13,6 +13,9 @@ export class AppComponent {
   breadcrumbLabel2 = '';
   breadcrumbLabel1 = '';
   pageTitle = '';
+  isLogedIn = false;
+  showLoginError = true;
+  loginErrorMessage = 'Login Credentials are not correct, please try again!'
 
   switchTheme() {
     if(this.theme === "dark") {
@@ -41,7 +44,8 @@ export class AppComponent {
    let drawer =  document.getElementById('drawer-left') as any;
    drawer.visible = true;
   }
-  searchSite(){
-    this.router.navigate(['/search']);
+  login() {
+    alert('jgjghj');
+    this.isLogedIn = true;
   }
 }

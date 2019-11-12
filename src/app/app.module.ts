@@ -24,6 +24,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LicenseConditionsService } from './services/license-conditions.service';
 import { HttpModule } from '@angular/http';
+import { LoginComponent } from './login/login.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +43,8 @@ import { HttpModule } from '@angular/http';
     RegulatoryRecordComponent,
     ContactDocComponent,
     LogOutComponent,
+    LoginComponent,
+    FileUploadComponent,
   ],
   imports: [
     BrowserModule,
