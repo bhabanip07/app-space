@@ -24,9 +24,15 @@ export class LicenseConditionsService {
   get() {
     return of(this.fighters);
   }
+  // save(model){
+  //   debugger;
+  //   return this.http.post(this.url+'/order',model)
+  //   .map(res=>res.json());
+  // };
+
   save(model){
     debugger;
-    return this.http.post(this.url+'/order',model)
+    return this.http.post('api/v1/licenseCondition',model)
     .map(res=>res.json());
   };
 

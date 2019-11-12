@@ -1,5 +1,4 @@
 export class LicenseCondition {
-    public id: number;
     public licenseCondition_Id: string; // for relationship with fee and reprts
     public licenseNumber: string;
     public licenseType: string; // dropdown
@@ -11,14 +10,14 @@ export class LicenseCondition {
     public possessionLimitsNitrogen: number;
     public possessionLimitsOxygen: number;
     public possessionLimitsCarbon: number;
-    public applicationFee: number;
-    public applicationFeeDate: Date;
-    public amendmentFee: string;
-    public amendmentFeeDate: Date;
-    public annualFee: string;
-    public annualFeeDate: Date;
-    public nonroutineInspectionFee: number;
-    public nonroutineInspectionFeeDate: Date;
+    // public applicationFee: number;
+    // public applicationFeeDate: Date;
+    // public amendmentFee: string;
+    // public amendmentFeeDate: Date;
+    // public annualFee: string;
+    // public annualFeeDate: Date;
+    // public nonroutineInspectionFee: number;
+    // public nonroutineInspectionFeeDate: Date;
     public feePaymentInstruction: string;
     public lastFeeDate: Date;
     // public reportType: string; //moved to separet model
@@ -26,6 +25,8 @@ export class LicenseCondition {
     // public reportWaterDate: Date;
     // public reportWasteDate: Date;
     public rso: string;
+    public feeType: string;
+    public reports: string;
     public authorizedNuclearPharmacist: string;
     public authorizedUser: string;
     public cyclotronOperator: string;

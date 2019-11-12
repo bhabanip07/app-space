@@ -25,3 +25,8 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Running the application in DEV mode to call nodejs api also 
+
+Rn this comand -- ng serve --proxy-config proxy.conf.json
+reference - https://levelup.gitconnected.com/simple-application-with-angular-6-node-js-express-2873304fff0f
