@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
-
-    <title>sh-checkbox-test</title>
+    <title>sh-pane-test</title>
     <script type="module" src="../src/sh-checkbox.js"></script>
     <script type="module" src="../src/sh-icon.js"></script>
     <script type="module" src="../src/sh-menu-group.js"></script>
@@ -50,7 +49,6 @@
 
             test('Pane label : Undefined', function(){
                 pane.setAttribute('label',undefined);
-
                 assert.equal(pane.getAttribute('label'), 'undefined');
             })
 
@@ -58,7 +56,6 @@
                 pane.size = 'expanded';
                 pane.behavior = 'condense';
                 pane._handleExpand();
-                
                 assert.equal(pane.size, 'condensed');
             })
 
@@ -73,14 +70,12 @@
             test('Size : Collapsed', function(){
                 pane.size = 'collapsed';
                 pane._handleExpand();
-
                 assert.equal(pane.size, 'expanded');
             })
 
             test('Size : Condensed', function(){
                 pane.size = 'condensed';
                 pane._handleExpand();
-
                 assert.equal(pane.size, 'expanded');
             })
         })

@@ -33,9 +33,7 @@ class SHTable extends PolymerElement {
         flex: 1;
         overflow-y: overlay;
         overflow-x: hidden;
-        min-width: fit-content;
-        min-width: -ms-fit-content;
-        min-width: -moz-fit-content;
+        width: 100%;
       }
 
       :host(.testing), :host(.testing) *,
@@ -50,52 +48,39 @@ class SHTable extends PolymerElement {
       :host(:not([freeze])) .floating-scrollbar {
         display: none;
       }
-      :host([freeze]) {
-        width: calc(100% - 8px) !important;
+      .table-wrapper {
+        max-height: fit-content;
+      }
+      .floating-scrollbar {
         position: relative;
-        overflow-x: hidden;
-      }
-      :host([freeze]) .floating-scrollbar {
         height: 8px;
-        width:8px;
-        position: absolute;
+        margin-top:8px;
         overflow-x: auto;
-        z-index: 9999
       }
-      :host([freeze]) .floating-scrollbar div {
+      .scrollThumb {
         height: 8px;
-        display: block;
       }
-      :host([freeze]) .table-wrapper {
-        margin-bottom: 16px;
-        min-width: 100%;
+      .header-wrapper {
+        flex: 1;
+        overflow-y: overlay;
+        overflow-x: hidden;
+        width: 100%;
+        max-height: fit-content;
       }
-      .disappear {
-        z-index: -1;
-        opacity: 0;
-        visibility: hidden
-      }
-      .fade-in {
-        z-index: initial;
-        opacity : 1;
-        visibility: visible;
-        transition: visibility 0.3s ease-in-out, opacity 0.3s ease-in-out;
-      }
-
     </style>
 
     <!--HTML-->
-
-    <slot name="header" id="header-slot"></slot>
+    <div class="header-wrapper">
+      <slot name="header" id="header-slot"></slot>
+    </div>    
     <div class="table-wrapper" on-scroll="_contentScrolled" id="tableContent" >
       <div class="content" >
         <slot></slot>
       </div>
     </div>
-    <div class="floating-scrollbar">
+    <div class="floating-scrollbar" on-scroll="adjustScrollLeft">
       <div class="scrollThumb"></div>
     </div>
-    <sh-spinner label = "Loading ..." size = "s" style="display: none"></sh-spinner>
 `;
   }
 
@@ -115,50 +100,39 @@ class SHTable extends PolymerElement {
         value: '33.3%',
         reflectToAttribute: true,
         notify: true,
-        observer: 'observeWidthChangeL'
+        observer: 'setFrozenWidthsOfChildren'
       },
       rwidth: {
         type: String,
         value: '33.3%',
         reflectToAttribute: true,
         notify: true,
-        observer: 'observeWidthChangeR'
+        observer: 'setFrozenWidthsOfChildren'
       },
       mwidth: {
         type: String,
         value: '33.3%',
         reflectToAttribute: true,
         notify: true,
-        observer: 'observeWidthChangeM'
-      },
-      scrollPosition: {
-        type: String,
-        value: '',
-        reflectToAttribute: true,
-        notify: true
-      },
-      stickyScroll: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-        notify: true
-      },
-      scroller: {
-        type: Function
-      },
-      scrollerTop:{
-        type: String
+        observer: 'setFrozenWidthsOfChildren'
       },
       condensed: {
         type: Boolean,
         value: false,
-        notify:true,
-        reflectToAttribute:true,
+        notify: true,
+        reflectToAttribute: true,
         observer: 'condensedObserver'
+      },
+      scrolledLeft: {
+        type: Number,
+        observer: 'scrolledLeftChanged'
       }
     };
   }
-
+  scrolledLeftChanged(newValue) {
+    let self = this;
+    self.children[0].scrollLeft = newValue;
+  }
   ready() {
     super.ready();
     this.addEventListener('clicked', function () {
@@ -168,111 +142,52 @@ class SHTable extends PolymerElement {
         childElement[i].removeAttribute('active');
       }
     });
-    let self,
-        floatScrollBar;
-    self = this;
-    if(self.freeze === true) {
-      /** Extracting the computed width of each block and storing the values */
-      let leftBlockPixelValues,
-          midBlockPixelValues,
-          rightBlockPixelValues;
-      leftBlockPixelValues = self.children[0].shadowRoot.querySelector('.frozen-left').getBoundingClientRect().width;
-      midBlockPixelValues = self.children[0].shadowRoot.querySelector('.scrollable').getBoundingClientRect().width;
-      rightBlockPixelValues = self.children[0].shadowRoot.querySelector('.frozen-right').getBoundingClientRect().width;
-
-      /** Setting the width value of each block explicitly to allow for the cells to hide and the scrollbar to appear */
-      for(let i=0; i < self.children.length; i++) {
-        self.children[i].shadowRoot.querySelector('.frozen-left').style.width = leftBlockPixelValues + 'px';
-        self.children[i].shadowRoot.querySelector('.scrollable').style.width = midBlockPixelValues + 'px';
-        self.children[i].shadowRoot.querySelector('.frozen-right').style.width = rightBlockPixelValues + 'px';
-        self.children[i].style.minWidth = '100%';
-        self.children[i].freeze = true;
-      }
-    }
-    if(self.freeze) {
-      /** We need a timeout here, since it takes some time to actually stamp the DOM in the browser. Because in the
-       * subsequent functions, we are calculating the computed height and width of total rows and each block respectively.
-       * This is to adjust the scrollbar position with respect to the table as a whole.
-       */
-      setTimeout(() => {
-        self.alignFloatingScrollBar();
-        self.adjustScrollBarWidth();
-      }, 1000);
-
-      if(self.scrollPosition !== '') {
-        self.shadowRoot.querySelector('.floating-scrollbar').style.display = 'none';
-      }
-    }
-    self.scroller = self.shadowRoot.querySelector('.floating-scrollbar');
-    
-    floatScrollBar = self.shadowRoot.querySelector('.floating-scrollbar');
-    self.scrollerTop = floatScrollBar.getBoundingClientRect().top;
-    setTimeout(() => {
-      self._alignStickyScroller();
-    }, 3000);
-  }
-
-  observeWidthChangeL(newValue){
-    let self;
-    self = this;
-    if(newValue !== undefined && newValue !== '') {
-      setTimeout(() => {
-        for(let i=0; i < self.children.length; i++) {
-          self.children[i].lwidth = newValue;
-        }
-        self.adjustCenterWidth();
-        self.adjustScrollBarWidth();
-      }, 2000);
-    }
-  }
-  observeWidthChangeR(newValue){
-    let self;
-    self = this;
-    if(newValue !== undefined && newValue !== '') {
-      setTimeout(() => {
-        for(let i=0; i < self.children.length; i++) {
-          self.children[i].rwidth = newValue;
-        }
-        self.adjustCenterWidth();
-        self.adjustScrollBarWidth();
-      }, 2000);
-    }
-  }
-  observeWidthChangeM(newValue){
-    let self;
-    self = this;
-    if(newValue !== undefined && newValue !== '') {
-      setTimeout(() => {
-        for(let i=0; i < self.children.length; i++) {
-          self.children[i].mwidth = newValue;
-        }
-        self.adjustCenterWidth();
-        self.adjustScrollBarWidth();
-      }, 2000);
-    }
   }
   condensedObserver(isCondensed) {
     let children = this.children;
-    if(isCondensed) {
-      for(let i=0; i < children.length; i++) {
+    if (isCondensed) {
+      for (let i = 0; i < children.length; i++) {
         children[i].condensed = true;
       }
     }
     else {
-      for(let i=0; i < children.length; i++) {
+      for (let i = 0; i < children.length; i++) {
         children[i].condensed = false;
       }
     }
   }
-
-  _contentScrolled(){
+  observeWidthChangeL(newValue) {
+    let self;
+    self = this;
+    self.children[0].lwidth = newValue;
+  }
+  observeWidthChangeM(newValue) {
+    let self;
+    self = this;
+    self.children[0].mwidth = newValue;
+  }
+  observeWidthChangeR(newValue) {
+    let self;
+    self = this;
+    self.children[0].rwidth = newValue;
+  }
+  setFrozenWidthsOfChildren() {
+    let self;
+    self = this;
+    for (let i = 0; i < self.children.length; i++) {
+      self.children[i].lwidth = self.lwidth;
+      self.children[i].mwidth = self.mwidth;
+      self.children[i].rwidth = self.rwidth;
+    }
+  }
+  _contentScrolled() {
     let content,
-        contentScroll,
-        contentMaxScroll;
+      contentScroll,
+      contentMaxScroll;
     content = this.$.tableContent;
     contentScroll = content.scrollTop + content.clientHeight;
     contentMaxScroll = content.scrollHeight;
-    if(contentScroll === contentMaxScroll){
+    if (contentScroll === contentMaxScroll) {
       this.dispatchEvent(new CustomEvent('scroll-end', {
         detail: this,
         composed: true,
@@ -281,164 +196,51 @@ class SHTable extends PolymerElement {
     }
   }
 
-  _alignStickyScroller() {
-    let self,
-        floatScrollBar;
-    self = this;
-    floatScrollBar = self.shadowRoot.querySelector('.floating-scrollbar');
-    self.scrollerTop = floatScrollBar.style.top;
-    if(self.stickyScroll === true) {
-      floatScrollBar.style.position = 'absolute';
-      floatScrollBar.style.top = (window.innerHeight - 48) + 'px';
-      let page,
-          main;
-      page = document.querySelector('sh-page');
-      main = page.shadowRoot.querySelector('.main-wrapper');
-      main.addEventListener('scroll', function(){
-        let scrollerTop,
-            threshold,
-            winHeight;
-        scrollerTop = Number(floatScrollBar.style.top.toString().split('px')[0]);
-        threshold = Number(self.scrollerTop.toString().split('px')[0]);
-        winHeight = window.innerHeight;
-        if(scrollerTop < threshold) {
-          floatScrollBar.style.top = (winHeight - 48 + main.scrollTop) + 'px';
-        }
-        if(floatScrollBar.getBoundingClientRect().top > winHeight) {
-          floatScrollBar.style.top = (winHeight - 48 + main.scrollTop) + 'px';
-        }
-        if(scrollerTop > threshold) {
-          floatScrollBar.style.top = threshold + 'px';
-        }
-      });
-    }
-  }
-
-  alignFloatingScrollBar(){
-    /** Function to correctly position the scrollbar */
-    let self,
-        totalHeight,
-        floatScrollBar,
-        tableWrapperHeight,
-        tableWrapperInnerHeight;
-    self = this;
-    totalHeight = 0;
-    floatScrollBar = self.shadowRoot.querySelector('.floating-scrollbar');
-    tableWrapperHeight = self.shadowRoot.querySelector('.table-wrapper').getBoundingClientRect().height;
-    tableWrapperInnerHeight = self.shadowRoot.querySelector('.table-wrapper').scrollHeight;
-    if(tableWrapperInnerHeight > tableWrapperHeight) {
-      totalHeight = self.getBoundingClientRect().height;
-    }
-    else {
-      for (let i = 0; i < self.children.length; i++) {
-        totalHeight += self.children[i].shadowRoot.querySelector('#wrapper').getBoundingClientRect().height;
-      }
-      totalHeight += 16;
-    }
-    floatScrollBar.style.top = (totalHeight - 8) + 'px';
-  }
-
-  adjustScrollBarWidth() {
-    let self,
-        floatScrollBar,
-        floatScrollThumb,
-        scrollBarLeft;
-    self = this;
-    floatScrollBar = self.shadowRoot.querySelector('.floating-scrollbar');
-    floatScrollThumb = self.shadowRoot.querySelector('.scrollThumb');
-    floatScrollBar.style.width = self.children[0].shadowRoot.querySelector('.scrollable').getBoundingClientRect().width + 'px';
-    floatScrollThumb.style.width = self.children[0].shadowRoot.querySelector('.scrollable').scrollWidth + 'px';
-    scrollBarLeft = self.children[0].shadowRoot.querySelector('.frozen-left').getBoundingClientRect().width + 'px';
-    floatScrollBar.style.left = scrollBarLeft;
-  }
-
-  adjustCenterWidth() {
-    let self;
-    self=this;
-    /** Setting the width value of each block explicitly to allow for the cells to hide and the scrollbar to appear */
-    for(let i=0; i < self.children.length; i++) {
-      self.children[i].lwidth = self.lwidth;
-      self.children[i].rwidth = self.rwidth;
-      self.children[i].mwidth = self.mwidth;
-    }
-  }
-
   connectedCallback() {
     super.connectedCallback();
     let self;
     self = this;
-    if(self.freeze) {
-      self.shadowRoot.querySelector('sh-spinner').style.display = 'block';
-      self.shadowRoot.querySelector('.table-wrapper').classList.add('disappear');
-      self.children[0].classList.add('disappear');
-      self.shadowRoot.querySelector('.floating-scrollbar').classList.add('disappear');
-    }
-    setTimeout(() => {
-      self.shadowRoot.querySelector('sh-spinner').style.display = 'none';
-      self.shadowRoot.querySelector('.table-wrapper').classList.remove('disappear');
-      self.children[0].classList.remove('disappear');
-      self.shadowRoot.querySelector('.floating-scrollbar').classList.remove('disappear');
-
-      self.shadowRoot.querySelector('.table-wrapper').classList.add('fade-in');
-      self.children[0].classList.add('fade-in');
-      self.shadowRoot.querySelector('.floating-scrollbar').classList.add('fade-in');
-    }, 2000);
-    let floatScrollBar;
-    floatScrollBar = self.shadowRoot.querySelector('.floating-scrollbar');
-
-    floatScrollBar.addEventListener('scroll', function(){
-      for(let i = 0; i < self.children.length; i++) {
-        self.children[i].shadowRoot.querySelector('.scrollable').scrollLeft = floatScrollBar.scrollLeft ;
+    let floatingScrollBar;
+    floatingScrollBar = self.shadowRoot.querySelector('.floating-scrollbar');
+    let floatThumb;
+    floatThumb = self.shadowRoot.querySelector('.scrollThumb');
+    self.addEventListener('middle-scrolled', function (e) {
+      let scrollLeft;
+      scrollLeft = e.detail.scrollLeft;
+      self.scrolledLeft = scrollLeft;
+      self.children[0].scrollLeft = scrollLeft;
+      floatingScrollBar.scrollLeft = scrollLeft;
+    });
+    self.addEventListener('slots-modified', function (e) {
+      floatThumb.style.width = e.detail.innerWidth + 'px';
+      floatingScrollBar.style.width = e.detail.width + 'px';
+      floatingScrollBar.style.left = e.detail.leftPosition + 'px';
+      if (self.scrolledLeft !== undefined) {
+        floatingScrollBar.scrollLeft = self.scrolledLeft;
+        for (let i = 0; i < self.children.length; i++) {
+          self.children[i].scrollLeft = self.scrolledLeft;
+          self.children[i].shadowRoot.querySelector('.scrollable').scrollLeft = self.scrolledLeft;
+        }
       }
-    });
-
-    /** dynamic monitoring whether any items are added to the freeze table
-     * so as to adjust the scrollbar accordingly;
-     */
-
-    if(self.freeze) {
-      let monitorNode,
-          config,
-          callback;
-      monitorNode = self;
-
-      //   monitoring values
-      config = { attributes: true, characterData: true, childList: true, subtree: true, attributeOldValue: true, characterDataOldValue: true};
-
-      // Callback function to execute when mutations are observed
-      callback = function(mutationList, observer) {
-        mutationList.forEach((mutation) => {
-          /** Extracting the computed width of each block and storing the values */
-          let leftBlockPixelValues,
-              midBlockPixelValues,
-              rightBlockPixelValues;
-          leftBlockPixelValues = self.children[0].shadowRoot.querySelector('.frozen-left').getBoundingClientRect().width;
-          midBlockPixelValues = self.children[0].shadowRoot.querySelector('.scrollable').getBoundingClientRect().width;
-          rightBlockPixelValues = self.children[0].shadowRoot.querySelector('.frozen-right').getBoundingClientRect().width;
-          
-          /** Setting the width value of each block explicitly to allow for the cells to hide and the scrollbar to appear */
-          for(let i=0; i < self.children.length; i++) {
-            self.children[i].shadowRoot.querySelector('.frozen-left').style.width = leftBlockPixelValues + 'px';
-            self.children[i].shadowRoot.querySelector('.scrollable').style.width = midBlockPixelValues + 'px';
-            self.children[i].shadowRoot.querySelector('.frozen-right').style.width = rightBlockPixelValues + 'px';
-            self.children[i].freeze = true;
-          }
-          self.adjustCenterWidth();
-          self.alignFloatingScrollBar();
-          self.adjustScrollBarWidth();
-        })
-      };
-      let observer;
-      observer = new MutationObserver(callback);
-      observer.observe(monitorNode, config);
-    }
-    window.addEventListener('resize',function(){
-      self.adjustCenterWidth();
-      self.alignFloatingScrollBar();
-      self.adjustScrollBarWidth();
-      self._alignStickyScroller();
-    });
+     self.setFrozenWidthsOfChildren()
+    })
+    window.addEventListener('resize', function () {
+      let firstRowChild = self.children[0];
+      let frozenLeft = firstRowChild.shadowRoot.querySelector('.frozen-left');
+      let scrollable = firstRowChild.shadowRoot.querySelector('.scrollable');
+      floatingScrollBar.style.left = frozenLeft.getBoundingClientRect().width + 'px';
+      floatingScrollBar.style.width = scrollable.getBoundingClientRect().width + 'px';
+      floatThumb.style.width = scrollable.scrollWidth + 'px';
+    })
   }
+  adjustScrollLeft(e) {
+    let self;
+    self = this;
+    if (self.children[0].scrollLeft !== e.target.scrollLeft) {
+      self.children[0].scrollLeft = e.target.scrollLeft;
+    }
+  }
+
 }
 
 window.customElements.define(SHTable.is, SHTable);

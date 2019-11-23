@@ -1,14 +1,11 @@
 /* -------------------------------------------------------------------------------------------------
 Restricted - Copyright (C) Siemens Healthcare GmbH/Siemens Medical Solutions USA, Inc., 2019. All rights reserved
 ------------------------------------------------------------------------------------------------- */
-import {
-  PolymerElement,
-  html
-} from '@polymer/polymer/polymer-element.js';
+import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
 class SHIcon extends PolymerElement {
-  static get template() {
-    return html `
+    static get template() {
+        return html `
     <!--CSS-->
     <style include="shared-styles">
       :host {
@@ -88,6 +85,7 @@ class SHIcon extends PolymerElement {
         box-sizing: border-box;
         overflow: hidden;
         text-overflow: ellipsis;
+        pointer-events: none;
       }
 
       .badge[badge=""] {
@@ -435,7 +433,6 @@ class SHIcon extends PolymerElement {
       .voice-command-record .first:before { content: "\\E12F"; }
       .heart-bodypart .first:before { content: "\\E131"; }
       .image .first:before { content: "\\E132"; }
-      .radiation .first:before { content: "\\E133"; }
       .shopping-cart .first:before { content: "\\E134"; }
       .notification-center .first:before { content: "\\E135"; }
       .edit-partner .first:before { content: "\\E136"; }
@@ -510,6 +507,13 @@ class SHIcon extends PolymerElement {
       .scanner-settings .first:before { content: "\\E970"; }
       .series .first:before { content: "\\E971"; }
       .upload .first:before { content: "\\E974"; }
+      .colon-solid-view .first:before { content: "\\E975"; }
+      .drug-pharmaceutical .first:before { content: "\\E976"; }
+      .liver .first:before { content: "\\E979"; }
+      .mark-left .first:before { content: "\\E97C"; }
+      .mark-right .first:before { content: "\\E97D"; }
+      .surgery .first:before { content: "\\E97E"; }
+      .light-all .first:before { content: "\\E985"; }
 
       :host([size="xs"]) .information .first:before { content: "\\E950"; }
       :host([size="xs"]) .information .second:before { content: "\\E032"; color: rgba(var(--ui-7), var(--opacity-1)) }
@@ -559,8 +563,6 @@ class SHIcon extends PolymerElement {
       .feet-first-left-lateral .second:before { content: "\\E10C"; color: rgba(var(--ui-1), var(--opacity-4)) }
       .feet-first-right-lateral .first:before { content: "\\E10A"; }
       .feet-first-right-lateral .second:before { content: "\\E10D"; color: rgba(var(--ui-1), var(--opacity-4)) }
-      .feet-first-prone .first:before { content: "\\E10A"; }
-      .feet-first-prone .second:before { content: "\\E10E"; color: rgba(var(--ui-1), var(--opacity-4)) }
       .head-left-supine .first:before { content: "\\E10F"; }
       .head-left-supine .second:before { content: "\\E110"; color: rgba(var(--ui-1), var(--opacity-4)) }
       .head-left-prone .first:before { content: "\\E111"; }
@@ -575,11 +577,11 @@ class SHIcon extends PolymerElement {
       .position-undefined .second:before { content: "\\E119"; color: rgba(var(--ui-1), var(--opacity-4)) }
       .plantar .first:before { content: "\\E10A"; }
       .plantar .second:before { content: "\\E11A"; color: rgba(var(--ui-1), var(--opacity-4)) }
-      .superman-supine-wrist .first:before { content: "\\E11B"; }
+      .superman-supine-wrist .first:before { content: "\\E11F"; }
       .superman-supine-wrist .second:before { content: "\\E11C"; color: rgba(var(--ui-1), var(--opacity-4)) }
       .superman-prone-wrist .first:before { content: "\\E11D"; }
       .superman-prone-wrist .second:before { content: "\\E11E"; color: rgba(var(--ui-1), var(--opacity-4)) }
-      .superman-supine-elbow .first:before { content: "\\E11F"; }
+      .superman-supine-elbow .first:before { content: "\\E11B"; }
       .superman-supine-elbow .second:before { content: "\\E11C"; color: rgba(var(--ui-1), var(--opacity-4)) }
       .superman-prone-elbow .first:before { content: "\\E120"; }
       .superman-prone-elbow .second:before { content: "\\E11E"; color: rgba(var(--ui-1), var(--opacity-4)) }
@@ -639,10 +641,33 @@ class SHIcon extends PolymerElement {
       .table-removal .second:before { content: "\\E973";  color: rgba(var(--ui-1), var(--opacity-4)) }
       .mdt-ready .first:before { content: "\\E96D";}
       .mdt-ready .second:before { content: "\\E96E";  color: rgba(var(--ui-1), var(--opacity-4)) }
+      .kidneys .first:before { content: "\\E977";}
+      .kidneys .second:before { content: "\\E978";  color: rgba(var(--ui-1), var(--opacity-4)) }
+      .lung .first:before { content: "\\E97A";}
+      .lung .second:before { content: "\\E97B";  color: rgba(var(--ui-1), var(--opacity-4)) }
+      .light-funnel .first:before { content: "\\E986";}
+      .light-funnel .second:before { content: "\\E987";  color: rgba(var(--ui-1), var(--opacity-4)) }
+      .light-ring .first:before { content: "\\E988";}
+      .light-ring .second:before { content: "\\E989";  color: rgba(var(--ui-1), var(--opacity-4)) }
+      .rt-laser-switch .first:before { content: "\\E98B";}
+      .rt-laser-switch .second:before { content: "\\E98A";  color: rgba(var(--ui-1), var(--opacity-4)) }
+      .rt-laser-zero .first:before { content: "\\E991"; color: #009A38 }
+      .rt-laser-zero .second:before { content: "\\E992"; color: #ffffff  }
+      .rt-laser-not-zero .first:before { content: "\\E993"; color: #FFD200 }
+      .rt-laser-not-zero .second:before { content: "\\E994"; color: #000000  }
+      .show-laser-crosshair .first:before { content: "\\E99A";}
+      .show-laser-crosshair .second:before { content: "\\E99B";  color: rgba(var(--ui-1), var(--opacity-4)) }
+      .user-position-left .first:before { content: "\\E99C";}
+      .user-position-left .second:before { content: "\\E99D";  color: rgba(var(--ui-1), var(--opacity-4)) }
+      .user-position-right .first:before { content: "\\E99E";}
+      .user-position-right .second:before { content: "\\E99F";  color: rgba(var(--ui-1), var(--opacity-4)) }
 
       .connection-quality-medium .first:before { content: "\\E93C"; }
       .connection-quality-medium .second:before { content: "\\E93B"; color: rgba(var(--ui-1), var(--opacity-3)) }
       .connection-quality-medium .third:before { content: "\\E93A";  color: rgba(var(--ui-1), var(--opacity-4))}
+      .feet-first-prone .first:before { content: "\\E10A"; }
+      .feet-first-prone .second:before { content: "\\E10E"; }
+      .feet-first-prone .third:before { content: "\\E921"; color: rgba(var(--ui-1), var(--opacity-4)) }
 
       .connection-quality-high .first:before { content: "\\E93C"; }
       .connection-quality-high .second:before { content: "\\E937";  color: rgba(var(--ui-1), var(--opacity-2))}
@@ -670,6 +695,19 @@ class SHIcon extends PolymerElement {
       .mdt-done .second:before { content: "\\E968"; }
       :host(:not([color])) .mdt-done .third:before { content: "\\E969"; color: rgba(var(--ui-1), 0) }
       :host([color]) .mdt-done .third:before { content: "\\E969"; color: #ffffff }
+
+      .trend-up .first:before { content: "\\E982";  }
+      :host(:not([color])) .trend-up .second:before { content: "\\E983"; color: rgba(var(--ui-1), 0) }
+      :host([color]) .trend-up .second:before { content: "\\E983"; color: #ffffff }
+
+      .trend-stable .first:before { content: "\\E981";  }
+      :host(:not([color])) .trend-stable .second:before { content: "\\E984"; color: rgba(var(--ui-1), 0) }
+      :host([color]) .trend-stable .second:before { content: "\\E984"; color: #000000 }
+
+      .trend-down .first:before { content: "\\E97F";  }
+      :host(:not([color])) .trend-down .second:before { content: "\\E980"; color: rgba(var(--ui-1), 0) }
+      :host([color]) .trend-down .second:before { content: "\\E980"; color: #ffffff }
+
     </style>
 
     <!--HTML-->
@@ -682,117 +720,112 @@ class SHIcon extends PolymerElement {
     </div>
     <div class="badge" badge$="[[badge]]">[[badge]]</div>
 `;
-  }
+    }
 
-  static get is() {
-    return 'sh-icon';
-  }
-  static get properties() {
-    return {
-      icon: {
-        type: String,
-        notify: true,
-        reflectToAttribute: true,
-        observer: 'updateIcon'
-      },
-      button: {
-        type: Boolean,
-        value: false
-      },
-      color: {
-        type: String,
-        reflectToAttribute: true,
-        notify: true,
-        observer: 'updateColor'
-      },
-      disabled: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-        notify: true
-      },
-      size: {
-        type: String,
-        value: 'm',
-        reflectToAttribute: true,
-        notify: true
-      },
-      href: {
-        type: String,
-        reflectToAttribute: true
-      },
-      badge: {
-        type: String,
-        value: undefined,
-        reflectToAttribute: true,
-        notify: true
-      }
-    };
-  }
-
-  clickActions(e) {
-    let self;
-    self = this;
-    if (self.disabled) {
-      e.stopImmediatePropagation();
+    static get is() {
+        return 'sh-icon';
     }
-    if (this.href !== undefined) {
-      window.location.href = this.href;
-    }
-  }
-  ready() {
-    super.ready();
-    this.updateIcon();
-    this.updateColor();
-    if (!Modernizr.hovermq) {
-      this.classList.add('no-hovermq');
-    }
-  }
-  addActiveClass() {
-    this.classList.add('active');
-  }
-  removeActiveClass() {
-    this.classList.remove('active');
-  }
-  connectedCallback() {
-    super.connectedCallback();
-    let self;
-    self = this;
-    this.addEventListener('focus', function () {
-      self.onkeyup = function (e) {
-        if (e.keyCode === 9) {
-          self.style.outline = '2px solid rgb(59, 153, 252)';
-          self.style.outlineOffset = '-2px';
+    static get properties() {
+        return {
+            icon: {
+                type: String,
+                notify: true,
+                reflectToAttribute: true,
+                observer: 'updateIcon'
+            },
+            button: {
+                type: Boolean,
+                value: false
+            },
+            color: {
+                type: String,
+                reflectToAttribute: true,
+                notify: true,
+                observer: 'updateColor'
+            },
+            disabled: {
+                type: Boolean,
+                value: false,
+                reflectToAttribute: true,
+                notify: true
+            },
+            size: {
+                type: String,
+                value: 'm',
+                reflectToAttribute: true,
+                notify: true
+            },
+            href: {
+                type: String,
+                reflectToAttribute: true
+            },
+            badge: {
+                type: String,
+                value: undefined,
+                reflectToAttribute: true,
+                notify: true
+            }
         }
+    }
 
-        if (e.keyCode === 13 || e.keyCode === 32) {
-          self.click();
+    ready() {
+        super.ready();
+        this.updateIcon();
+        this.updateColor();
+        if (!Modernizr.hovermq) {
+            this.classList.add('no-hovermq');
         }
-      };
-    });
-    this.addEventListener('blur', function () {
-      self.style.outline = '';
-      self.style.outlineOffset = '';
-    });
-    this.addEventListener("click", function (e) {
-      self.clickActions(e);
-    });
-    this.addEventListener('mousedown', function () {
-      self.addActiveClass();
-    });
-    this.addEventListener('mouseup', function () {
-      self.removeActiveClass();
-    });
-  }
-  updateIcon() {
-    if (this.icon && this.icon.indexOf('url') >= 0) {
-      this.shadowRoot.querySelector('.icon-wrapper').style.backgroundImage = this.icon;
+        this.addEventListener("click", function(e) {
+            if (this.href !== undefined) {
+                window.location.href = this.href;
+            }
+            if(this.disabled){
+              e.stopImmediatePropagation();
+            }
+            
+        });
+        this.addEventListener('mousedown', function() {
+            this.addActiveClass();
+        })
+        this.addEventListener('mouseup', function() {
+            this.removeActiveClass();
+        })
+
     }
-  }
-  updateColor() {
-    if (this.color !== undefined) {
-      this.style.color = this.color;
+    addActiveClass() {
+        this.classList.add('active');
     }
-  }
+    removeActiveClass() {
+        this.classList.remove('active');
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        this.addEventListener('focus', function(e) {
+            this.onkeyup = function(e) {
+                if (e.keyCode == 9) {
+                    this.style.outline = '2px solid rgb(59, 153, 252)';
+                    this.style.outlineOffset = '-2px';
+                }
+
+                if (e.keyCode === 13 || e.keyCode === 32) {
+                    this.click();
+                }
+            }
+        })
+        this.addEventListener('blur', function(e) {
+            this.style.outline = '';
+            this.style.outlineOffset = '';
+        })
+    }
+    updateIcon() {
+        if (this.icon && this.icon.indexOf('url') >= 0) {
+            this.shadowRoot.querySelector('.icon-wrapper').style.backgroundImage = this.icon;
+        }
+    }
+    updateColor() {
+        if (this.color !== undefined) {
+            this.style.color = this.color;
+        }
+    }
 }
 window.customElements.define(SHIcon.is, SHIcon);

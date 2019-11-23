@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <link rel="stylesheet" href="../src/shui-styles.css">
+    <title>sh-table-test</title>
+    <script type="module" src="../src/sh-icon.js"></script>
+    <script type="module" src="../src/sh-input-number.js"></script>
+    <script type="module" src="../src/sh-page.js"></script>
+    <script type="module" src="../src/sh-table.js"></script>
+    <script type="module" src="../src/sh-table-cell.js"></script>
+    <script type="module" src="../src/sh-table-head.js"></script>
+    <script type="module" src="../src/sh-table-row.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+</head>
+
+<body>
+
+    <test-fixture id="normalTable">
+        <template>
+            <sh-page id="page">
+                <sh-table>
+                    <!-- a table row can be placed in the 'header' slot of the table -->
+                    <sh-table-row slot="header">
+                        <!-- table-heads are used inside header rows -->
+                        <sh-table-head columns="12">Header A</sh-table-head>
+                        <sh-table-head columns="6">Header B</sh-table-head>
+                        <sh-table-head columns="6">Header C</sh-table-head>
+                        <sh-table-head icon>
+                            <sh-icon button icon=""></sh-icon>
+                        </sh-table-head>
+                    </sh-table-row>
+                    <sh-table-row active>
+                        <!-- use 'columns', 'col-m' and 'col-s' for defining the span of a cell for diffferent breakpoints -->
+                        <sh-table-cell columns="12">Cell 1A</sh-table-cell>
+                        <sh-table-cell columns="6">Cell 1B</sh-table-cell>
+                        <sh-table-cell columns="6">Cell 1C</sh-table-cell>
+                        <sh-table-cell icon>
+                            <sh-icon button icon="more"></sh-icon>
+                        </sh-table-cell>
+                    </sh-table-row>
+                    <sh-table-row>
+                        <!-- use 'columns', 'col-m' and 'col-s' for defining the span of a cell for diffferent breakpoints -->
+                        <sh-table-cell columns="12">Cell 1A</sh-table-cell>
+                        <sh-table-cell columns="6">Cell 1B</sh-table-cell>
+                        <sh-table-cell columns="6">Cell 1C</sh-table-cell>
+                        <sh-table-cell icon>
+                            <sh-icon button icon="more"></sh-icon>
+                        </sh-table-cell>
+                    </sh-table-row>
+                    <!-- rows can be repeated using your app's framework templating syntax -->
+                    ...
+                </sh-table>
+            </sh-page>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="frozenTable">
+        <template>
+            <sh-page id="page">
+                <sh-table freeze>
+                    <!-- a table row can be placed in the 'header' slot of the table -->
+                    <sh-table-row slot="header">
+                        <!-- table-heads are used inside header rows -->
+                        <sh-table-head columns="12" slot="frozen-left">Header A</sh-table-head>
+                        <sh-table-head columns="6" slot="scrollable">Header B</sh-table-head>
+                        <sh-table-head columns="6" slot="scrollable">Header C</sh-table-head>
+                        <sh-table-head icon slot="frozen-right">
+                            <sh-icon button icon=""></sh-icon>
+                        </sh-table-head>
+                    </sh-table-row>
+                    <sh-table-row active>
+                        <!-- use 'columns', 'col-m' and 'col-s' for defining the span of a cell for diffferent breakpoints -->
+                        <sh-table-cell columns="12" slot="frozen-left">Cell 1A</sh-table-cell>
+                        <sh-table-cell columns="6" slot="scrollable">Cell 1B</sh-table-cell>
+                        <sh-table-cell columns="6" slot="scrollable">Cell 1C</sh-table-cell>
+                        <sh-table-cell icon slot="frozen-right">
+                            <sh-icon button icon="more"></sh-icon>
+                        </sh-table-cell>
+                    </sh-table-row>
+                    <sh-table-row>
+                        <!-- use 'columns', 'col-m' and 'col-s' for defining the span of a cell for diffferent breakpoints -->
+                        <sh-table-cell columns="12" slot="frozen-left">Cell 1A</sh-table-cell>
+                        <sh-table-cell columns="6" slot="scrollable">Cell 1B</sh-table-cell>
+                        <sh-table-cell columns="6" slot="scrollable">Cell 1C</sh-table-cell>
+                        <sh-table-cell icon slot="frozen-right">
+                            <sh-icon button icon="more"></sh-icon>
+                        </sh-table-cell>
+                    </sh-table-row>
+                    <!-- rows can be repeated using your app's framework templating syntax -->
+                    ...
+                </sh-table>
+            </sh-page>
+        </template>
+    </test-fixture>
+    </sh-page>
+
+    <script>
+        var html = document.querySelector('html');
+        suite('Modernizr removed', function () {
+            setup(function () {
+                Modernizr.hovermq = false;
+                tableRow = fixture('normalTable').children[0].children[0];
+            })
+            test('modernizr removed', function () {
+                let hasClass = tableRow.classList.contains('no-hovermq');
+                assert.equal(hasClass, true);
+            })
+        })
+        suite('Modernizr added', function () {
+            setup(function () {
+                Modernizr.hovermq = true;
+                tableRow = fixture('normalTable').children[0].children[0];
+            })
+            test('modernizr removed', function () {
+                let hasClass = tableRow.classList.contains('no-hovermq');
+                assert.equal(hasClass, false);
+            })
+        })
+        suite('normal table', function () {
+            let page, table, tableRow, tableHead, tableCell;
+            setup(function () {
+                page = fixture('normalTable');
+                table = page.children[0];
+                headTableRow = table.children[0];
+                normalTableRow1 = table.children[1];
+                normalTableRow2 = table.children[2]
+                tableHead1 = headTableRow.children[0];
+                tableHead2 = headTableRow.children[1];
+                tableHead3 = headTableRow.children[2];
+                tableHead4 = headTableRow.children[3];
+                tableCell = normalTableRow1.children[0];
+                tableHead1Wrapper = tableHead1.shadowRoot.querySelector('#headWrapper');
+            })
+            test('clicked event listener', function (done) {
+                flush(function () {
+                    normalRowWrapper = normalTableRow2.shadowRoot.querySelector('#wrapper');
+                    normalRowWrapper.click();
+                    assert.equal(normalTableRow1.getAttribute('active'), undefined);
+                    done();
+                })
+            })
+            test('condensedObserver for table row', function (done) {
+                table.condensed = true;
+                flush(function () {
+                    assert.equal(tableCell.condensed, true);
+                    done();
+                })
+            })
+            test('condensedObserver for table row', function (done) {
+                table.condensed = false;
+                flush(function () {
+                    assert.equal(tableCell.condensed, false);
+                    done();
+                })
+            })
+            test('sorted works on one table head', function (done) {
+                tableHead1.sorted = true;
+                flush(function () {
+                    assert.equal(tableHead1.sorted, true);
+                    done();
+                })
+            })
+            test('sorted works on two table head', function (done) {
+                tableHead1.sorted = true;
+                tableHead2.sorted = true;
+                flush(function () {
+                    assert.equal(tableHead1.sorted, false);
+                    done();
+                })
+            })
+            test('sorted works on three table head', function (done) {
+                tableHead1.sorted = true;
+                tableHead2.sorted = true;
+                tableHead3.sorted = true;
+                flush(function () {
+                    assert.equal(tableHead1.sorted, false);
+                    done();
+                })
+            })
+            test('sorted works on four table head', function (done) {
+                tableHead1.sorted = true;
+                tableHead2.sorted = true;
+                tableHead3.sorted = true;
+                tableHead4.sorted = true;
+                flush(function () {
+                    assert.equal(tableHead1.sorted, false);
+                    done();
+                })
+            })
+            test('sorted works on run time', function (done) {
+                tableHead1.sorted = true;
+                tableHead2.sorted = true;
+                setTimeout(() => {
+                    tableHead2.sorted = false;
+                    tableHead1.sorted = false;
+                    tableHead1.sorted = true;
+                    flush(function () {
+                        assert.equal(tableHead1.sorted, true);
+                        done();
+                    })
+                }, 2000);
+
+            })
+            test('toggle event fires', function (done) {
+                tableHead1.addEventListener('toggle', function () {
+                    tableHead1.randomAttribute = true;
+                })
+                tableHead1Wrapper.click();
+                flush(function () {
+                    assert.equal(tableHead1.randomAttribute, true);
+                    done();
+                })
+            })
+            test('focus event on table head and keycode 9', function (done) {
+                let focusEvent = new Event('focus');
+                tableHead1.dispatchEvent(focusEvent);
+                let keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 9, 'which': 9 });
+                tableHead1.dispatchEvent(keyupEvent);
+                flush(function () {
+                    assert.equal(tableHead1Wrapper.style.border, '2px solid rgb(59, 153, 252)');
+                    done();
+                })
+            })
+            test('focus event on table head and keycode 13', function (done) {
+                tableHead1.addEventListener('toggle', function () {
+                    tableHead1.randomAttribute = true;
+                })
+                let focusEvent = new Event('focus');
+                tableHead1.dispatchEvent(focusEvent);
+                let keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 13, 'which': 13 });
+                tableHead1.dispatchEvent(keyupEvent);
+                flush(function () {
+                    assert.equal(tableHead1.randomAttribute, true);
+                    done();
+                })
+            })
+            test('blur works on table head', function (done) {
+                let focusEvent = new Event('focus');
+                tableHead1.dispatchEvent(focusEvent);
+                let keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 9, 'which': 9 });
+                tableHead1.dispatchEvent(keyupEvent);
+                let blurEvent = new Event('blur');
+                tableHead1.dispatchEvent(blurEvent);
+                flush(function () {
+                    assert.equal(tableHead1Wrapper.style.border, '');
+                    done();
+                })
+            })
+            test('window resizer event listener', function (done) {
+                let windowResize = new Event('resize');
+                window.dispatchEvent(windowResize);
+                assert.equal(table.shadowRoot.querySelector('.floating-scrollbar').style.left, table.children[0].shadowRoot.querySelector('.frozen-left').getBoundingClientRect().width + 'px');
+                done();
+            })
+        })
+        suite('frozen table', function () {
+            let page, table, tableRow, tableHead, tableCell;
+            setup(function (done) {
+                page = fixture('frozenTable');
+                table = page.children[0];
+                flush(function () {
+                    headTableRow = table.children[0];
+                    normalTableRow1 = table.children[1];
+                    normalTableRow2 = table.children[2]
+                    tableHead = headTableRow.children[0];
+                    tableCell1 = normalTableRow1.children[0];
+                    tableCell2 = normalTableRow1.children[1];
+                    tableCell3 = normalTableRow1.children[2];
+                    tableCell4 = normalTableRow1.children[3];
+                    done();
+                })
+            })
+            test('lwidth observer', function (done) {
+                table.lwidth = "10%";
+                table.rwidth = "10%";
+                table.mwidth = "80%";
+                flush(function () {
+                    setTimeout(() => {
+                        assert.equal(normalTableRow1.lwidth, '10%');
+                        done();
+                    }, 3000);
+
+                })
+            })
+            test('mwidth observer', function (done) {
+                table.lwidth = "10%";
+                table.rwidth = "10%";
+                table.mwidth = "80%";
+                flush(function () {
+                    setTimeout(() => {
+                        assert.equal(normalTableRow1.mwidth, '80%');
+                        done();
+                    }, 3000);
+
+                })
+            })
+            test('rwidth observer', function (done) {
+                table.lwidth = "10%";
+                table.rwidth = "10%";
+                table.mwidth = "80%";
+                flush(function () {
+                    setTimeout(() => {
+                        assert.equal(normalTableRow1.rwidth, '10%');
+                        done();
+                    }, 3000);
+
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>

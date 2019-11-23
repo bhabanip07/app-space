@@ -15,7 +15,7 @@ class SHWorkline extends PolymerElement {
       :host {
         display: flex;
         flex-direction: column;
-        overflow: auto;
+        overflow: visible;
       }
       .workline-wrapper {
         height: 80px;

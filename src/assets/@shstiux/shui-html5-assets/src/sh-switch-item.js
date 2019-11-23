@@ -30,7 +30,7 @@ class SHSwitchItem extends PolymerElement {
       }
       
       :host .label {
-        width: inherit;
+        width: 64px;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
@@ -57,7 +57,7 @@ class SHSwitchItem extends PolymerElement {
 
       :host([icon]) .switch-icon {
         display: flex;
-        margin: 4px auto;
+        margin: 4px 28px;
         color: rgba(var(--ui-1), var(--opacity-3));
       }
 

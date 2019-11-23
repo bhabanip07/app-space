@@ -4,33 +4,34 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
-
-    <title>sh-checkbox-test</title>
+    <title>sh-popover-test</title>
     <script type="module" src="../src/sh-icon.js"></script>
     <script type="module" src="../src/sh-page.js"></script>
     <script type="module" src="../src/sh-menu-item.js"></script>
     <script type="module" src="../src/sh-popover.js"></script>
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="test-styles.css">
 </head>
+
 <body>
     <test-fixture id="SHPopover">
         <template>
             <sh-page style="width: 400px; height: 800px">
                 <sh-icon icon='delete' id="target-1" slot="functions"></sh-icon>
-            <sh-popover target="target-1" visible position="top-left">
-                <sh-menu-item role="listitem" value tabindex="0" label="Export to PNG"></sh-menu-item>
-                <sh-menu-item role="listitem" value tabindex="0" label="Export to PDF" id="target-2">
+                <sh-popover target="target-1" visible position="top-left">
+                    <sh-menu-item role="listitem" value tabindex="0" label="Export to PNG"></sh-menu-item>
+                    <sh-menu-item role="listitem" value tabindex="0" label="Export to PDF" id="target-2">
                         <sh-icon button icon="right-s" size="s" slot="functions" class></sh-icon>
-                </sh-menu-item>
-            </sh-popover>
+                    </sh-menu-item>
+                </sh-popover>
 
-            <!-- nested popover -->
-            <sh-popover sub-menu target="target-2" position="left-up">
-                <sh-menu-item label="Exam Designer"></sh-menu-item>
-                <sh-menu-item label="Calibration"></sh-menu-item>
-            </sh-popover>
-        </sh-page>
+                <!-- nested popover -->
+                <sh-popover sub-menu target="target-2" position="left-up">
+                    <sh-menu-item label="Exam Designer"></sh-menu-item>
+                    <sh-menu-item label="Calibration"></sh-menu-item>
+                </sh-popover>
+            </sh-page>
         </template>
     </test-fixture>
 
@@ -40,36 +41,103 @@
                 page = fixture('SHPopover');
                 popover = page.children[1];
                 targetE1 = page.children[0];
+                nestedPopover = page.children[2];
                 popover.classList.add('testing');
                 actionItem = popover.children[0];
                 actionItem.classList.add('testing');
                 actionItemWrapper = actionItem.shadowRoot.querySelector(".menu-item-wrapper");
                 actionItemLabel = actionItem.shadowRoot.querySelector(".menu-item-label");
             });
-            test('Label', function(){
+            test('Label', function () {
                 popover.label = "Popover";
                 assert.equal(popover.shadowRoot.querySelector('.popover-label').innerText, "Popover");
             })
 
-            test('KeyUp Event', function(){
-                popover.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':32}));
+            test('KeyUp Event', function () {
+                popover.dispatchEvent(new KeyboardEvent('keyup', { 'keyCode': 32 }));
 
                 assert.equal(popover.visible, false);
             })
 
-            test('TargetChanged method', function(){
+            test('TargetChanged method', function () {
                 targetE1.click();
                 assert.equal(popover.visible, false);
             })
 
-            test('Has target and Sub-Menu', function(){
-                popover.visible = false;
-                var event = new Event('mouseover');
-                targetE1.dispatchEvent(event);
-                popover.dispatchEvent(event);
-                assert.equal(popover.visible, true);
+            test('Has target and Sub-Menu', function (done) {
+                flush(function () {
+                    popover.visible = false;
+                    var event = new Event('click');
+                    targetE1.dispatchEvent(event);
+                    let subMenuTarget = popover.querySelectorAll('sh-menu-item')[1];
+                    event = new Event('mouseover');
+                    subMenuTarget.dispatchEvent(event);
+                    assert.equal(nestedPopover.visible, true);
+                    done();
+                })
+            })
+
+            test('Position of Popover : top', function () {
+                popover.position = 'top';
+                popover._show();
+                assert.equal(popover.position, 'top');
+            })
+
+            test('Position of Popover : top-right', function () {
+                popover.position = 'top-right';
+                popover._show();
+                assert.equal(popover.position, 'top-right');
+            })
+
+            test('Position of Popover : bottom', function () {
+                popover.position = 'bottom';
+                popover._show();
+                assert.equal(popover.position, 'bottom');
+            })
+
+            test('Position of Popover : bottom-left', function () {
+                popover.position = 'bottom-left';
+                popover._show();
+                assert.equal(popover.position, 'bottom-left');
+            })
+
+            test('Position of Popover : bottom-right', function () {
+                popover.position = 'bottom-right';
+                popover._show();
+                assert.equal(popover.position, 'bottom-right');
+            })
+
+            test('Position of Popover : left', function () {
+                popover.position = 'left';
+                popover._show();
+                assert.equal(popover.position, 'left');
+            })
+
+            test('Position of Popover : left-down', function () {
+                popover.position = 'left-down';
+                popover._show();
+                assert.equal(popover.position, 'left-down');
+            })
+            
+            test('Position of Popover : right', function () {
+                popover.position = 'right';
+                popover._show();
+                assert.equal(popover.position, 'right');
+            })
+
+            test('Position of Popover : right-down', function () {
+                popover.position = 'right-down';
+                popover._show();
+                assert.equal(popover.position, 'right-down');
+            })
+
+            test('Position of Popover : right-up', function () {
+                popover.position = 'right-up';
+                popover._show();
+                assert.equal(popover.position, 'right-up');
             })
         })
     </script>
 </body>
+
 </html>

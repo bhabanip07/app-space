@@ -26,6 +26,10 @@
             test('Badge Label', function(){
                 assert.equal(badge.label,"23","Test label");
             })
+            test('Badge Label greater than 1000', function(){
+                badge.label = '1000';
+                assert.equal(badge.label,"999+");
+            })
         })
     </Script>
 </body>

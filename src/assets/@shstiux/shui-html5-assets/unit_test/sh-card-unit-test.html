@@ -29,9 +29,7 @@
                 setup(function(){
                     simpleCard = fixture('SimpleSHCard');       
                     simpleCard.label='Enter Patient Data';
-                    
                     imageCard = fixture('ImageSHCard');
-                    //imageCard.image="Scanner.png";
                 })
                 test('Test Label', function(){
                     assert.equal(simpleCard.label, 'Enter Patient Data', "Testing Label");
@@ -49,16 +47,7 @@
                     test('Test Label', function(){
                         assert.equal(simpleCard.emptyLabel, true, "Testing undefined Label");
                     })
-                })
 
-                suite('Card : Undefined Image', function(){
-                    setup(function(){
-                        imageCard.image = undefined;
-                    })
-
-                    test('Image test', function(){
-                        assert.equal(imageCard.hasImage, false, "Empty Image");
-                    })
                 })
             })
         </script>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-checkbox-test</title>
+    <script type="module" src="../src/sh-toggle.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+</head>
+
+<body>
+    <test-fixture id="SHToggle">
+        <template>
+            <sh-toggle></sh-toggle>
+        </template>
+    </test-fixture>
+    <script>
+        var page = document.querySelector('html');
+        var toggle, toggleTrack;
+        suite('sh-toggle', function () {
+            setup(function () {
+                toggle = fixture('SHToggle');
+                toggleLabel = toggle.shadowRoot.querySelector('.toggle-label');
+                toggle.classList.add('testing');
+                toggleTrack = toggle.shadowRoot.querySelector('.toggle');
+                toggle.label = "Toggle";
+            })
+
+            test('Toggle Label', function(){
+                assert.equal(toggleLabel.innerText, "Toggle");
+            })
+
+            test('Click Event', function(){
+                var event = new Event('click');
+                toggle.dispatchEvent(event);
+                
+                assert.equal(toggle.active, true);
+            })
+
+            test('Focus Event', function(){
+                var event = new Event('focus');
+                toggle.dispatchEvent(event);
+                toggle.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':9}));
+                
+                assert.equal(toggleTrack.style.outline,'rgb(59, 153, 252) solid 2px');
+                assert.equal(toggleTrack.style.outlineOffset,'-2px');
+            })
+
+            test('Blur Event', function(){
+                var event = new Event('blur');
+                toggle.dispatchEvent(event);
+
+                assert.equal(toggleTrack.style.outline,'');
+                assert.equal(toggleTrack.style.outlineOffset,'');
+            })
+        })
+    </script>
+</body>
+
+</html>

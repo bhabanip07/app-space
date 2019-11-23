@@ -404,6 +404,10 @@ class SHInputText extends PolymerElement {
         display: flex;
         flex: 1
       }
+      :host([no-border]) input,
+      :host([textarea][no-border]) .content-wrapper {
+        border-bottom: none;
+      }
     </style>
 
     <!--HTML-->
@@ -547,6 +551,12 @@ class SHInputText extends PolymerElement {
       title: {
         type: String, 
         value: '', 
+        reflectToAttribute: true,
+        notify: true
+      },
+      noBorder: {
+        type: Boolean,
+        value: false,
         reflectToAttribute: true,
         notify: true
       }

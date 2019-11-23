@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-checkbox-test</title>
+    <script type="module"src="../src/sh-tabs.js"></script>
+    <script type="module"src="../src/sh-tab-item.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+
+    <body>
+        <test-fixture id= "SHTabs">
+            <template>
+                <sh-tabs>
+                    <sh-tab-item label="Tab 1" active></sh-tab-item>
+                    <sh-tab-item label="Tab 2"></sh-tab-item>
+                    <sh-tab-item label="Tab 3"></sh-tab-item>
+                    <sh-tab-item label="Tab 4" disabled></sh-tab-item>
+                  </sh-tabs>
+            </template>
+        </test-fixture>
+        <test-fixture id= "SHPatientTabs">
+            <template>
+                <sh-tabs slot="tabs">
+                    <sh-tab-item icon="patient-browser" name="Patient Browser"></sh-tab-item>
+                    <sh-tab-item patient label="John Doe" info="Coronary CTA" active></sh-tab-item>
+                    <sh-tab-item patient label="Christopher Henderson" info="Head CT Routine"></sh-tab-item>
+                    <sh-tab-item patient label="Mary Travers" info="Abdomen Angiography" disabled></sh-tab-item>
+                  </sh-tabs>
+            </template>
+        </test-fixture>
+    </body>
+
+    <script>
+        suite('Tabs Component', function(){
+            var tabs, tabItem;
+            setup(function(){
+                tabs = fixture("SHTabs"); 
+                tabItem = tabs.querySelectorAll('sh-tab-item')[0];
+            })
+            test('check for accessContext property for tab item', function(){
+               tabs.accessContext = true;
+               assert.equal(tabItem.accessContext,true);
+            })
+            test('check for navContext property for tab item', function(){
+               tabs.navContext = true;
+               assert.equal(tabItem.navContext,true);
+            })
+            test('check for footerContext property for tab item', function(){
+               tabs.navContext = true;
+               assert.equal(tabItem.footerContext,true);
+            })
+            test('check for collapsed property for tab item', function(){
+               tabs.collapsed = true;
+               assert.equal(tabItem.collapsed,true);
+            })
+            test('Check on click of collapsed tabs', function(done){
+               tabs.collapsed = true;
+               collapsedInput = tabs.shadowRoot.querySelector('.collapsed-input');
+               flush(function() {
+                    collapsedInput.click();
+                    assert.equal(tabs.active,true);
+                    done();
+               })
+            })
+            test('Check on click of collapsed tabs to hide tabs', function(done){
+               tabs.collapsed = true;
+               collapsedInput = tabs.shadowRoot.querySelector('.collapsed-input');
+               flush(function() {
+                    collapsedInput.click();
+                    collapsedInput.click();
+                    assert.equal(tabs.active,false);
+                    done();
+               })
+            })
+            test('check whether tab item highlights on pressing space', function(){
+                tabItem.focus();
+                tabItem.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':32}));
+                assert.equal(tabItem.active,true);
+            })
+            test('check whether tab item gets border on tabbing', function(){
+                tabItem.focus();
+                flush(function() {
+                    tabItem.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':9}));
+                    assert.equal(tabItem.style.borderLeft,'2px solid rgb(59, 153, 252)');
+                    done();
+                })
+            })
+        })
+
+        suite('Patient tabs', function(){
+            var tabPatient, tabItem;
+            setup(function(){
+                tabPatient = fixture("SHPatientTabs");
+                tabPatientItem = tabPatient.querySelectorAll('sh-tab-item')[1];      
+            })
+            test('check for tabs label and info on click', function(){
+                flush(function() {
+                    tabPatientItem.click();
+                    assert.equal(tabPatient.label, 'John Doe');
+                    assert.equal(tabPatient.info, 'Coronary CTA');
+                    assert.equal(tabPatient.icon, 'patient');
+                    done();
+            })
+        })
+    })
+    </script>
+</html>

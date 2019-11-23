@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-card-test</title>
+    <script type="module"src="../src/sh-button.js"></script>
+    <script type="module"src="../src/sh-card.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    </head>
+    <body>
+        <test-fixture id="SimpleSHCard">
+            <template>
+                <sh-card card-height='320px'>Hello
+                </sh-card>                           
+            </template>
+        </test-fixture>
+        <test-fixture id="ImageSHCard">
+            <template>
+                <sh-card label='Enter Patient Data' card-height='320px' image="Scanner.png">
+                    <sh-button slot='footer' color='secondary' label='Button'></sh-button>
+                </sh-card>
+            </template>
+        </test-fixture>
+
+        <script>
+            suite('Card',function(){
+                setup(function(){
+                    simpleCard = fixture('SimpleSHCard');       
+                    simpleCard.label='Enter Patient Data';
+                    
+                    imageCard = fixture('ImageSHCard');
+                    //imageCard.image="Scanner.png";
+                })
+                test('Test Label', function(){
+                    assert.equal(simpleCard.label, 'Enter Patient Data', "Testing Label");
+                })
+
+                test('Test Image', function(){
+                    assert.equal(imageCard.hasImage, true, "Card has image");
+                })
+
+
+                suite('Card : Undefined Label', function(){
+                    setup(function(){
+                        simpleCard.label = undefined;
+                    })
+                    test('Test Label', function(){
+                        assert.equal(simpleCard.emptyLabel, true, "Testing undefined Label");
+                    })
+                })
+
+                suite('Card : Undefined Image', function(){
+                    setup(function(){
+                        imageCard.image = undefined;
+                    })
+
+                    test('Image test', function(){
+                        assert.equal(imageCard.hasImage, false, "Empty Image");
+                    })
+                })
+            })
+        </script>
+    </body>

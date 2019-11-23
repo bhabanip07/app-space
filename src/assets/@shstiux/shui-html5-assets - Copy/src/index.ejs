@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
+  <title>SHUI Component Sandbox</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript">
+      var webcomponentsjsBase = "./node_modules/@webcomponents/webcomponentsjs/";
+  </script>
+  <script src="./shui.js"></script>
+  <link rel="stylesheet" type="text/css" href="./shui-styles.css">
+</head>
+
+<body>
+
+  <sh-notifications>
+    <sh-notification-item duration="long" visible label="Confirmation Notification" type="confirmation" message="This is the notification text.">
+      <sh-button slot="footer" label="Button 2"></sh-button>
+      <sh-button slot="footer" color="secondary" label="Button 1"></sh-button>
+    </sh-notification-item>
+  </sh-notifications>
+  
+  <!-- user menu -->
+  <sh-popover target="popover-target" label="Test" position="bottom">
+    <sh-icon slot="functions" icon="delete" size="s"></sh-icon>
+    <sh-menu-item></sh-menu-item>
+    <sh-menu-item id="popover-target2">
+      <sh-icon slot="functions" icon="right-s" size="s"></sh-icon>
+    </sh-menu-item>
+    <sh-icon icon="save" slot="footer"></sh-icon>
+    <sh-icon icon="save" slot="footer"></sh-icon>
+  </sh-popover>  
+  <!-- sub-menu -->
+  <sh-popover target="popover-target2" position="left-up" sub-menu>
+      <sh-menu-item></sh-menu-item>
+      <sh-menu-item></sh-menu-item>
+      <sh-menu-item></sh-menu-item>
+    </sh-popover>
+
+  <sh-page theme="dark" id="page">
+    <!-- access bar -->
+    <sh-access-bar slot="access" label="Product Name">
+      <sh-icon button icon="help" slot="functions" badge onclick="document.getElementById('page').setAttribute('theme','dark')"></sh-icon>
+      <sh-icon button icon="settings" slot="functions" badge="10" onclick="document.getElementById('page').setAttribute('theme','light')"></sh-icon>
+      <sh-user-identifier name="User Name" info="User Info" slot="user" id="popover-target"></sh-user-identifier>
+      <sh-tabs slot="tabs">
+        <sh-tab-item icon="patient-browser" name="Patient Browser"></sh-tab-item>
+        <sh-tab-item patient label="Active Patient" info="Active Patient Info" active></sh-tab-item>
+        <sh-tab-item patient label="Idle Patient" info="Idle Patient Info">
+          <sh-icon icon="hide" button slot="functions" onclick="alert('Tab 2 Icon')"></sh-icon>
+        </sh-tab-item>
+        <sh-tab-item patient label="Disabled Patient" info="Disabled Patient Info" disabled></sh-tab-item>
+      </sh-tabs>
+      <sh-icon button icon="menu" slot="left"></sh-icon>
+      <sh-icon button icon="more" slot="right"></sh-icon>
+    </sh-access-bar>
+    <!-- nav bar -->
+    <sh-nav-bar slot='nav'>
+      <!-- tabs -->
+      <sh-tabs>
+        <sh-tab-item label="Active" active></sh-tab-item>
+        <sh-tab-item label="Idle"></sh-tab-item>
+        <sh-tab-item label="Disabled" disabled></sh-tab-item>
+      </sh-tabs>
+    </sh-nav-bar>
+    <!-- left pane -->
+    <sh-pane slot="left" label="Selectors">
+      <!-- selectors -->
+      <sh-accordion label="Checkbox" expanded>
+        <sh-checkbox label='Neutral Active' active neutral></sh-checkbox>
+        <sh-checkbox label='Active' active></sh-checkbox>
+        <sh-checkbox label='Idle'></sh-checkbox>
+        <sh-checkbox label='Neutral Active Disabled' neutral active disabled></sh-checkbox>
+        <sh-checkbox label='Active Disabled' active disabled></sh-checkbox>
+        <sh-checkbox label='Idle Disabled' disabled></sh-checkbox>
+      </sh-accordion>
+      <sh-accordion label="Radio Button" expanded>
+        <sh-text title-1>Radio Group</sh-text>
+        <sh-radio-group>
+          <sh-radio-button label="Active" active></sh-radio-button>
+          <sh-radio-button label="Idle"></sh-radio-button>
+          <sh-radio-button label="Disabled" disabled></sh-radio-button>
+        </sh-radio-group>
+        <sh-divider></sh-divider>
+        <sh-text title-1>Neutral Radio Group</sh-text>
+        <sh-radio-group>
+          <sh-radio-button label="Neutral Active" neutral active></sh-radio-button>
+          <sh-radio-button label="Neutral Idle" neutral></sh-radio-button>
+          <sh-radio-button label="Neutral Disabled" neutral disabled></sh-radio-button>
+        </sh-radio-group>
+      </sh-accordion>
+      <sh-accordion label="Toggle" expanded>
+        <sh-toggle label='Active' active></sh-toggle>
+        <sh-toggle label='Neutral Active' active neutral></sh-toggle>
+        <sh-toggle label='Idle'></sh-toggle>
+        <sh-toggle label='Neutral Active Disabled' neutral active disabled></sh-toggle>
+        <sh-toggle label='Active Disabled' active disabled></sh-toggle>
+        <sh-toggle label='Idle Disabled' disabled></sh-toggle>
+      </sh-accordion>
+      <!-- buttons -->
+      <sh-accordion label="Buttons" expanded>
+        <sh-button label="Primary"></sh-button>
+        <sh-button label="Disabled" disabled></sh-button>
+        <sh-button label="Secondary" color="secondary"></sh-button>
+        <sh-button label="Disabled" color="secondary" disabled></sh-button>
+        <sh-button label="Tertiary" color="tertiary"></sh-button>
+        <sh-button label="Disabled" color="tertiary" disabled></sh-button>
+        <sh-button label="Pill-M" shape="pill-m"></sh-button>
+        <sh-button label="Pill-L" shape="pill-l"></sh-button>
+        <sh-button label="Primary" tooltip="top" icon="help" shape="circle"></sh-button>
+        <sh-button label="Disabled" tooltip="top" icon="help" shape="circle" disabled></sh-button>
+        <sh-button label="Secondary" tooltip="right" icon="help" shape="circle" color="secondary"></sh-button>
+        <sh-button label="Disabled" tooltip="right" icon="help" shape="circle" color="secondary" disabled></sh-button>
+        <sh-button label="Tertiary" tooltip="bottom" icon="help" shape="circle" color="tertiary"></sh-button>
+        <sh-button label="Disabled" tooltip="bottom" icon="help" shape="circle" color="tertiary" disabled></sh-button>
+      </sh-accordion>
+      <!-- switch -->
+      <sh-accordion label="Switch" expanded>
+        <sh-switch disabled>
+          <sh-switch-item label="Item 1" active></sh-switch-item>
+          <sh-switch-item label="Item 2"></sh-switch-item>
+          <sh-switch-item label="Item 3"></sh-switch-item>
+        </sh-switch>
+        <sh-switch>
+          <sh-switch-item icon="layout-2x1" active></sh-switch-item>
+          <sh-switch-item icon="layout-2x2"></sh-switch-item>
+          <sh-switch-item icon="layout-4x4" disabled></sh-switch-item>
+        </sh-switch>
+        <sh-switch stretch>
+          <sh-switch-item icon="layout-2x1" active></sh-switch-item>
+          <sh-switch-item icon="layout-2x2"></sh-switch-item>
+          <sh-switch-item icon="layout-3x2"></sh-switch-item>
+          <sh-switch-item icon="layout-4x4"></sh-switch-item>
+        </sh-switch>
+      </sh-accordion>
+      <!-- toggle drawers -->
+      <sh-button shape="circle" color="secondary" icon="arrow-right-s" label="Left Drawer" tooltip="top" slot="footer" onclick="toggleDrawerLeft()"></sh-button>
+      <sh-button shape="circle" color="secondary" icon="arrow-left-s" label="Right Drawer" tooltip="top" slot="footer" onclick="toggleDrawerRight()"></sh-button>
+      <sh-button shape="circle" color="secondary" icon="arrow-down-s" label="Top Drawer" tooltip="top" slot="footer" onclick="toggleDrawerTop()"></sh-button>
+      <sh-button shape="circle" color="secondary" icon="arrow-up-s" label="Bottom Drawer" tooltip="top" slot="footer" onclick="toggleDrawerBottom()"></sh-button>
+    </sh-pane>
+    <!-- right pane -->
+    <sh-pane slot="right" label="Inputs">
+      <!-- progress bar -->
+      <sh-accordion label="Progress Bar">
+        <sh-progress value="67" label="67%"></sh-progress>
+        <sh-divider></sh-divider>
+        <sh-progress paused value="67" header="Error" type="error" info="Error message"></sh-progress>
+        <sh-divider></sh-divider>
+        <sh-progress value="67" header="Warning" type="warning" info="Warning message"></sh-progress>
+        <sh-divider></sh-divider>
+        <sh-progress value="100" header="Success" type="success" info="Success message"></sh-progress>
+        <sh-divider></sh-divider>
+        <sh-progress value="67" label="67%" info="Label and info"></sh-progress>
+        <sh-divider></sh-divider>
+        <sh-progress paused value="67" header="Paused" label="67%" info="Process paused">
+          <sh-icon size="xs" icon="play" button slot="functions"></sh-icon>
+        </sh-progress>
+        <sh-divider></sh-divider>
+        <sh-progress indeterminate header="Indeterminate" info="Processing files"></sh-progress>
+      </sh-accordion>
+      <!-- search -->
+      <sh-accordion label="Search" expanded>
+        <sh-search label="Search" id="multisearch" icon="save" multiline  fields='["firstname","lastname"]'>
+            <sh-empty-state slot="empty" icon="patient" label="No search results">
+        </sh-search>
+        <sh-search label="Search Body Part" search-array='["Abdomen","Head","Whole Body","Chest","Extremity"]'></sh-search>
+      </sh-accordion>
+      <!-- input-text -->
+      <sh-accordion label="Input Text" expanded>
+        <sh-input-text condensed label='Condensed'></sh-input-text>
+        <sh-input-text condensed label='Condensed' value='Lorem Ipsum'></sh-input-text>
+        <sh-input-text condensed label='Condensed Disabled' disabled></sh-input-text>
+        <sh-input-text condensed label='Condensed Readonly' readonly></sh-input-text>
+        <sh-input-text condensed label='Condensed Filled Readonly' value='Lorem Ipsum' readonly></sh-input-text>
+        <sh-input-text condensed label='Condensed Mandatory' mandatory></sh-input-text>
+        <sh-input-text condensed label='Condensed Safety' safety></sh-input-text>
+        <sh-input-text condensed label='Condensed Error' error error-message="This is an example of a very long input error message"></sh-input-text>
+        <sh-input-text condensed label='Condensed Success' success></sh-input-text>
+        <sh-input-text label='Empty'></sh-input-text>
+        <sh-input-text label='Filled' value='Lorem Ipsum'></sh-input-text>
+        <sh-input-text label='Empty Disabled' disabled></sh-input-text>
+        <sh-input-text label='Filled Disabled' value="Lorem Ipsum" disabled></sh-input-text>
+        <sh-input-text label='Empty Readonly' readonly></sh-input-text>
+        <sh-input-text label='Filled Readonly' value='Lorem Ipsum' readonly></sh-input-text>
+        <sh-input-text label='Password' type="password" value="Shui2019"></sh-input-text>
+        <sh-input-text label='Mandatory Empty' mandatory></sh-input-text>
+        <sh-input-text label='Mandatory Filled' value="Lorem Ipsum" mandatory></sh-input-text>
+        <sh-input-text label='Safety Empty' safety></sh-input-text>
+        <sh-input-text label='Safety Filled' value="Lorem Ipsum" safety></sh-input-text>
+        <sh-input-text label='Error Empty' error error-message="This is an example of a very long input error message"></sh-input-text>
+        <sh-input-text label='Error Filled' value="Lorem Ipsum" error error-message="This is an example of a very long input error message"></sh-input-text>
+        <sh-input-text label='Success Empty' success></sh-input-text>
+        <sh-input-text label='Success Filled' value="Lorem Ipsum" success></sh-input-text>
+        <sh-input-text label='Textarea Empty' textarea rows="3"></sh-input-text>
+        <sh-input-text label='Textarea Readonly Empty' textarea readonly rows="3"></sh-input-text>
+        <sh-input-text label='Textarea Filled' value="This is an example of content in a textarea." textarea rows="3"></sh-input-text>
+        <sh-input-text label='Textarea Readonly Filled' value="This is an example of content in a textarea." textarea readonly rows="3"></sh-input-text>
+      </sh-accordion>
+      <!-- input-number -->
+      <sh-accordion label="Input Number">
+        <sh-input-number label='Window Width'></sh-input-number>
+        <sh-input-number label='Window Width' value='0.5' step='0.5' max="40" min="-9"></sh-input-number>
+        <sh-input-number label='Window Width' value='320' readonly></sh-input-number>
+        <sh-input-number label='Window Width' disabled></sh-input-number>
+        <sh-input-number label='Window Width' error error-message="Lorem Ipsum"></sh-input-number>
+        <sh-divider></sh-divider>
+        <!-- search -->
+        <sh-search label="Idle" search-array='["Abdomen","Head","Whole Body","Chest","Extremity"]'></sh-search>
+        <sh-search label="Disabled" search-array='["Abdomen","Head","Whole Body","Chest","Extremity"]' disabled></sh-search>
+      </sh-accordion>
+      <!-- datepicker -->
+      <sh-accordion label="Datepicker">
+        <sh-datepicker label='Single Date'></sh-datepicker>
+        <sh-datepicker label='Date Range' range></sh-datepicker>
+        <sh-datepicker label='Disabled' disabled></sh-datepicker>
+      </sh-accordion>
+      <sh-accordion label="Dropdown">
+        <!-- timepicker -->
+        <sh-timepicker label='Scheduled Time'></sh-timepicker>
+        <sh-timepicker label='Scheduled Time' mandatory></sh-timepicker>
+        <sh-timepicker label='Scheduled Time' mini></sh-timepicker>
+        <sh-timepicker label='Scheduled Time' condensed></sh-timepicker>
+        <sh-timepicker label='Scheduled Time' h="03" m="03" s="04" am-pm="AM"></sh-timepicker>
+        <sh-timepicker label='Scheduled Time' h="03" m="03" s="00" am-pm="AM" step="10" mini></sh-timepicker>
+        <sh-timepicker label='Scheduled Time' h="06" m="04" s="04" am-pm="AM" error error-message="Lorem ipsum dolor sit amet"></sh-timepicker>
+        <sh-timepicker label='Scheduled Time' h="03" m="02" s="04" am-pm="AM" safety></sh-timepicker>
+        <sh-divider></sh-divider>
+        <!-- dropdown -->
+        <sh-dropdown label='Presets'>
+          <sh-menu-item label='Lung'></sh-menu-item>
+          <sh-menu-item label='Head'></sh-menu-item>
+          <sh-menu-item label='Bone'></sh-menu-item>
+        </sh-dropdown>
+        <sh-dropdown label='Presets' error>
+          <sh-menu-item label='Lung'></sh-menu-item>
+          <sh-menu-item label='Head'></sh-menu-item>
+          <sh-menu-item label='Bone' active></sh-menu-item>
+        </sh-dropdown>
+        <sh-dropdown label='Presets' safety mandatory>
+          <sh-menu-item label='Lung' value="lg"></sh-menu-item>
+          <sh-menu-item label='Head'></sh-menu-item>
+          <sh-menu-item label='Bone' active></sh-menu-item>
+        </sh-dropdown>
+        <sh-dropdown label='Position'>
+          <sh-menu-item label='Head First Supine' icon="head-first-supine"></sh-menu-item>
+          <sh-menu-item label='Head First Left Lateral' icon="head-first-left-lateral"></sh-menu-item>
+          <sh-menu-item label='Head First Right Lateral' icon="head-first-right-lateral"></sh-menu-item>
+          <sh-menu-item label='Head First Prone' icon="head-first-prone"></sh-menu-item>
+        </sh-dropdown>
+        <sh-dropdown label='Presets' disabled></sh-dropdown>
+        <sh-dropdown condensed label='Presets'>
+          <sh-menu-item label='Lung' value="lg"></sh-menu-item>
+          <sh-menu-item label='Head' value="hd"></sh-menu-item>
+          <sh-menu-item label='Bone' value="be"></sh-menu-item>
+        </sh-dropdown>
+      </sh-accordion>
+      <!-- tools -->
+      <sh-accordion label="Tools">
+        <sh-grid spacing="s" style="-ms-grid-columns: 1fr 1fr 1fr; grid-template-columns: 1fr 1fr 1fr;">
+          <sh-tool stretch label="Select" select style="-ms-grid-column: 1; -ms-grid-row: 1;">
+            <sh-menu-item label='3D Rotation' icon="rotate-3d"></sh-menu-item>
+            <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
+            <sh-menu-item label='Airways Analyse' icon="airways-analyse"></sh-menu-item>
+            <sh-menu-item label='Annotation' icon="edit"></sh-menu-item>
+            <sh-menu-item label='Marker' icon="marker"></sh-menu-item>
+            <sh-menu-item label='Zoom' icon="zoom"></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch label="Select" select style="-ms-grid-column: 2; -ms-grid-row: 1;">
+            <sh-menu-item label='3D Rotation' icon="rotate-3d"></sh-menu-item>
+            <sh-menu-item label='2D Rotation' icon="rotate-2d" active></sh-menu-item>
+            <sh-menu-item label='Airways Analyse' icon="airways-analyse"></sh-menu-item>
+            <sh-menu-item label='Annotation' icon="edit"></sh-menu-item>
+            <sh-menu-item label='Marker' icon="marker"></sh-menu-item>
+            <sh-menu-item label='Zoom' icon="zoom"></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch disabled label="Select" select style="-ms-grid-column: 3; -ms-grid-row: 1;">
+            <sh-menu-item label='3D Rotation' icon="rotate-3d"></sh-menu-item>
+            <sh-menu-item label='2D Rotation' icon="rotate-2d" active></sh-menu-item>
+            <sh-menu-item label='Airways Analyse' icon="airways-analyse"></sh-menu-item>
+            <sh-menu-item label='Annotation' icon="edit"></sh-menu-item>
+            <sh-menu-item label='Marker' icon="marker"></sh-menu-item>
+            <sh-menu-item label='Zoom' icon="zoom"></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch palette style="-ms-grid-column: 1; -ms-grid-row: 2;">
+            <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
+            <sh-menu-item label='Palette' icon="rotate-3d" active></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch toggle palette style="-ms-grid-column: 2; -ms-grid-row: 2;">
+            <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
+            <sh-menu-item label='Palette Toggle' icon="rotate-3d" active></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch disabled palette style="-ms-grid-column: 3; -ms-grid-row: 2;">
+            <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
+            <sh-menu-item label='3D Rotation' icon="rotate-3d" active></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch palette style="-ms-grid-column: 1; -ms-grid-row: 3;">
+            <sh-menu-item label='2D Rotation'></sh-menu-item>
+            <sh-menu-item label='Palette' active></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch toggle palette style="-ms-grid-column: 2; -ms-grid-row: 3;">
+            <sh-menu-item label='2D Rotation'></sh-menu-item>
+            <sh-menu-item label='Palette Toggle' active></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch disabled palette style="-ms-grid-column: 3; -ms-grid-row: 3;">
+            <sh-menu-item label='2D Rotation'></sh-menu-item>
+            <sh-menu-item label='3D Rotation' active></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch label="Button" icon="pan" style="-ms-grid-column: 1; -ms-grid-row: 4;"></sh-tool>
+          <sh-tool stretch label="Button" style="-ms-grid-column: 2; -ms-grid-row: 4;"></sh-tool>
+          <sh-tool stretch icon="pan" style="-ms-grid-column: 3; -ms-grid-row: 4;"></sh-tool>
+          <sh-tool stretch toggle label="Toggle" icon="edit" style="-ms-grid-column: 1; -ms-grid-row: 5;"></sh-tool>
+          <sh-tool stretch toggle label="Toggle" style="-ms-grid-column: 2; -ms-grid-row: 5;"></sh-tool>
+          <sh-tool stretch toggle icon="edit" style="-ms-grid-column: 3; -ms-grid-row: 5;"></sh-tool>
+          <sh-tool stretch condensed label="Button" style="-ms-grid-column: 1; -ms-grid-row: 6;"></sh-tool>
+          <sh-tool stretch condensed icon="pan" style="-ms-grid-column: 2; -ms-grid-row: 6;"></sh-tool>
+          <sh-tool stretch condensed label="Select" palette style="-ms-grid-column: 3; -ms-grid-row: 6;">
+            <sh-menu-item label='3D Rotation' icon="rotate-3d"></sh-menu-item>
+            <sh-menu-item label='2D Rotation' icon="rotate-2d" active></sh-menu-item>
+            <sh-menu-item label='Airways Analyse' icon="airways-analyse"></sh-menu-item>
+            <sh-menu-item label='Annotation' icon="edit"></sh-menu-item>
+            <sh-menu-item label='Marker' icon="marker"></sh-menu-item>
+            <sh-menu-item label='Zoom' icon="zoom"></sh-menu-item>
+          </sh-tool>
+        </sh-grid>
+      </sh-accordion>
+      <!-- menu-items -->
+      <sh-accordion label="Menu Items">
+        <sh-menu-item icon="chapter" label='Item 1'>
+          <sh-menu-item icon="page" label='Item 1.1'></sh-menu-item>
+          <sh-menu-item icon="page" label='Item 1.2'></sh-menu-item>
+          <sh-menu-item icon="page" label='Item 1.3'></sh-menu-item>
+          <sh-menu-item icon="page" label='Item 1.4'>
+            <sh-menu-item icon="page" label='Item 1.4.1'></sh-menu-item>
+            <sh-menu-item icon="page" label='Item 1.4.2'></sh-menu-item>
+            <sh-menu-item icon="page" label='Item 1.4.3'></sh-menu-item>
+          </sh-menu-item>
+        </sh-menu-item>
+        <sh-menu-item icon="chapter" label='Item 2'></sh-menu-item>
+        <sh-menu-item icon="chapter" label='Item 3'>
+          <sh-icon slot="functions" icon="save"></sh-icon>
+        </sh-menu-item>
+        <sh-menu-item icon="chapter" label='Item 4'>
+          <sh-menu-item icon="page" label='Item 4.1'></sh-menu-item>
+          <sh-menu-item icon="page" label='Item 4.2'></sh-menu-item>
+          <sh-menu-item icon="page" label='Item 4.3'></sh-menu-item>
+        </sh-menu-item>
+      </sh-accordion>
+      <!-- thumbnails -->
+      <sh-accordion label="Thumbnails" expanded>
+        <sh-grid style="grid-template-columns: 1fr 1fr">
+          <sh-thumbnail aspect-ratio="4/3" src="https://upload.wikimedia.org/wikipedia/commons/4/43/Aspect_ratio_4_3_example.jpg"></sh-thumbnail>
+          <sh-thumbnail aspect-ratio="1/1" number="201" label="T1 Cor"></sh-thumbnail>
+          <sh-thumbnail aspect-ratio="16/9" src="https://upload.wikimedia.org/wikipedia/commons/7/72/16x9_by_Pengo.svg" label="T1 Sag Dark Fluid Lorem Ipsum Dolor Sit" active focus></sh-thumbnail>
+          <sh-thumbnail src="https://upload.wikimedia.org/wikipedia/commons/7/72/16x9_by_Pengo.svg" label="T1 Cor" active></sh-thumbnail>
+          <sh-thumbnail label="T1 Sag Dark Fluid Lorem Ipsum Dolor Sit" ></sh-thumbnail>
+          <sh-thumbnail label="T1 Sag Dark Fluid Lorem Ipsum Dolor Sit" new selectable active number="502">
+            <sh-icon slot="icons" size="s" icon="export"></sh-icon>
+            <sh-icon slot="icons" size="s" icon="export"></sh-icon>
+            <sh-icon slot="icons" size="s" icon="export"></sh-icon>
+          </sh-thumbnail>
+          <sh-thumbnail label="T1 Cor" icon="image" selectable checked></sh-thumbnail>
+          <sh-thumbnail number="19" label="T1 Sag Dark Fluid Lorem Ipsum Dolor Sit">
+            <sh-menu-item label="Export"></sh-menu-item>
+            <sh-menu-item label="Download"></sh-menu-item>
+            <sh-menu-item label="Print"></sh-menu-item>
+            <sh-menu-item label="Delete"></sh-menu-item>
+          </sh-thumbnail>
+        </sh-grid>        
+      </sh-accordion>
+      <!-- typography -->
+      <sh-accordion label="Typography">
+        <sh-text size="super-header">Super Header</sh-text>
+        <sh-text size="header-1">Header 1</sh-text>
+        <sh-text size="header-2">Header 2</sh-text>
+        <sh-text size="title-1">Title 1</sh-text>
+        <sh-text size="title-2">Title 2</sh-text>
+        <sh-text size="body-1">Body 1</sh-text>
+        <sh-text size="body-2">Body 2</sh-text>
+        <sh-text size="body-2" color="primary" href="/link">Body 2 with link</sh-text>
+      </sh-accordion>
+      <sh-button label="Slider Demo" slot="footer" onclick="showSlider()" shape="pill-l" color="secondary"></sh-button>
+      <sh-button label="Modal" slot="footer" onclick="toggleModal()"></sh-button>      
+      <sh-tooltip label="Lorem Ipsum" target="target-1" placement="top" variation="short"></sh-tooltip>
+    </sh-pane>
+    <!-- grid -->
+    <sh-grid fit-parent rows="3">
+      <sh-card columns="12" style="-ms-grid-column: 1; -ms-grid-row: 1;" rows="2">
+        <!-- stepper -->
+        <sh-stepper slot="header" value="2">
+          <sh-stepper-item label="Select Patient - An example of a really long label that is truncated on the second line and allows  for a really long label to be shown for the stepper item"></sh-stepper-item>
+          <sh-stepper-item label="Edit Basic Data"></sh-stepper-item>
+          <sh-stepper-item label="Select Procedure"></sh-stepper-item>
+          <sh-stepper-item label="Review"></sh-stepper-item>
+        </sh-stepper>
+        <!-- table -->
+        <sh-table>
+          <sh-table-row slot="header">
+            <sh-table-head sort-descending columns="10">Select Patient - An example of a really long label that is truncated on the second line and allows  for a really long label to be shown for the stepper item</sh-table-head>
+            <sh-table-head columns="10">Select Patient - An example of a really long label that is truncated on the second line and allows  for a really long label to be shown for the stepper item</sh-table-head>
+            <sh-table-head columns="4">Select Patient - An example of a really long label that is truncated on the second line and allows  for a really long label to be shown for the stepper item</sh-table-head>
+            <sh-table-head icon>
+              <sh-icon icon=""></sh-icon>
+            </sh-table-head>
+          </sh-table-row>
+          <sh-table-row>
+            <sh-table-cell columns="10">Lorem</sh-table-cell>
+            <sh-table-cell columns="10">
+              <sh-wrapper>
+                <sh-tag label="Idle" removable></sh-tag>
+                <sh-tag label="Disabled" disabled></sh-tag>
+              </sh-wrapper>
+            </sh-table-cell>
+            <sh-table-cell columns="4">Ipsum</sh-table-cell>
+            <sh-table-cell icon>
+              <sh-spinner size="s"></sh-spinner>
+            </sh-table-cell>
+          </sh-table-row>
+          <sh-table-row>
+            <sh-table-cell columns="10">Lorem</sh-table-cell>
+            <sh-table-cell columns="10">
+              <sh-wrapper>
+                <sh-tag label="Idle Removable" removable></sh-tag>
+                <sh-tag label="Removable Disabled" removable disabled></sh-tag>
+              </sh-wrapper>
+            </sh-table-cell>
+            <sh-table-cell columns="4">Ipsum</sh-table-cell>
+            <sh-table-cell icon>
+              <sh-icon button icon="more" id="target-2"></sh-icon>
+              <sh-popover target="target-2" position="bottom-left">
+                <sh-menu-item label="Export to PNG"></sh-menu-item>
+                <sh-menu-item label="Export to PDF"></sh-menu-item>
+              </sh-popover>
+            </sh-table-cell>
+          </sh-table-row>
+        </sh-table>
+        <!-- pagination -->
+        <sh-pagination slot="footer" pages='12' current-page='6'></sh-pagination>
+      </sh-card>
+      <sh-card columns="6" style="-ms-grid-column: 1; -ms-grid-row: 3;">
+        <!-- breadcrumbs -->
+        <sh-breadcrumbs slot="header">
+          <sh-breadcrumb-item label="Idle 1"></sh-breadcrumb-item>
+          <sh-breadcrumb-item label="Idle 2"></sh-breadcrumb-item>
+          <sh-breadcrumb-item label="Active"></sh-breadcrumb-item>
+        </sh-breadcrumbs>
+        <!-- spinner -->
+        <sh-spinner label="Spinner Label" style="margin: auto"></sh-spinner>
+      </sh-card>
+      <sh-card label="Card Label" columns="6" style="-ms-grid-column: 7; -ms-grid-row: 3;">
+        <sh-badge slot="functions"></sh-badge>
+        <sh-badge label="9" slot="functions"></sh-badge>
+        <sh-badge label="999" slot="functions"></sh-badge>
+        <sh-badge label="999+" slot="functions"></sh-badge>
+        <sh-badge type="error" slot="functions"></sh-badge>
+        <sh-badge type="warning" slot="functions"></sh-badge>
+        <sh-badge type="success" slot="functions"></sh-badge>
+        <sh-wrapper direction="column">
+          <sh-progress-radial value="67" label="67%" style="margin: auto;"></sh-progress-radial>
+        </sh-wrapper>
+      </sh-card>
+
+    </sh-grid>
+
+    <!-- left drawer -->
+    <sh-drawer label="Left Drawer" position="left" id="drawer-left"> </sh-drawer>
+
+    <!-- right drawer -->
+    <sh-drawer label="Right Drawer" position="right" id="drawer-right"></sh-drawer>
+
+    <!-- top drawer -->
+    <sh-drawer label="Top Drawer" position="top" id="drawer-top"></sh-drawer>
+
+    <!-- bottom drawer -->
+    <sh-drawer label="Bottom Drawer" position="bottom" id="drawer-bottom"></sh-drawer>
+
+    <!-- modal -->
+    <sh-modal id="modal" label="Modal" type="error" sticky>
+      <sh-progress-radial value="36" label="36%" info='5 minutes remaining' style="margin: auto 0"></sh-progress-radial>
+      <sh-button color='tertiary' slot='footer' label='Cancel' onclick="document.getElementById('modal').removeAttribute('visible')"></sh-button>
+      <sh-button color='secondary' slot='footer' label='Delete'></sh-button>
+    </sh-modal>
+    <!-- slider demo modal -->
+    <sh-modal id="sliderModal" label="Slider Demos" modal-width="98%" modal-height="98%">
+      <sh-grid rows="2">
+        <sh-card columns="4" label="horizontal slider without showing value" col-m="12" >
+          <sh-slider label="normal slider without value"></sh-slider>
+          <sh-slider label="normal slider with value 30" value="30"></sh-slider>
+          <sh-slider label="normal slider with value 30 disabled" value="30" disabled></sh-slider>
+        </sh-card>
+        <sh-card columns="4" label="horizontal slider showing value" col-m="12">
+          <sh-slider label="normal slider without value" show-value></sh-slider>
+          <sh-slider label="normal slider with value 30" value="30" show-value></sh-slider>
+          <sh-slider label="normal slider with value 30 disabled" value="30" disabled show-value></sh-slider>
+        </sh-card>
+        <sh-card columns="4" label="horizontal slider showing value and range" col-m="12">
+          <sh-slider show-range show-value lower-value='5' upper-value='45' label='Opacity'></sh-slider>
+        </sh-card>
+        <sh-card columns="4" label="horizontal slider with adjustment controls"  col-m="12">
+          <sh-slider value='50' label='Opacity' show-controls></sh-slider>
+        </sh-card>
+        <sh-card columns="4" label="vertical slider showing value and controls without ticks"  col-m="12">
+          <div style="height:300px">
+            <sh-slider vertical show-controls min="1" max="100" value="24"></sh-slider>
+          </div>         
+        </sh-card>
+        <sh-card columns="4" label="vertical slider showing value and controls with ticks at 15, 52, 88"  col-m="12">
+          <div style="height:300px">
+            <sh-slider vertical show-controls min="1" max="100" value="24" ticks="[15, 52, 88]"></sh-slider>
+          </div>          
+        </sh-card>
+      </sh-grid>
+    </sh-modal>
+  </sh-page>
+
+  <script> 
+     var  searcharr= [{ firstname: "Jack", lastname: "Aubrey" },
+                { firstname: "Joe", lastname: "henderson" },
+                { firstname: "Anne", lastname: "Elliot" },
+                { firstname: "Stephen", lastname: "Maturin" },
+                { firstname: "Emma", lastname: "Woodhouse" }
+               ];
+    document.querySelector("#multisearch").searchArray = searcharr;   
+    function toggleDrawerLeft() {
+      document.querySelector("#drawer-left").visible = true
+    }
+    function toggleDrawerRight() {
+      document.querySelector("#drawer-right").visible = true
+    }
+    function toggleDrawerTop() {
+      document.querySelector("#drawer-top").visible = true
+    }
+    function toggleDrawerBottom() {
+      document.querySelector("#drawer-bottom").visible = true
+    }
+    function toggleModal() {
+      document.querySelector("#modal").visible = true
+    }
+    function showSlider() {
+      document.querySelector('#sliderModal').visible = true;
+    }
+  </script>
+</body>
+
+</html>

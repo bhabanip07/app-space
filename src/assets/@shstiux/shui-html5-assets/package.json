@@ -1,29 +1,29 @@
 {
-  "_from": "@shstiux/shui-html5-assets@latest",
-  "_id": "@shstiux/shui-html5-assets@1.6.2",
+  "_from": "@shstiux/shui-html5-assets@1.7.3",
+  "_id": "@shstiux/shui-html5-assets@1.7.3",
   "_inBundle": false,
-  "_integrity": "sha1-Vxjanh4sUSbgVwpgqz7lGb/YOUs=",
+  "_integrity": "sha1-epT4h+Ki5YAC2J8IfLe4iPOukIw=",
   "_location": "/@shstiux/shui-html5-assets",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "@shstiux/shui-html5-assets@latest",
+    "raw": "@shstiux/shui-html5-assets@1.7.3",
     "name": "@shstiux/shui-html5-assets",
     "escapedName": "@shstiux%2fshui-html5-assets",
     "scope": "@shstiux",
-    "rawSpec": "latest",
+    "rawSpec": "1.7.3",
     "saveSpec": null,
-    "fetchSpec": "latest"
+    "fetchSpec": "1.7.3"
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
-  "_resolved": "https://pkgs.dev.azure.com/shs-ti-ux/_packaging/SHUIHTML5@Local/npm/registry/@shstiux/shui-html5-assets/-/shui-html5-assets-1.6.2.tgz",
-  "_shasum": "5718da9e1e2c5126e0570a60ab3ee519bfd8394b",
-  "_spec": "@shstiux/shui-html5-assets@latest",
-  "_where": "D:\\tms\\app-space",
+  "_resolved": "https://pkgs.dev.azure.com/shs-ti-ux/_packaging/SHUIHTML5@Local/npm/registry/@shstiux/shui-html5-assets/-/shui-html5-assets-1.7.3.tgz",
+  "_shasum": "7a94f887e2a2e58002d89f087cb7b888f3ae908c",
+  "_spec": "@shstiux/shui-html5-assets@1.7.3",
+  "_where": "D:\\testShui\\my-app",
   "author": {
     "name": "Siemens Healthineers TI UX SI"
   },
@@ -68,6 +68,7 @@
     "uglify-js": "^3.4.1",
     "url-loader": "^0.5.9",
     "wct-browser-legacy": "^1.0.0",
+    "wct-istanbub": "^0.2.9",
     "wct-xunit-reporter": "^1.0.2",
     "web-component-tester": "^6.8.0",
     "webpack": "^3.0.0",
@@ -87,15 +88,16 @@
     "build": " npm run webpack_and_build_to_shui",
     "debugbuild": "webpack",
     "generate-typings": "gen-typescript-declarations --deleteExisting --outDir ./ts_interfaces",
+    "istanbub_global_install": "npm install -g wct-istanbub",
     "polymer_cli_install": "npm install -g polymer-cli && npm install -g wct-local",
     "postinstall": "modernizr -c modernizr-config.json",
     "start": "webpack-dev-server",
-    "unit_test": "polymer test --config-file unit_test.wct.conf.json --skip-selenium-install --expanded --color",
+    "unit_test": "polymer test --config-file unit_test.wct.conf.json --plugin xunit-reporter --skip-selenium-install --expanded --color",
     "wct_and_webpack": "npm-run-all wct_global_install polymer_cli_install wct_chrome webpack_and_build_to_shui",
     "wct_chrome": "polymer test -l chrome",
     "wct_global_install": "npm install -g web-component-tester",
     "webpack_and_build_to_shui": "webpack && uglifyjs ./shui/shui.js -c -m -o ./shui/shui.min.js",
     "xunit_global_install": "npm install -g wct-xunit-reporter"
   },
-  "version": "1.6.2"
+  "version": "1.7.3"
 }

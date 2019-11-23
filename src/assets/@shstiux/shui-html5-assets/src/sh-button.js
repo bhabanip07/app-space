@@ -3,6 +3,9 @@ Restricted - Copyright (C) Siemens Healthcare GmbH/Siemens Medical Solutions USA
 ------------------------------------------------------------------------------------------------- */
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
+import {setHoverEffects, setPressEffects} from './hover-active.js';
+
+
 class SHButton extends PolymerElement {
   static get template() {
     return html`
@@ -88,11 +91,11 @@ class SHButton extends PolymerElement {
         background-color: rgba(var(--ui-3), var(--opacity-1));
       }
 
-      :host([color="primary"]:hover) {
+      :host([color="primary"].hover) {
         background-color: rgba(var(--ui-2), var(--opacity-1));
       }
 
-      :host([color="primary"]:active) {
+      :host([color="primary"].active) {
         background-color: rgba(var(--ui-4), var(--opacity-1));
       }
 
@@ -106,11 +109,11 @@ class SHButton extends PolymerElement {
         background-color: rgba(var(--ui-1), var(--opacity-6));
       }
 
-      :host([color="secondary"]:hover) {
+      :host([color="secondary"].hover) {
         background-color: rgba(var(--ui-1), var(--opacity-5));
       }
 
-      :host([color="secondary"]:active) {
+      :host([color="secondary"].active) {
         background-color: rgba(var(--ui-1), var(--opacity-7));
       }
 
@@ -128,15 +131,15 @@ class SHButton extends PolymerElement {
         color: var(--text-primary);
       }
 
-      :host([shape="pill-l"][color="tertiary"]:hover),
-      :host([shape="pill-m"][color="tertiary"]:hover),
-      :host([shape="pill-s"][color="tertiary"]:hover) {
+      :host([shape="pill-l"][color="tertiary"].hover),
+      :host([shape="pill-m"][color="tertiary"].hover),
+      :host([shape="pill-s"][color="tertiary"].hover) {
         background-color: rgba(var(--ui-1), var(--opacity-5));
       }
 
-      :host([shape="pill-l"][color="tertiary"]:active),
-      :host([shape="pill-m"][color="tertiary"]:active),
-      :host([shape="pill-s"][color="tertiary"]:active) {
+      :host([shape="pill-l"][color="tertiary"].active),
+      :host([shape="pill-m"][color="tertiary"].active),
+      :host([shape="pill-s"][color="tertiary"].active) {
         background-color: rgba(var(--ui-1), var(--opacity-7));
       }
 
@@ -148,19 +151,19 @@ class SHButton extends PolymerElement {
         color:rgba(var(--ui-1),var(--opacity-3)) !important;
       }
 
-      :host([color="tertiary"]:hover) {
+      :host([color="tertiary"].hover) {
         background-color: rgba(var(--ui-1), var(--opacity-5));
       }
 
-      :host([shape="circle"][color="tertiary"]:hover) {
+      :host([shape="circle"][color="tertiary"].hover) {
         background-color: transparent;
       }
 
-      :host([shape="circle"][color="tertiary"]:hover) sh-icon {
+      :host([shape="circle"][color="tertiary"].hover) sh-icon {
         color:rgba(var(--ui-1),var(--opacity-2)) !important;
       }
 
-      :host([color="tertiary"]:active) {
+      :host([color="tertiary"].active) {
         background-color: rgba(var(--ui-1), var(--opacity-7));
       }
 
@@ -209,25 +212,25 @@ class SHButton extends PolymerElement {
         background-color: rgba(var(--ui-3), var(--opacity-1));
       }
 
-      :host-context([touch]):host([color="primary"]:hover) {
+      :host-context([touch]):host([color="primary"].hover) {
         background-color: rgba(var(--ui-3), var(--opacity-1));
       }
 
-      :host-context([touch]):host([color="secondary"]:hover) {
+      :host-context([touch]):host([color="secondary"].hover) {
         background-color: rgba(var(--ui-1), var(--opacity-6));
       }
 
-      :host-context([touch]):host([shape="pill-l"][color="tertiary"]:hover),
-      :host-context([touch]):host([shape="pill-m"][color="tertiary"]:hover),
-      :host-context([touch]):host([shape="pill-s"][color="tertiary"]:hover) {
+      :host-context([touch]):host([shape="pill-l"][color="tertiary"].hover),
+      :host-context([touch]):host([shape="pill-m"][color="tertiary"].hover),
+      :host-context([touch]):host([shape="pill-s"][color="tertiary"].hover) {
         background-color: rgba(var(--ui-1), var(--opacity-6));
       }
 
-      :host-context([touch]):host([color="tertiary"]:hover) {
+      :host-context([touch]):host([color="tertiary"].hover) {
         background-color: transparent;
       }
 
-      :host-context([touch]):host([shape="circle"][color="tertiary"]:hover) sh-icon {
+      :host-context([touch]):host([shape="circle"][color="tertiary"].hover) sh-icon {
         opacity: var(--opacity-3);
       }
 
@@ -300,7 +303,7 @@ class SHButton extends PolymerElement {
         color: var(--text-white);
       }
 
-      :host([color="primary"]:active),
+      :host([color="primary"].active),
       :host([color="primary"].active) {
         background-color: rgba(var(--ui-4), var(--opacity-1)) !important;
       }
@@ -315,7 +318,7 @@ class SHButton extends PolymerElement {
         background-color: rgba(var(--ui-1), var(--opacity-6));
       }
 
-      :host([color="secondary"]:active),
+      :host([color="secondary"].active),
       :host([color="secondary"].active) {
         background-color: rgba(var(--ui-1), var(--opacity-7)) !important;
       }
@@ -334,11 +337,11 @@ class SHButton extends PolymerElement {
         color: var(--text-primary);
       }
 
-      :host([shape="pill-l"][color="tertiary"]:active),
       :host([shape="pill-l"][color="tertiary"].active),
-      :host([shape="pill-m"][color="tertiary"]:active),
+      :host([shape="pill-l"][color="tertiary"].active),
       :host([shape="pill-m"][color="tertiary"].active),
-      :host([shape="pill-s"][color="tertiary"]:active),
+      :host([shape="pill-m"][color="tertiary"].active),
+      :host([shape="pill-s"][color="tertiary"].active),
       :host([shape="pill-s"][color="tertiary"].active) {
         background-color: rgba(var(--ui-1), var(--opacity-7)) !important;
       }
@@ -347,7 +350,7 @@ class SHButton extends PolymerElement {
         background-color: transparent;
       }
 
-      :host([color="tertiary"]:active),
+      :host([color="tertiary"].active),
       :host([color="tertiary"].active) {
         background-color: rgba(var(--ui-1), var(--opacity-7)) !important;
       }
@@ -428,104 +431,104 @@ class SHButton extends PolymerElement {
 
       /* touch */
 
-      :host([color="primary"]:hover.hovermq),
       :host([color="primary"].hover.hovermq),
-      :host([color="primary"]:hover:not(.no-hovermq)),
+      :host([color="primary"].hover.hovermq),
+      :host([color="primary"].hover:not(.no-hovermq)),
       :host([color="primary"].hover:not(.no-hovermq)) {
         background-color: rgba(var(--ui-2), var(--opacity-1));
       }
 
-      :host([color="secondary"]:hover.hovermq),
       :host([color="secondary"].hover.hovermq),
-      :host([color="secondary"]:hover:not(.no-hovermq)),
+      :host([color="secondary"].hover.hovermq),
+      :host([color="secondary"].hover:not(.no-hovermq)),
       :host([color="secondary"].hover:not(.no-hovermq)) {
         background-color: rgba(var(--ui-1), var(--opacity-5));
       }
 
-      :host([shape="pill-l"][color="tertiary"]:hover.no-hovermq),
       :host([shape="pill-l"][color="tertiary"].hover.no-hovermq),
-      :host([shape="pill-m"][color="tertiary"]:hover.no-hovermq),
+      :host([shape="pill-l"][color="tertiary"].hover.no-hovermq),
       :host([shape="pill-m"][color="tertiary"].hover.no-hovermq),
-      :host([shape="pill-s"][color="tertiary"]:hover.no-hovermq),
+      :host([shape="pill-m"][color="tertiary"].hover.no-hovermq),
       :host([shape="pill-s"][color="tertiary"].hover.no-hovermq),
-      :host([shape="pill-l"][color="tertiary"]:hover:not(.no-hovermq)),
+      :host([shape="pill-s"][color="tertiary"].hover.no-hovermq),
       :host([shape="pill-l"][color="tertiary"].hover:not(.no-hovermq)),
-      :host([shape="pill-m"][color="tertiary"]:hover:not(.no-hovermq)),
+      :host([shape="pill-l"][color="tertiary"].hover:not(.no-hovermq)),
       :host([shape="pill-m"][color="tertiary"].hover:not(.no-hovermq)),
-      :host([shape="pill-s"][color="tertiary"]:hover:not(.no-hovermq)),
+      :host([shape="pill-m"][color="tertiary"].hover:not(.no-hovermq)),
+      :host([shape="pill-s"][color="tertiary"].hover:not(.no-hovermq)),
       :host([shape="pill-s"][color="tertiary"].hover:not(.no-hovermq)) {
         background-color: rgba(var(--ui-1), var(--opacity-5));
       }
 
-      :host([color="tertiary"]:hover.no-hovermq),
       :host([color="tertiary"].hover.no-hovermq),
-      :host([color="tertiary"]:hover:not(.no-hovermq)),
+      :host([color="tertiary"].hover.no-hovermq),
+      :host([color="tertiary"].hover:not(.no-hovermq)),
       :host([color="tertiary"].hover:not(.no-hovermq)) {
         background-color: rgba(var(--ui-1), var(--opacity-5));
       }
 
-      :host([shape="square"]:hover:not(.no-hovermq)) {
+      :host([shape="square"].hover:not(.no-hovermq)) {
         background: rgba(var(--ui-1), var(--opacity-5)) !important;
       }
 
-      :host([shape="circle"][color="tertiary"]:hover.no-hovermq),
       :host([shape="circle"][color="tertiary"].hover.no-hovermq),
-      :host([shape="circle"][color="tertiary"]:hover:not(.no-hovermq)),
+      :host([shape="circle"][color="tertiary"].hover.no-hovermq),
+      :host([shape="circle"][color="tertiary"].hover:not(.no-hovermq)),
       :host([shape="circle"][color="tertiary"].hover:not(.no-hovermq)) {
         background-color: transparent;
       }
 
-      :host([shape="circle"][color="tertiary"]:hover.no-hovermq) sh-icon,
       :host([shape="circle"][color="tertiary"].hover.no-hovermq) sh-icon,
-      :host([shape="circle"][color="tertiary"]:hover:not(.no-hovermq)) sh-icon,
+      :host([shape="circle"][color="tertiary"].hover.no-hovermq) sh-icon,
+      :host([shape="circle"][color="tertiary"].hover:not(.no-hovermq)) sh-icon,
       :host([shape="circle"][color="tertiary"].hover:not(.no-hovermq)) sh-icon {
         color: rgba(var(--ui-1),var(--opacity-2)) !important;
       }
 
-      :host(:hover.no-hovermq) .right.tooltip,
       :host(.hover.no-hovermq) .right.tooltip,
-      :host(:hover.no-hovermq) .left.tooltip,
+      :host(.hover.no-hovermq) .right.tooltip,
       :host(.hover.no-hovermq) .left.tooltip,
-      :host(:hover.no-hovermq) .top.tooltip,
+      :host(.hover.no-hovermq) .left.tooltip,
       :host(.hover.no-hovermq) .top.tooltip,
-      :host(:hover.no-hovermq) .bottom.tooltip,
+      :host(.hover.no-hovermq) .top.tooltip,
       :host(.hover.no-hovermq) .bottom.tooltip,
-      :host(:hover:not(.no-hovermq)) .right.tooltip,
+      :host(.hover.no-hovermq) .bottom.tooltip,
       :host(.hover:not(.no-hovermq)) .right.tooltip,
-      :host(:hover:not(.no-hovermq)) .left.tooltip,
+      :host(.hover:not(.no-hovermq)) .right.tooltip,
       :host(.hover:not(.no-hovermq)) .left.tooltip,
-      :host(:hover:not(.no-hovermq)) .top.tooltip,
+      :host(.hover:not(.no-hovermq)) .left.tooltip,
       :host(.hover:not(.no-hovermq)) .top.tooltip,
-      :host(:hover:not(.no-hovermq)) .bottom.tooltip,
+      :host(.hover:not(.no-hovermq)) .top.tooltip,
+      :host(.hover:not(.no-hovermq)) .bottom.tooltip,
       :host(.hover:not(.no-hovermq)) .bottom.tooltip {
         opacity: 1;
         visibility: visible;
       }
 
-      :host(:hover.no-hovermq) .top.tooltip,
       :host(.hover.no-hovermq) .top.tooltip,
-      :host(:hover:not(.no-hovermq)) .top.tooltip,
+      :host(.hover.no-hovermq) .top.tooltip,
+      :host(.hover:not(.no-hovermq)) .top.tooltip,
       :host(.hover:not(.no-hovermq)) .top.tooltip {
         margin-top: -28px;
       }
 
-      :host(:hover.no-hovermq) .bottom.tooltip,
       :host(.hover.no-hovermq) .bottom.tooltip,
-      :host(:hover:not(.no-hovermq)) .bottom.tooltip,
+      :host(.hover.no-hovermq) .bottom.tooltip,
+      :host(.hover:not(.no-hovermq)) .bottom.tooltip,
       :host(.hover:not(.no-hovermq)) .bottom.tooltip {
         margin-top: 4px;
       }
 
-      :host(:hover.no-hovermq) .left.tooltip,
       :host(.hover.no-hovermq) .left.tooltip,
-      :host(:hover:not(.no-hovermq)) .left.tooltip,
+      :host(.hover.no-hovermq) .left.tooltip,
+      :host(.hover:not(.no-hovermq)) .left.tooltip,
       :host(.hover:not(.no-hovermq)) .left.tooltip {
         margin-right: 4px;
       }
 
-      :host(:hover.no-hovermq) .right.tooltip,
       :host(.hover.no-hovermq) .right.tooltip,
-      :host(:hover:not(.no-hovermq)) .right.tooltip,
+      :host(.hover.no-hovermq) .right.tooltip,
+      :host(.hover:not(.no-hovermq)) .right.tooltip,
       :host(.hover:not(.no-hovermq)) .right.tooltip {
         margin-left: 4px;
       }
@@ -807,6 +810,9 @@ class SHButton extends PolymerElement {
       this.$.tooltip.style.opacity = '';
       this.$.tooltip.style.visibility = '';
     });
+    
+    setHoverEffects(this);
+    setPressEffects(this);
   }
 
 }

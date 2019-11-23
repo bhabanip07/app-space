@@ -10,7 +10,6 @@
     <script type="module" src="../src/sh-icon.js"></script>
     <script type="module" src="../src/sh-user-identifier.js"></script>
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
     <script src="../node_modules/wct-browser-legacy/browser.js"></script>
 </head>
 
@@ -29,11 +28,8 @@
     <script>
         var timeOut = 100;
         suite('User Identifier', function () {
-            // The homescreen colors and typography specification variables
             var html, accessBar, accessBarWrapper, userIdentifier, nameArea, infoArea, infoWrapper, userIcon;
             setup(function () {
-                // defining the homescreen colors and typography specification variables
-                //html = document.querySelector('html');
                 page = fixture('SHUserIdentifier');
                 accessBar = page.children[0];
                 accessBarWrapper = accessBar.shadowRoot.querySelector('.access-wrapper');
@@ -51,14 +47,12 @@
                 var event = new Event('focus');
                 userIdentifier.dispatchEvent(event);
                 userIdentifier.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':9}));
-
                 assert.equal(userIdentifier.style.outline, 'rgb(59, 153, 252) solid 2px');
             })
 
             test('Blur Event', function(){
                 var event = new Event('blur');
                 userIdentifier.dispatchEvent(event);
-
                 assert.equal(userIdentifier.style.outline, '0px');
             })
         })

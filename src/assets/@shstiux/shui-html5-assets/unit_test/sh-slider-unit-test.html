@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-slider-test</title>
+    <script type="module"src="../src/sh-slider.js"></script>
+    <script type="module"src="../src/sh-icon.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+
+    <body>
+        <test-fixture id= "SHSliderStandard">
+            <template>
+               <sh-slider value='33' label='Standard' show-value style="width:200px;"></sh-slider>
+            </template>
+        </test-fixture>
+        <test-fixture id= "SHSliderShowRange">
+            <template>
+                <sh-slider label="Range" show-range show-value lower-value='5' upper-value='45'></sh-slider>
+            </template>
+        </test-fixture>
+        <test-fixture id= "SHSliderShowControls">
+                <template>
+                    <sh-slider value='50' label='Adjustment Arrows'  show-controls></sh-slider>
+                </template>
+        </test-fixture>
+        <test-fixture id= "SHSliderVertical">
+                <template>
+                    <sh-slider vertical show-controls min="1" max="100" value="24"></sh-slider>
+                </template>
+        </test-fixture>
+        <test-fixture id= "SHSliderVerticalTicks">
+                <template>
+                        <sh-slider vertical show-controls min="1" max="100" value="24" ticks="[15, 52, 88]"></sh-slider>
+                </template>
+        </test-fixture>
+    </body>
+
+    <script>
+        suite('Slider Component', function(){
+            let slider, thumb, sliderTooltip, input;
+            setup(function(){
+                slider = fixture("SHSliderStandard");
+                thumb = slider.shadowRoot.querySelector('#thumb');
+                sliderTooltip = slider.shadowRoot.querySelector('#sliderTooltip');
+                input =  slider.shadowRoot.querySelector('#inputText');
+            })
+            test('check for slider label', function(){
+                assert.equal(slider.label, 'Standard');
+            })
+            test('check for thumb border on focus', function(){
+                let event = new Event('focus');
+                thumb.dispatchEvent(event);
+                thumb.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':9}));
+                assert.equal(thumb.style.outline, 'rgb(59, 153, 252) solid 2px');
+                assert.equal(sliderTooltip.style.display, 'block');
+            })
+            test('check for increment on pressing right arrow', function(){
+                let event = new Event('focus');
+                thumb.dispatchEvent(event);
+                thumb.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':39}));
+                assert.equal(slider.value, '34');
+            })
+            test('check for decrement on pressing right arrow', function(){
+                let event = new Event('focus');
+                thumb.dispatchEvent(event);
+                thumb.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':37}));
+                assert.equal(slider.value, '32');
+            })
+            test('check for thumb border on blur', function(){
+                let event = new Event('blur');
+                thumb.dispatchEvent(event);
+                assert.equal(thumb.style.outline, '');
+                assert.equal(sliderTooltip.style.display, '');
+            })
+            test('check for show value', function(){
+                assert.equal(slider.showValue, true);
+            })
+            test('check for input value increment on arrow up', function(done){
+                flush(function(){
+                    input.focus();
+                    input.dispatchEvent(new KeyboardEvent('keydown', {'keyCode':38}));
+                    assert.equal(slider.value, 34);
+                    done();
+                })
+
+            })
+            test('check for input value increment on arrow down', function(done){
+                flush(function(){
+                    input.focus();
+                    input.dispatchEvent(new KeyboardEvent('keydown', {'keyCode':40}));
+                    assert.equal(slider.value, 32);
+                    done();
+                })
+            })
+        })
+
+        suite('Slider Range', function(){
+            let slider, lowerThumb, upperThumb, lowerRangeTooltip, upperRangeTooltip, handleTrackWrapper, lowerInputText, upperInputText;
+            setup(function(){
+                slider = fixture("SHSliderShowRange");
+                lowerThumb = slider.shadowRoot.querySelector('#lowerThumb');
+                upperThumb = slider.shadowRoot.querySelector('#upperThumb');
+                lowerRangeTooltip = slider.shadowRoot.querySelector('#lowerRangeTooltip');
+                upperRangeTooltip = slider.shadowRoot.querySelector('#upperRangeTooltip');
+                handleTrackWrapper = slider.shadowRoot.querySelector('#handleTrackWrapper');
+                lowerInputText = slider.shadowRoot.querySelector('#lowerInputText');
+                upperInputText = slider.shadowRoot.querySelector('#upperInputText')
+            })
+            test('check for slider label', function(){
+                assert.equal(slider.label, 'Range');
+            })
+            test('check for slider show value', function(){
+                slider.showValue = true;
+                assert.equal(slider.showValue, true);
+            })
+            test('check for handle track hover', function(){
+                let event = new Event('mouseout');
+                handleTrackWrapper.dispatchEvent(event);
+                assert.equal(lowerThumb.style.background,'');
+                assert.equal(upperThumb.style.background,'');
+            })
+            test('check for mousedown event', function(){
+                let event = new Event('mousedown');
+                lowerThumb.dispatchEvent(event);
+                assert.equal(slider.isDrag, true);
+            })
+            test('check for mousedown event', function(){
+                let event = new Event('mousedown');
+                upperThumb.dispatchEvent(event);
+                assert.equal(slider.isDrag, true);
+            })
+
+        })
+        suite('Slider Adjustment controls', function(){
+            let slider, rightArrow, leftArrow;
+            setup(function(){
+                slider = fixture("SHSliderShowControls");
+                rightArrow = slider.shadowRoot.querySelector('#plus');
+                leftArrow = slider.shadowRoot.querySelector('#minus');
+            })
+            test('check for slider label', function(){
+                assert.equal(slider.label, 'Adjustment Arrows');
+            })
+            test('check for slider show value', function(){
+                assert.equal(slider.showControls, true);
+            })
+            test('check for increment on click of right arrow', function(){
+                rightArrow.click();
+                assert.equal(slider.value, '51');
+            })
+            test('check for increment on click of left arrow', function(){
+                leftArrow.click();
+                assert.equal(slider.value, '49');
+            })
+        })
+        suite('Slider Vertical', function(){
+            let slider, rightArrow, leftArrow, verticalThumb, verticalTooltip;
+            setup(function(){
+                slider = fixture("SHSliderVertical");
+                rightArrow = slider.shadowRoot.querySelector('#plus');
+                leftArrow = slider.shadowRoot.querySelector('#minus');
+                verticalThumb = slider.shadowRoot.querySelector('#verticalThumb');
+                verticalTooltip = slider.shadowRoot.querySelector('#verticalTooltip');
+            })
+            test('check for slider vertical', function(){
+                assert.equal(slider.vertical, true);
+            })
+            test('check for increment on click of right arrow', function(){
+                rightArrow.click();
+                assert.equal(slider.value, '25');
+            })
+            test('check for increment on click of left arrow', function(){
+                leftArrow.click();
+                assert.equal(slider.value, '23');
+            })
+
+            test('check for vertical thumb border on focus', function(){
+                let event = new Event('focus');
+                verticalThumb.dispatchEvent(event);
+                verticalThumb.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':9}));
+                assert.equal(verticalThumb.style.outline, 'rgb(59, 153, 252) solid 2px');
+            })
+            test('check for increment on pressing right arrow', function(){
+                let event = new Event('focus');
+                verticalThumb.dispatchEvent(event);
+                verticalThumb.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':39}));
+                assert.equal(slider.value, '25');
+            })
+            test('check for decrement on pressing right arrow', function(){
+                let event = new Event('focus');
+                verticalThumb.dispatchEvent(event);
+                verticalThumb.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':37}));
+                assert.equal(slider.value, '23');
+            })
+
+        })
+
+    </script>
+</html>

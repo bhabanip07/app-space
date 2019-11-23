@@ -79,6 +79,12 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
           display: block;
           height: 16px;
         }
+        *:hover::-webkit-scrollbar-button:single-button:horizontal:decrement {
+          background-image: var(--arrow-left);
+     }
+        *:hover::-webkit-scrollbar-button:single-button:horizontal:increment {
+            background-image: var(--arrow-right);
+          }
       }
       @media (any-pointer:coarse){
         ::-webkit-scrollbar {

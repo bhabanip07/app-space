@@ -607,6 +607,9 @@ class SHTimepicker extends PolymerElement {
             :host([condensed]) .icon-wrapper {
               margin: 4px 0px 4px 8px;
             }
+            :host([no-border]) .timepicker-wrapper {
+              border-bottom: none;
+            }
           </style>
 
         <!--HTML MARKUP-->
@@ -772,6 +775,12 @@ class SHTimepicker extends PolymerElement {
         notify: true,
         observer: 'giveYellowBorder'
       },
+      noBorder: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        notify: true
+      },
       mandatory: {
         type: Boolean,
         value: false,
@@ -783,15 +792,13 @@ class SHTimepicker extends PolymerElement {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
-        notify: true,
-        observer: 'forceOpen'
+        notify: true
       },
       close: {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
-        notify: true,
-        observer: 'forceClose'
+        notify: true
       },
       hour_values: {
         value() {
@@ -1546,14 +1553,6 @@ class SHTimepicker extends PolymerElement {
       this.m = '';
       this.s = '';
       this.amPm = '';
-    }
-  }
-  toggleAmOrPm(element) {
-    if (element.value === 'AM') {
-      element.value = 'PM';
-    }
-    else {
-      element.value = 'AM';
     }
   }
 

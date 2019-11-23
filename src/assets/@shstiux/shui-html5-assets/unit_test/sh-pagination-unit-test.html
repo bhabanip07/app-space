@@ -1,11 +1,10 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
 
-    <title>sh-checkbox-test</title>
+    <title>sh-pagination-test</title>
     <script type="module" src="../src/sh-pagination.js"></script>
     <script type="module" src="../src/sh-icon.js"></script>
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
@@ -48,7 +47,7 @@
                 flush(function(){
                     pagination.shadowRoot.querySelectorAll('.sh-pagination-item')[1].click();
                     currentItem = pagination.shadowRoot.querySelectorAll('.sh-pagination-item')[1].getAttribute('active');
-                    assert.equal(currentItem, '', "Current Item active");
+                    assert.equal(currentItem, 'true', "Current Item active");
                     done();
                 });
                 

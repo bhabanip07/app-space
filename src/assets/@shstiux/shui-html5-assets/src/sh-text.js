@@ -19,7 +19,7 @@ class SHText extends PolymerElement {
         -webkit-font-smoothing: antialiased !important;
         text-rendering: optimizeLegibility !important;
         -moz-osx-font-smoothing: grayscale !important;
-        transition: .2s all ease-in-out;
+        transition: .2s color ease-in-out;
         display: block;
       }
 

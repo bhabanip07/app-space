@@ -4,20 +4,23 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
-
     <title>sh-Datepicker-test</title>
     <script type="module" src="../src/sh-datepicker.js"></script>
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
     <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="test-styles.css">
 </head>
 
 <body>
     <test-fixture id="SHDatepicker">
         <template>
-            <sh-datepicker>
+            <sh-datepicker value="09/11/2019">
             </sh-datepicker>
         </template>
+    </test-fixture>
+    <test-fixture id="SHRangepicker">
+        <sh-datepicker label='Date Range (Empty)' range></sh-datepicker>
     </test-fixture>
 
     <script>
@@ -48,29 +51,156 @@
                 flush(function(){
                     datePicker.value = '28/12/1996';
                     closeButton.click();
-
                     assert.equal(datePicker.value, '');
                     done();
                 })
             })
 
-            test('_handleActive() method', function(){
-                currentActiveBool = datePicker.active;
-                datePicker._handleActive();
-                assert.notEqual(currentActiveBool, datePicker.active);
+            test('returnDay() method', function(){
+                let dayNumber = datePicker.returnDay('1');  
+                assert.equal(dayNumber, '01');
+            })
+
+            test('returnDay() method', function(){
+                let dayNumber = datePicker.returnDay('11');
+                assert.equal(dayNumber, '11');
+            })
+
+            test('returnMonth() method', function(){
+                let monthNumber = datePicker.returnMonth('5');
+                assert.equal(monthNumber, '05');
+            })
+
+            test('returnMonth() method', function(){
+                let monthNumber = datePicker.returnMonth('12');
+                assert.equal(monthNumber, '12');
+            })
+
+            test('showMonth() method', function(){
+                let month = datePicker.showMonth(11);
+                assert.equal(month, 'December');
+            })
+
+            test('shortMonth() method', function(){
+                let month = datePicker.shortMonth(11);
+                assert.equal(month, 'Dec');
+            })
+
+            test('buildMonthArray() method', function(){
+                let months = datePicker.buildMonthArray(2019, 1, 2, 2019, 2018);
+                assert.equal(months[1].currentMonth, true, "Current Month");
+            })
+
+            test('buildMonthArray() method', function(){
+                let months = datePicker.buildMonthArray(2018, 1, 2, 2019, 2018);
+                assert.equal(months[2].selectedMonth, true, "Selected Month");
+            })
+
+            test('buildYearArray() method', function(){
+                let years = datePicker.buildYearArray(2010, 2019, 2018);
+                assert.equal(years[8].currentYear, true, "Current Year");
+            })
+
+            test('buildYearArray() method', function(){
+                let years = datePicker.buildYearArray(2010, 2019, 2018);
+                assert.equal(years[8].selectedYear, false, "Selected Year");
+            })
+
+            test('displayMonth() method', function(){
+                let month = datePicker.displayMonth(0, 1, 2019);
+                assert.equal(month, 'February 2019');
+            })
+
+            test('displayMonth() method', function(){
+                let month = datePicker.displayMonth(11, 1, 2019);
+                assert.equal(month, 'January 2020');
+            })
+
+            test('displayYear() method', function(){
+                let year = datePicker.displayYear(0, 1, 2019);
+                assert.equal(year, 2019);
+            })
+
+            test('displayYear() method', function(){
+                let year = datePicker.displayYear(11, 1, 2019);
+                assert.equal(year, 2020);
+            })
+
+            test('displayDecade() method', function(){
+                let decade = datePicker.displayDecade(2010, 10);
+                assert.equal(decade, '2112-2121');
+            })
+
+            test('showYear() method', function(){
+                let year = datePicker.showYear(2010,9);
+                assert.equal(year, 2019);
+            })
+
+            test('formatDate() method', function(){
+                let date = datePicker.formatDate('28/12/1996');
+                assert.equal(date, '12/1996/28');
+            })
+
+            test('formatDate() method', function(){
+                datePicker.format = 'DDMMYYYY';
+                let date = datePicker.formatDate('1996/12/28');
+                assert.equal(date, '28/12/1996');
+            })
+
+            test('formatDate() method', function(){
+                datePicker.format = 'YYYYMMDD';
+                let date = datePicker.formatDate('1996/12/28');
+
+                assert.equal(date, '1996/12/28');
+            })
+
+            test('splitMonthYear() method', function(){
+                monthYearArr = datePicker.splitMonthYear('12/28/1996');
+                assert.equal(monthYearArr[0], 11);
+                assert.equal(monthYearArr[1], '1996');
+            })
+
+            test('splitMonthYear() method', function(){
+                datePicker.format = 'YYYYMMDD';
+                monthYearArr = datePicker.splitMonthYear('1996/12/28');
+                assert.equal(monthYearArr[0], 11);
+                assert.equal(monthYearArr[1], '1996');
             })
             
-            test('Close Active Datepicker OnClick Close Icon', function(done){
-                flush(function(){
-                    datePicker.active = true;
-                    var event = new Event('click');
-                    body.dispatchEvent(event);
-                    assert.equal(datePicker.active, false);
-                    done();
-                })
+            test('splitMonthYear() method', function(){
+                datePicker.format = 'DDMMYYYY';
+                monthYearArr = datePicker.splitMonthYear('28/12/1996');
+                assert.equal(monthYearArr[0], 11);
+                assert.equal(monthYearArr[1], '1996');
+            })
+
+            test('buildCalendarArr() method', function(){
+                let calendarArray = datePicker.buildCalendarArr(9, 2019);
+                assert.equal(calendarArray[0][0].dayOfMonth, 29);
+            })
+
+            test('validateInput() method : MMDDYYYY', function(){
+                let date = datePicker.validateInput('09/11/2019');
+
+                assert.equal(date, datePicker.value);
+            })
+
+            test('validateInput() method : DDMMYYYY', function(){
+                datePicker.format = 'DDMMYYYY';
+                datePicker.value = '11/09/2019';
+                let date = datePicker.validateInput('11/09/2019');
+
+                assert.equal(datePicker.value, date);
+            })
+
+            test('validateInput() method : YYYYMMDD', function(){
+                datePicker.format = 'YYYYMMDD';
+                datePicker.value = '2019/09/11';
+                let date = datePicker.validateInput('2019/09/11');
+
+                assert.equal(datePicker.value, date);
             })
         })
     </script>
 </body>
-
 </html>

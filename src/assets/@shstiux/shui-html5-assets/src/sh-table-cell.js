@@ -9,7 +9,7 @@ class SHTableCell extends PolymerElement {
     <!--CSS-->
     <style include="shared-styles">
       :host {
-        min-width: 40px;
+        min-width: fit-content;
         display: inline-flex;
         box-sizing: border-box;
         height: fit-content;
@@ -83,7 +83,7 @@ class SHTableCell extends PolymerElement {
     </style>
 
     <!--HTML-->
-    <div class="cell-wrapper">
+    <div class="cell-wrapper" style$="min-width: {{minWidth}}">
       <slot></slot>
     </div>
 `;
@@ -106,10 +106,11 @@ class SHTableCell extends PolymerElement {
         notify: true
       },
       minWidth: {
+        value: '40px',
         type: String,
         reflectToAttribute: true,
         notify: true,
-        observer: 'adjustMinWidth'
+        observer: 'setMinWidthOfHost'
       },
       columns :{
         type: String,
@@ -130,8 +131,7 @@ class SHTableCell extends PolymerElement {
         type: Boolean,
         value: false,
         notify:true,
-        reflectToAttribute:true,
-        observer: 'condensedObserver'
+        reflectToAttribute:true
       }
     };
   }
@@ -145,17 +145,15 @@ class SHTableCell extends PolymerElement {
       }
     }
   }
+  setMinWidthOfHost(newMinWidth) {
+    this.style.minWidth = newMinWidth;
+  }
   connectedCallback() {
     super.connectedCallback();
     this.style.minWidth = this.minWidth;
   }
   disconnectedCallback() {
     super.disconnectedCallback();
-  }
-  adjustMinWidth(newValue){
-    if(newValue !== undefined) {
-      this.style.minWidth = newValue;
-    }
   }
 }
 window.customElements.define(SHTableCell.is, SHTableCell);

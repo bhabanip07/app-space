@@ -1,0 +1,22 @@
+{
+"plugins": {
+    "istanbub": {
+    "dir": "./coverage",
+    "reporters": ["text-summary", "text", "lcov", "clover"],
+    "include": [
+        "./src/sh-access-bar.js",
+        "./src/sh-divider.js"
+    ],
+    "exclude": [
+        "/polymer/polymer.js",
+        "/platform/platform.js"
+    ],
+    "moduleResolution": "node"
+    
+    },
+    "local": {
+        "browsers": ["chrome"]
+    }
+  },
+  "suites":["test/"]
+}

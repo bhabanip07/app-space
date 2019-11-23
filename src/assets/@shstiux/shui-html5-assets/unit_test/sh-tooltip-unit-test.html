@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-tooltip-test</title>
+    <script type="module"src="../src/sh-tooltip.js"></script>
+    <script type="module"src="../src/sh-icon.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+    <body>
+        <test-fixture id="SHTooltip">
+            <template>
+                <sh-icon icon='delete' id="target-1"></sh-icon>
+                <sh-tooltip label="Lorem Ipsum" target="target-1" placement="top" variation="short"></sh-tooltip>
+            </template>
+        </test-fixture>
+        <test-fixture id="SHTooltipTitle">
+            <template>
+                <sh-icon icon='delete' id="target-2"></sh-icon>
+                <sh-tooltip label="tooltip" target="target-2" title='Description Title' placement="bottom"></sh-tooltip>
+            </template>
+        </test-fixture>
+        <script>
+            suite('Tooltip', function(){
+                let icon, tooltip;
+                setup(function(){
+                    page = fixture("SHTooltip");
+                    icon =  page[0];
+                    tooltip = page[1];
+                })
+
+                test('show tooltip on mouse enter', function(){
+                    let event = new Event('mouseenter');
+                    icon.dispatchEvent(event);
+                    tooltip.dispatchEvent(event);
+                    assert.equal(tooltip.visible, true);
+                })
+                test('show tooltip on focus', function(){
+                    let event = new Event('focus');
+                    icon.dispatchEvent(event);
+                    tooltip.dispatchEvent(event);
+                    assert.equal(tooltip.visible, true);
+                })
+                test('hide tooltip on mouse out', function(){
+                    let event = new Event('mouseout');
+                    icon.dispatchEvent(event);
+                    tooltip.dispatchEvent(event);
+                    assert.equal(tooltip.visible, false);
+                })
+                test('hide tooltip on blur', function(){
+                    let event = new Event('blur');
+                    icon.dispatchEvent(event);
+                    tooltip.dispatchEvent(event);
+                    assert.equal(tooltip.visible, false);
+                })
+                test('show tooltip on tap', function(){
+                    let event = new Event('tap');
+                    icon.dispatchEvent(event);
+                    tooltip.dispatchEvent(event);
+                    assert.equal(tooltip.visible, false);
+                })
+                test('show top placement', function(){
+                    assert.equal(tooltip.placement, 'top');
+                })
+                test('show bottom placement', function(done){
+                    tooltip.placement = 'bottom';
+                    flush(function() {
+                        let event = new Event('mouseenter');
+                        icon.dispatchEvent(event);
+                        tooltip.dispatchEvent(event);
+                        assert.equal(tooltip.placement, 'bottom');
+                        done();
+                    })
+                })
+                test('show right placement', function(done){
+                    tooltip.placement = 'right';
+                    flush(function() {
+                        let event = new Event('mouseenter');
+                        icon.dispatchEvent(event);
+                        tooltip.dispatchEvent(event);
+                        assert.equal(tooltip.placement, 'right');
+                        done();
+                    })
+                })
+                test('show top left placement', function(done){
+                    tooltip.placement = 'top-left';
+                    flush(function() {
+                        let event = new Event('mouseenter');
+                        icon.dispatchEvent(event);
+                        tooltip.dispatchEvent(event);
+                        assert.equal(tooltip.placement, 'top-left');
+                        done();
+                    })
+                })
+                test('show top right placement', function(done){
+                    tooltip.placement = 'top-right';
+                    flush(function() {
+                        let event = new Event('mouseenter');
+                        icon.dispatchEvent(event);
+                        tooltip.dispatchEvent(event);
+                        assert.equal(tooltip.placement, 'top-right');
+                        done();
+                    })
+                })
+                test('show bottom right placement', function(done){
+                    tooltip.placement = 'bottom-right';
+                    flush(function() {
+                        let event = new Event('mouseenter');
+                        icon.dispatchEvent(event);
+                        tooltip.dispatchEvent(event);
+                        assert.equal(tooltip.placement, 'bottom-right');
+                        done();
+                    })
+                })
+                test('show bottom left placement', function(done){
+                    tooltip.placement = 'bottom-left';
+                    flush(function() {
+                        let event = new Event('mouseenter');
+                        icon.dispatchEvent(event);
+                        tooltip.dispatchEvent(event);
+                        assert.equal(tooltip.placement, 'bottom-left');
+                        done();
+                    })
+                })
+                test('show left placement', function(done){
+                    tooltip.placement = 'left';
+                    flush(function() {
+                        let event = new Event('mouseenter');
+                        icon.dispatchEvent(event);
+                        tooltip.dispatchEvent(event);
+                        assert.equal(tooltip.placement, 'left');
+                        done();
+                    })
+                })
+                test('show right down placement', function(done){
+                    tooltip.placement = 'right-down';
+                    flush(function() {
+                        let event = new Event('mouseenter');
+                        icon.dispatchEvent(event);
+                        tooltip.dispatchEvent(event);
+                        assert.equal(tooltip.placement, 'right-down');
+                        done();
+                    })
+                })
+                test('show right up placement', function(done){
+                    tooltip.placement = 'right-up';
+                    flush(function() {
+                        let event = new Event('mouseenter');
+                        icon.dispatchEvent(event);
+                        tooltip.dispatchEvent(event);
+                        assert.equal(tooltip.placement, 'right-up');
+                        done();
+                    })
+                })
+                test('show left up placement', function(done){
+                    tooltip.placement = 'left-up';
+                    flush(function() {
+                        let event = new Event('mouseenter');
+                        icon.dispatchEvent(event);
+                        tooltip.dispatchEvent(event);
+                        assert.equal(tooltip.placement, 'left-up');
+                        done();
+                    })
+                })
+                test('show left up placement', function(done){
+                    tooltip.placement = 'left-down';
+                    flush(function() {
+                        let event = new Event('mouseenter');
+                        icon.dispatchEvent(event);
+                        tooltip.dispatchEvent(event);
+                        assert.equal(tooltip.placement, 'left-down');
+                        done();
+                    })
+                })
+                test('show error icon', function(){
+                    tooltip.error = true;
+                    assert.equal(tooltip.icon, 'error');
+                })
+            })
+            suite('Tooltip with title', function(){
+                let icon, tooltip;
+                setup(function(){
+                    page = fixture("SHTooltipTitle");
+                    icon =  page[0];
+                    tooltip = page[1];
+                })
+                test('show bottom placement', function(){
+                    assert.equal(tooltip.placement, 'bottom');
+                })
+
+                test('check for title', function(){
+                    assert.equal(tooltip.title, 'Description Title');
+                })
+                test('check for label', function(){
+                    assert.equal(tooltip.label, 'tooltip');
+                })
+            })
+        </script>
+    </body>

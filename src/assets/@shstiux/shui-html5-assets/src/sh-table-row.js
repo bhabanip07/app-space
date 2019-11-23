@@ -3,6 +3,7 @@ Restricted - Copyright (C) Siemens Healthcare GmbH/Siemens Medical Solutions USA
 ------------------------------------------------------------------------------------------------- */
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
+import { FlattenedNodesObserver } from '@polymer/polymer/lib/utils/flattened-nodes-observer.js';
 class SHTableRow extends PolymerElement {
   static get template() {
     return html`
@@ -321,55 +322,42 @@ class SHTableRow extends PolymerElement {
         transition : all 0s linear !important;
       }
       :host(:not([freeze])) .frozen-left, :host(:not([freeze])) .scrollable, :host(:not([freeze])) .frozen-right {
+        display: none !important;
+      }
+      .frozen-left, .frozen-right, .scrollable {
+        display: flex;
+        align-items: center;
+      }
+      .frozen-left {
+        box-shadow: 2px 0px 0px 0px rgba(var(--ui-1), var(--opacity-6));
+      }
+      .frozen-right {
+        box-shadow: -2px 0px 0px 0px rgba(var(--ui-1), var(--opacity-6));
+      }
+      .scrollable {
+        overflow-x: auto;
+        overflow-y:hidden;
+      }
+      :host(:not([show-scrollbar])) .scrollable::-webkit-scrollbar {
         display: none;
       }
-      :host([freeze]) .frozen-left,:host([freeze]) .scrollable,:host([freeze]) .frozen-right {
-        display: flex;
-        width: 100%;
-        whitespace: nowrap;
-        box-sizing: border-box;
+      :host([show-scrollbar]) .scrollable::-webkit-scrollbar {
+        display: block;
       }
-      :host([freeze]) .frozen-left {
-        -webkit-box-shadow: inset -2px 0px 0px 0px rgba(var(--ui-1), var(--opacity-6));
-        -moz-box-shadow:  inset -2px 0px 0px 0px rgba(var(--ui-1), var(--opacity-6));
-        box-shadow: inset -2px 0px 0px 0px rgba(var(--ui-1), var(--opacity-6));
-      }
-      :host([freeze]) .frozen-right {
-        -webkit-box-shadow: inset 2px 0px 0px 0px rgba(var(--ui-1), var(--opacity-6));
-        -moz-box-shadow:  inset 2px 0px 0px 0px rgba(var(--ui-1), var(--opacity-6));
-        box-shadow: inset 2px 0px 0px 0px rgba(var(--ui-1), var(--opacity-6));
-      }
-      :host([freeze]) .scrollable {
-        overflow-x: hidden;
-      }
-
-      :host([freeze].disappear) {
-        z-index: -1;
-        opacity: 0;
-        visibility: hidden
-      }
-      :host([freeze].fade-in) {
-        z-index: initial;
-        opacity : 1;
-        visibility: visible;
-        transition: all 0.2s ease-in-out;
-      }
-      :host([freeze]) {
-        min-width: 100%;
-      }
+      
     </style>
 
     <!--HTML-->
     <div id="wrapper" active$="[[active]]" on-click="_handleClick">
       <slot id="mainBody"></slot>
-      <div class="frozen-left" style$ = "min-width: {{lwidth}}">
-        <slot name="frozen-left"></slot>
+      <div class="frozen-left" style$ = "display: flex; max-width: {{lwidth}}; width: {{lwidth}}; min-width: {{lwidth}}">
+        <slot name="frozen-left" id="frozenLeftSlot"></slot>
       </div>
-      <div class="scrollable" style$ = "min-width: {{mwidth}}">
-        <slot name="scrollable"></slot>
+      <div class="scrollable" style$ = "display: flex; max-width: {{mwidth}}; width: {{mwidth}}; min-width:{{mwidth}}" on-scroll="dispatchEventDetails">
+        <slot name="scrollable" id="scrollableSlot"></slot>
       </div>
-      <div class="frozen-right" style$ = "min-width: {{rwidth}}">
-        <slot name="frozen-right"></slot>
+      <div class="frozen-right" style$ = "display: flex; max-width: {{rwidth}};  width: {{rwidth}}; min-width: {{rwidth}}">
+        <slot name="frozen-right" id="frozenRightSlot"></slot>
       </div>
     </div>
 `;
@@ -390,19 +378,19 @@ class SHTableRow extends PolymerElement {
         type: String,
         value: '33.3%',
         reflectToAttribute: true,
-        notify: true
+        notify: true,
       },
       rwidth: {
         type: String,
         value: '33.3%',
         reflectToAttribute: true,
-        notify: true
+        notify: true,
       },
       mwidth: {
         type: String,
         value: '33.3%',
         reflectToAttribute: true,
-        notify: true
+        notify: true,
       },
       freeze: {
         type: Boolean,
@@ -412,14 +400,25 @@ class SHTableRow extends PolymerElement {
       },
       _childReadyCounter: {
         type: Number,
-        value:  0
+        value: 0
       },
       condensed: {
         type: Boolean,
         value: false,
-        notify:true,
-        reflectToAttribute:true,
+        notify: true,
+        reflectToAttribute: true,
         observer: 'condensedObserver'
+      },
+      scrollLeft: {
+        type: Number,
+        reflectToAttribute: true,
+        observer: 'scrollLeftChanged'
+      },
+      showScrollbar: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        notify: true
       }
     };
   }
@@ -433,37 +432,47 @@ class SHTableRow extends PolymerElement {
 
   condensedObserver(isCondensed) {
     let children = this.children;
-    if(isCondensed) {
-      for(let i=0; i < children.length; i++) {
+    if (isCondensed) {
+      for (let i = 0; i < children.length; i++) {
         children[i].condensed = true;
       }
     }
     else {
-      for(let i=0; i < children.length; i++) {
+      for (let i = 0; i < children.length; i++) {
         children[i].condensed = false;
       }
+    }
+  }
+  scrollLeftChanged(newScrollLeftValue) {
+    let self;
+    self = this;
+    self.shadowRoot.querySelector('.scrollable').scrollLeft = newScrollLeftValue;
+    let noAdjacentElements = (self.nextElementSibling === null || self.nextElementSibling === undefined) ? true : false;
+    let noAdjacentRows = (!noAdjacentElements && self.nextElementSibling.tagName !== 'SH-TABLE-ROW') ? true : false;
+    if (!noAdjacentRows && !noAdjacentElements) {
+      self.nextElementSibling.scrollLeft = self.scrollLeft;
     }
   }
 
   connectedCallback() {
     super.connectedCallback();
-    let self,children;
+    let self, children;
 
     self = this;
     children = self.children;
     let counter = 0;
     let suffix;
     let index;
-    if(self.slot==='header') {
-      setTimeout(()=> {
-        for(let i=0; i<children.length; i++) {
-          if(children[i].sorted) {
+    if (self.slot === 'header') {
+      setTimeout(() => {
+        for (let i = 0; i < children.length; i++) {
+          if (children[i].sorted) {
             counter++;
-            index=i;
+            index = i;
           }
         }
-        if(counter>1) {
-          switch(index+1) {
+        if (counter > 1) {
+          switch (index + 1) {
             case 2:
               suffix = 'nd';
               break;
@@ -474,30 +483,30 @@ class SHTableRow extends PolymerElement {
               suffix = 'th';
               break;
           }
-          console.warn(`%c\t${counter} table-head have sorted property.\n`,'color:white;font-weight:900;text-align:center');
-          console.warn(`%c\tOnly one table-head with the sorted property is allowed.\n`,'color:white;font-weight:900;text-align:center');
-          console.warn(`%c\t${index+1}${suffix} table-head with the sorted property is given the arrow.\n`,'color:white;font-weight:900;text-align:center');
-          for(let i=0; i<children.length; i++) {
-            if(index === i) {
+          console.warn(`%c\t${counter} table-head have sorted property.\n`, 'color:white;font-weight:900;text-align:center');
+          console.warn(`%c\tOnly one table-head with the sorted property is allowed.\n`, 'color:white;font-weight:900;text-align:center');
+          console.warn(`%c\t${index + 1}${suffix} table-head with the sorted property is given the arrow.\n`, 'color:white;font-weight:900;text-align:center');
+          for (let i = 0; i < children.length; i++) {
+            if (index === i) {
               children[i].sorted = true;
             }
             else {
               children[i].sorted = false;
             }
           }
-        }        
-      },4);
+        }
+      }, 4);
       setTimeout(() => {
-        self.addEventListener('showarrow', function(e) {
+        self.addEventListener('showarrow', function (e) {
           let index;
-          for(let i=0; i<children.length; i++) {
-            if(children[i] === event.target) {
-              index=i;
+          for (let i = 0; i < children.length; i++) {
+            if (children[i] === event.target) {
+              index = i;
             }
           }
-          for(let i=0; i<children.length; i++) {
-            if(children[i].sorted !== undefined && children[i].sorted !== null) {
-              if(index === i) {
+          for (let i = 0; i < children.length; i++) {
+            if (children[i].sorted !== undefined && children[i].sorted !== null) {
+              if (index === i) {
                 children[i].sorted = true;
               }
               else {
@@ -508,9 +517,41 @@ class SHTableRow extends PolymerElement {
         });
       }, 7);
     }
-    
+    this._observer = new FlattenedNodesObserver(this.$.scrollableSlot, (info) => {
+      this.dispatchSlotModifiedEventWithData();
+    });
+    this._observer = new FlattenedNodesObserver(this.$.frozenLeftSlot, (info) => {
+      this.dispatchSlotModifiedEventWithData();
+    });
+    this._observer = new FlattenedNodesObserver(this.$.frozenRightSlot, (info) => {
+      this.dispatchSlotModifiedEventWithData();
+    });
   }
-
+  dispatchSlotModifiedEventWithData() {
+    /**
+     * Event named 'slots-modifed' is dispatched so that the table component can adjust the scrollwidth and left position
+     * of floating scrollbar of the parent table component.
+     *
+     * The data that is sent along with this event are:
+     *
+     * 1. innerWidth    -  the scrollwidth of the scrollable div - sending to adjust width of floating scrollbar thumb.
+     * 2. width         -  the computed width of the scrollable div - sending to adjust width of floating scrollbar.
+     * 3. leftPosition  -  the computed width of the frozen-left div - sending to adjust left position of floating scrollbar.
+     *
+     *
+     */
+    let innerWidth;
+    let width;
+    let leftPosition;
+    innerWidth = this.shadowRoot.querySelector('.scrollable').scrollWidth;
+    width = this.shadowRoot.querySelector('.scrollable').getBoundingClientRect().width;
+    leftPosition = this.shadowRoot.querySelector('.frozen-left').getBoundingClientRect().width;
+    this.dispatchEvent(new CustomEvent('slots-modified', {
+      bubbles: true,
+      composed: true,
+      detail: { innerWidth, width, leftPosition }
+    }));
+  }
   _handleClick() {
     let rowType;
     rowType = this.getAttribute('slot');
@@ -523,6 +564,15 @@ class SHTableRow extends PolymerElement {
       }));
       this.active = true;
     }
+  }
+  dispatchEventDetails(e) {
+    let scrollLeft;
+    scrollLeft = e.target.scrollLeft;
+    this.dispatchEvent(new CustomEvent('middle-scrolled', {
+      bubbles: true,
+      composed: true,
+      detail: { 'event': e, 'scrollLeft': scrollLeft }
+    }));
   }
 }
 window.customElements.define(SHTableRow.is, SHTableRow);

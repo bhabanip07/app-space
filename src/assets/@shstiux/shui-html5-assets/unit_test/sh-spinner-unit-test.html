@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-spinner-test</title>
+    <script type="module"src="../src/sh-spinner.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+
+    <body>
+        <test-fixture id= "SHSpinner">
+            <template>
+               <sh-spinner overlay label="Loading Image"></sh-spinner>
+            </template>
+        </test-fixture>
+    </body>
+
+    <script>
+        suite('Spinner Component', function(){
+            setup(function(){
+                spinner = fixture("SHSpinner");     
+            })
+            test('check for label property', function(){
+                assert.equal(spinner.label, 'Loading Image');
+            })
+            test('check for size property', function(){
+                assert.equal(spinner.size, 'm');
+            })
+        })
+    </script>
+</html>

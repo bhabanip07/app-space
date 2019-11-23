@@ -17,14 +17,14 @@ class SHTabItem extends PolymerElement {
         position: relative;
         overflow: hidden;
         outline: 0;
-        max-width: 160px;
-        min-width: 48px;
+        max-width: 184px;
+        min-width: 56px;
         height: 56px;
         box-sizing: border-box;
         padding: 16px 16px 14px 16px;
         line-height: 24px;
         border-bottom: 2px solid transparent;
-        transition: .2s all ease-in-out, 0s color;
+        transition: .2s border ease-in-out;
         text-align: center;
         cursor: pointer;
         -webkit-font-smoothing: antialiased !important;

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-checkbox-test</title>
+    <script type="module"src="../src/sh-menu-item.js"></script>
+    <script type="module"src="../src/sh-icon.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+
+    <body>
+        <test-fixture id= "SHMenuItem">
+            <template>
+                <sh-menu-item></sh-menu-item>
+            </template>
+        </test-fixture>
+        <test-fixture id= "SHMenuItemTree">
+            <template>
+                <sh-menu-item label='Item 1 (Expanded)'>
+                    <sh-menu-item label='Item 1.1'></sh-menu-item>
+                    <sh-menu-item label='Item 1.2' active></sh-menu-item>
+                    <sh-menu-item label='Item 1.3 (Collapsed)'>
+                      <sh-menu-item label='Item 1.3.1'></sh-menu-item>
+                      <sh-menu-item label='Item 1.3.2'></sh-menu-item>
+                      <sh-menu-item label='Item 1.3.3'></sh-menu-item>
+                    </sh-menu-item>
+                  </sh-menu-item>
+            </template>
+        </test-fixture>
+    </body>
+
+    <script>
+        suite('Menu item', function(){
+            setup(function(){
+                menuItem = fixture("SHMenuItem");
+                menuItem.label = "Menu Item";
+                menuItemWrapper = menuItem.shadowRoot.querySelector('#menuExpandWrapper');
+            })
+            test('check for menu item label', function(){
+                assert.equal(menuItem.label, "Menu Item");
+            })
+            test('check for active state of menu item', function(){
+                menuItemWrapper.click();
+                assert.equal(menuItem.active, true);
+            })
+            test('check for focus of menu item', function(){
+                var event = new Event('focus');
+                menuItem.dispatchEvent(event);
+                menuItem.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':9}));
+                debugger;
+                assert.equal(menuItemWrapper.style.border, '2px solid border rgb(59, 153, 252)');
+            })
+        })
+        suite('Menu item tree structure', function(){
+            setup(function(){
+                menuItemTree = fixture("SHMenuItemTree");
+                menuIcon =  menuItemTree.shadowRoot.querySelector('#menuExpandIcon');
+            })
+            test('check for chapter property', function(){
+                assert.equal(menuItemTree.chapter, true);
+            })
+            test('check expanded on click of arrow icon', function(){
+                menuIcon.click();
+                assert.equal(menuItemTree.expanded, true);
+            })
+            test('checks for collapse of menu item tree', function(){
+                menuItemTree.expanded = true;
+                menuIcon.click();
+                assert.equal(menuItemTree.expanded, false);
+            })
+            test('check on keyboard right arrow click expand', function(){
+                var event = new Event('focus');
+                menuIcon.dispatchEvent(event);
+                menuIcon.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':39}));
+                assert.equal(menuItemTree.expanded, true);
+            })
+            test('check on keyboard left arrow click collapse', function(){
+                menuItemTree.expanded = true;
+                var event = new Event('focus');
+                menuIcon.dispatchEvent(event);
+                menuIcon.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':37}));
+                assert.equal(menuItemTree.expanded, false);
+            })
+        })
+
+    </script>
+</html>

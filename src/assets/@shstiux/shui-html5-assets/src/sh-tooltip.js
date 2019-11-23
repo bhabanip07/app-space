@@ -313,11 +313,11 @@ class SHTooltip extends PolymerElement {
         tooltipTop = targetTop - thisRect.height - offset;
         break;
       case 'top-left':
-        tooltipLeft = targetLeft + 2 * horizontalCenterOffset;
+        tooltipLeft = targetLeft;
         tooltipTop = targetTop - thisRect.height - offset;
         break;
       case 'top-right':
-        tooltipLeft = targetLeft;
+        tooltipLeft = targetLeft + 2 * horizontalCenterOffset;
         tooltipTop = targetTop - thisRect.height - offset;
         break;
       case 'bottom':
@@ -325,11 +325,11 @@ class SHTooltip extends PolymerElement {
         tooltipTop = targetTop + targetRect.height + offset;
         break;
       case 'bottom-left':
-        tooltipLeft = targetLeft + 2 * horizontalCenterOffset;
+        tooltipLeft = targetLeft;
         tooltipTop = targetTop + targetRect.height + offset;
         break;
       case 'bottom-right':
-        tooltipLeft = targetLeft;
+        tooltipLeft = targetLeft + 2 * horizontalCenterOffset;
         tooltipTop = targetTop + targetRect.height + offset;
         break;
       case 'left':
@@ -338,11 +338,11 @@ class SHTooltip extends PolymerElement {
         break;
       case 'left-down':
         tooltipLeft = targetLeft - thisRect.width - offset;
-        tooltipTop = targetTop + 2 * verticalCenterOffset;
+        tooltipTop = targetTop;
         break;
       case 'left-up':
         tooltipLeft = targetLeft - thisRect.width - offset;
-        tooltipTop = targetTop;
+        tooltipTop = targetTop + 2 * verticalCenterOffset;
         break;
       case 'right':
         tooltipLeft = targetLeft + targetRect.width + offset;
@@ -350,11 +350,11 @@ class SHTooltip extends PolymerElement {
         break;
       case 'right-down':
         tooltipLeft = targetLeft + targetRect.width + offset;
-        tooltipTop = targetTop + 2 * verticalCenterOffset;
+        tooltipTop = targetTop;
         break;
       case 'right-up':
         tooltipLeft = targetLeft + targetRect.width + offset;
-        tooltipTop = targetTop;
+        tooltipTop = targetTop + 2 * verticalCenterOffset;
         break;
       default:
         // Adding this condition just for code readability

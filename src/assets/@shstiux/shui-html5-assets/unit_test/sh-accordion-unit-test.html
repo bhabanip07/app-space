@@ -4,7 +4,6 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
-
     <title>sh-Accordion-test</title>
     <script type="module"src="../src/sh-accordion.js"></script>
     <script type="module"src="../src/sh-checkbox.js"></script>
@@ -15,7 +14,7 @@
 <body>
     <test-fixture id="SHAccordion">
         <template>
-            <sh-accordion>
+            <sh-accordion style="width:300px;">
                 <sh-checkbox Label="abc"></sh-checkbox>
                 <sh-checkbox Label="xyz"></sh-checkbox>
             </sh-accordion>   
@@ -37,6 +36,38 @@
                 acc.disabled = true;;
                 acc._handleDisabled();
                 assert.equal(expanded, false, "Accordion Disabled");
+            })
+            test('expand icon focus', function(done){
+                let expand;
+                expand = acc.shadowRoot.querySelector('#expand');
+                flush(function(){
+                    var event = new Event('focus');
+                    expand.dispatchEvent(event);
+                    expand.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':32}));
+                    assert.equal(acc.expanded, true);
+                    done();
+                })
+            })
+            test('expand icon on tabbing', function(done){
+                let expand;
+                expand = acc.shadowRoot.querySelector('#expand');
+                flush(function(){
+                    var event = new Event('focus');
+                    expand.dispatchEvent(event);
+                    expand.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':9}));
+                    assert.equal(expand.style.outline, 'rgb(59, 153, 252) solid 2px');
+                    done();
+                })
+            })
+            test('expand icon on blur', function(done){
+                let expand;
+                expand = acc.shadowRoot.querySelector('#expand');
+                flush(function(){
+                    var event = new Event('blur');
+                    expand.dispatchEvent(event);
+                    assert.equal(expand.style.outline, 'none');
+                    done();
+                })
             })
         })
     </script>

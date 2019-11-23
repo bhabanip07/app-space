@@ -26,6 +26,8 @@ import { LicenseConditionsService } from './services/license-conditions.service'
 import { HttpModule } from '@angular/http';
 import { LoginComponent } from './login/login.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
+import { ShuiReleaseTestComponent } from './shui-release-test/shui-release-test.component';
+import { FileSelectDirective } from 'ng2-file-upload';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +47,8 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
     LogOutComponent,
     LoginComponent,
     FileUploadComponent,
+    ShuiReleaseTestComponent,
+    FileSelectDirective,
   ],
   imports: [
     BrowserModule,

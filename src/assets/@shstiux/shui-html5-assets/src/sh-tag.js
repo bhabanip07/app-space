@@ -130,14 +130,14 @@ class SHTag extends PolymerElement {
     }
   }
   _removeTag() {
-    this.style.display = 'none';
-    this.parentNode.removeChild(this);
     //custom event for close tag
     this.dispatchEvent(new CustomEvent('closed', {
       detail: this,
       composed: true,
       bubbles: true
     }));
+    this.style.display = 'none';
+    this.parentNode.removeChild(this);
   }
 }
 window.customElements.define(SHTag.is, SHTag);
