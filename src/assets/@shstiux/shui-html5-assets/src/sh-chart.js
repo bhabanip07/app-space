@@ -88,7 +88,10 @@ class SHChart extends PolymerElement {
   _setChart() {
     // set default attributes on load
     let _this, sets;
-    _this = this
+    _this = this;
+    if(this.data === null || this.data === undefined) {
+      return;
+    }
     sets = this.data.datasets.length;
     for (let i = 0; i < sets; i++) {
       // default values for customizable dataset attributes

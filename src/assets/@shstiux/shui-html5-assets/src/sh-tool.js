@@ -40,6 +40,7 @@ class SHTool extends PolymerElement {
 
       :host([active]) {
         background: rgba(var(--ui-1), var(--opacity-5)) !important;
+        border: 1px solid rgba(var(--ui-0), var(--opacity-1));
       }
 
       :host(:not([stretch])) {
@@ -72,6 +73,7 @@ class SHTool extends PolymerElement {
         line-height: 12px !important;
       }
 
+      :host([icononly][icon]) .tool-label,
       :host(:not([label])) .tool-label,
       :host([condensed][icon]) .tool-label {
         display: none;
@@ -105,6 +107,8 @@ class SHTool extends PolymerElement {
 
       /* value */
 
+      
+      :host([icononly]) .tool-label,
       :host(:not([select][value])) .tool-value {
         display: none;
       }
@@ -198,6 +202,11 @@ class SHTool extends PolymerElement {
         reflectToAttribute: true,
         notify:true
       },
+      icononly: {
+        type: Boolean,
+        reflectToAttribute: true,
+        notify:true
+      },
       palette: {
         type: Boolean,
         reflectToAttribute: true,
@@ -253,8 +262,9 @@ class SHTool extends PolymerElement {
     })
     // long touch palette listener
     this.addEventListener('touchstart', function() {
+      let touchTimer;
       if (_this.palette) {
-        var touchTimer = window.setTimeout(function() { 
+        touchTimer = window.setTimeout(function() { 
           _this._expandPalette();
         }, 500);
       }
@@ -266,10 +276,10 @@ class SHTool extends PolymerElement {
     this.addEventListener('click', function (e) {
       // toggle active state
       if (e.target.tagName === 'SH-TOOL') {
-        if (_this.toggle === true) {
+        if (_this.toggle) {
           _this.active = !_this.active;
         }
-        if (_this.select === true) {
+        if (_this.select) {
           _this.expanded = true;
           _this._handleOffset();
         }
@@ -282,25 +292,37 @@ class SHTool extends PolymerElement {
         _this.expanded = false;
         _this._unselectSiblings();
         e.target.active = true;
-        if (_this.select == true) {
-          _this.value = e.target.label;
+        if (_this.select) {
+          // ICON ONLY
+          if (_this.icononly) {
+            _this.icon = e.target.icon;
+          } else {
+            _this.value = e.target.label;
+          }
         } else if (e.target.icon) {
           _this.label = e.target.label;
           _this.icon = e.target.icon;
         }
+        else {
+          _this.label = e.target.label;
+        }
       }
     });
     // show menu for select tool
-    if (this.palette === true || this.select === true) {
-      for (var i = 0; i < this.children.length; i++) {
+    if (this.palette || this.select) {
+      for (let i = 0; i < this.children.length; i++) {
         // look for active item on load
-        if (this.children[i].active === true) {
-          if (this.select == true) {
+        if (this.children[i].active) {
+          if (this.select) {
+            if (_this.icononly) {
+              _this.icon = this.children[i].icon;
+            } else {
             _this._unselectSiblings();
             this.value = this.children[i].label;
+            }
           } else {
             this.label = this.children[i].label;
-            if (this.children[i].icon != undefined) {
+            if (this.children[i].icon !== undefined) {
               this.icon = this.children[i].icon;
             }
           }
@@ -349,7 +371,7 @@ class SHTool extends PolymerElement {
     // reposition every 1 sec
     reposition = setInterval(function() {
       _this._handleOffset();
-      if (_this.expanded === false) {
+      if (_this.expanded) {
         clearInterval(reposition);
       }
     }, 10);

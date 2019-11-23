@@ -1,0 +1,223 @@
+@font-face {
+  font-family: bree-light;
+  src: url('../src/fonts/Bree-SH-Text-Regular.ttf');
+}
+body{
+  background-color: var(--base-1);
+}
+
+html{
+  background-color:var(--base-1)
+}
+
+body {
+overflow-y: scroll;
+}
+
+
+@font-face {
+font-family: bree-headline;
+src: url('../src/fonts/Bree-SH-Headline-Regular.woff');
+}
+
+@font-face {
+font-family: bree-light;
+src: url('../src/fonts/Bree-SH-Text-Regular.woff');
+}
+
+@font-face {
+font-family: icon-fonts;
+src: url('../src/fonts/sh-icons.woff');
+}
+
+#subsuites>iframe {
+margin-top: 20%;
+margin-left: 3%;
+width:1090px !important;
+border: 1px solid #ccc !important;
+z-index:100 !important;
+}
+
+#subsuites>iframe:before {
+content: 'Testing frame preview' !important
+}
+
+#mocha {
+transition:all 0.2s ease-in-out
+}
+
+#mocha-report {
+position: relative;
+top: 100px;
+height: 700px !important;
+border-radius:6px;
+overflow-y: scroll;
+padding: 2px;
+background-color:var(--base-0);
+width:fit-content;
+transition:all 0.3s ease-in-out !important;
+padding-right: 50px !important;
+/* left:550px; */
+color:var(--text-primary) !important;
+}
+ ul#mocha-report{
+  padding: 30px 37px 0 0px!important;
+  margin-left: 7% !important;
+}
+ ul#mocha-report{
+  padding: 30px 37px 0 0px!important;
+  margin-left: 7% !important;
+}
+#mocha .test.pass.fast .duration {
+  display:inline-block !important
+}
+
+#mocha .test a.replay {
+  position: relative !important;
+  top: 0px !important;
+  text-decoration: none !important;
+  vertical-align: middle !important;
+  display: block !important;
+  width: 16px !important;
+  height: 16px !important;
+  line-height: 16px !important;
+  text-align: center !important;
+  background-color: rgba(var(--ui-2),var(--opacity-1))!important;
+  font-size: 18px !important;
+  -webkit-border-radius: 15px !important;
+  -moz-border-radius: 15px !important;
+  /* border-radius: 50% !important; */
+  -webkit-transition: opacity 200ms !important;
+  -moz-transition: opacity 200ms !important;
+  -o-transition: opacity 200ms !important;
+  transition: opacity 200ms !important;
+  left: 2px !important;
+  color: var(--text-white) !important;
+  opacity: 1 !important;
+}
+#mocha .test a.replay:hover {
+  background-color: var(--text-primary) !important;
+  color:dodgerblue !important
+}
+ #mocha h2{
+  display:flex !important;
+ }
+ #mocha, #subsuites{
+   height:88% !important;
+ }
+ #subsuites{
+  margin-left: 32px !important;
+ }
+/* #mocha-report > li > ul > li:before {
+  content: 'Test Report';
+}
+/* #mocha-report:before{
+  content: 'Test Report';
+  position: relative;
+  top: 13px;
+  left: 9px;
+} */ 
+
+#mocha-report h1{
+color:var(--text-primary) !important;
+}
+
+#mocha .test.pass::before {
+font-family: icon-fonts !important;
+content: '\E0E6' !important;
+display: block !important;
+float: left !important;
+margin-right: 11px !important;
+font-size: 15px !important;
+color: rgb(var(--functional-green)) !important;
+}
+#mocha .test.pass h2 {
+color: rgb(var(--functional-green)) !important;
+}
+
+#mocha .test.pass pre {
+border:2px solid transparent !important;
+background-color:rgba(var(--functional-green),var(--opacity-4)) !important;
+color:var(--text-primary) !important;
+}
+
+#mocha .test.pass pre code {
+  color:var(--text-primary) !important;
+}
+
+#mocha .test.fail h2 {
+  color:var(--text-primary) !important;
+}
+
+#mocha .test.fail pre {
+border:none;
+background-color:rgba(var(--functional-red),var(--opacity-4)) !important;
+color:var(--text-primary) !important;
+}
+
+#mocha .test.fail pre code {
+  color:var(--text-primary) !important;
+}
+
+#mocha .test.fail h2 {
+  color: rgb(var(--functional-red)) !important;
+}
+
+#mocha .test.fail::before {
+font-family: icon-fonts !important;
+content: '\E002' !important;
+display: block !important;
+float: left !important;
+margin-right: 11px !important;
+font-size: 15px !important;
+color: rgb(var(--functional-red)) !important;
+}
+
+#mocha-report>li>h1 {
+display: none;
+}
+
+#mocha-report>li>ul>li {
+position: relative;
+top: 75px;
+}
+
+/*Title*/
+
+#mocha-report>li>ul>li>h1 {      
+font-size: 1em !important;
+font-weight: bold;
+}
+
+/*Title*/
+
+#mocha-report>li>ul>li>ul>li>h1 {
+font-weight: 200;
+font-size: 0.9em !important;
+}
+
+#mocha-report>li>ul>li>ul>li>ul>li>h1 {
+font-weight: 100;
+font-size: 0.8em !important;
+}
+
+#mocha-report>li>ul>li>ul>li>ul>li>ul>li>h1 {
+font-weight: 200;
+font-size: 0.7em !important; 
+}
+
+#mocha-report>li>ul>li>ul>li {
+border-radius: 14px;
+padding-top: 0px;
+width: fit-content;
+}
+
+.heading {
+background-color: rgb(var(--ui-2));
+height: 10%
+}
+
+#mocha-report>li>ul>li {
+  position: relative !important;
+  top: 3px !important;
+}

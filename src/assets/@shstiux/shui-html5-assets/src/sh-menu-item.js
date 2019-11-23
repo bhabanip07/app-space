@@ -53,6 +53,18 @@ class SHMenuItem extends PolymerElement {
         background: rgba(var(--ui-1),var(--opacity-6)) !important;
       }
 
+      .menu-item-wrapper.tab-class,
+      .menu-item-wrapper.tab-class:hover {
+        padding: 8px 8px;
+        margin: 0 -8px;
+        width: calc(100% + 16px);
+      }
+
+      :host([icon]) .menu-item-wrapper.tab-class,
+      :host([icon]) .menu-item-wrapper.tab-class:hover,
+      :host([icon]:not(.no-hovermq)) .menu-item-wrapper.hover{
+        padding: 4px 8px !important;
+      }
 
       .menu-item-wrapper.focused {
         padding: 8px 8px;
@@ -357,7 +369,9 @@ class SHMenuItem extends PolymerElement {
     this.addEventListener('focus', function () {
       this.onkeyup = function (e) {
         if (e.keyCode === 9 && !this.children.length > 0) {
-            this.$.menuExpandWrapper.style.border = '2px solid rgb(59, 153, 252)';
+          this.$.menuExpandWrapper.classList.add('tab-class');
+          this.$.menuExpandWrapper.style.outline = '2px solid rgb(59, 153, 252)';
+          this.$.menuExpandWrapper.style.outlineOffset = '-2px';
         }
         if (e.keyCode === 32 || e.keyCode === 13) {
           e.preventDefault();
@@ -367,7 +381,7 @@ class SHMenuItem extends PolymerElement {
     })
 
     this.addEventListener('blur', function () {
-      this.$.menuExpandWrapper.style.border = '';
+      this.$.menuExpandWrapper.style.outline = '';
     });
   }
 

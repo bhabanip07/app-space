@@ -13,7 +13,7 @@ class SHNotificationItem extends PolymerElement {
         height: auto;
         height: -ms-fit-content;
         height: -moz-fit-content;
-        background: var(--base-3);
+        background: var(--base-4);
         box-shadow: var(--shadow-overlay);
         display: flex;
         flex-direction: column;

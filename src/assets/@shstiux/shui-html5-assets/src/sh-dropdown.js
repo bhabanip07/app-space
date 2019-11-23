@@ -251,6 +251,9 @@ class SHDropdown extends PolymerElement {
       :host([error]:not([readonly])) input {
         padding-right: 72px;
       }
+      :host([no-border]) input {
+        border-bottom: none;
+      }
     </style>
 
     <!--HTML-->
@@ -371,6 +374,12 @@ class SHDropdown extends PolymerElement {
         value: false,
         notify: true,
         reflectToAttribute: true
+      },
+      noBorder: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        notify: true
       }
     };
   }
@@ -399,6 +408,9 @@ class SHDropdown extends PolymerElement {
     let menuItemWrapper;
     let menuItem;
     self = this;
+    if(!this.multiSelect) {
+      this._updateValue();
+   }
     this.shadowRoot.querySelector('#dropdownInput').addEventListener('mouseover', function () {
       if (this.offsetWidth < this.scrollWidth) {
         this.setAttribute('title', this.value);
@@ -543,9 +555,9 @@ class SHDropdown extends PolymerElement {
             } else {
               self.removeAttribute('icon');
             }
-            for (let i2 = 0; i2 < self.children.length; i2++) {
-              self.children[i2].removeAttribute('active');
-              self.children[i2].active = false;
+            for (let i = 0; i < self.children.length; i++) {
+              self.children[i].removeAttribute('active');
+              self.children[i].active = false;
             }
             self.children[newValueIndex].active = true;
             self.children[newValueIndex].setAttribute('active', true);
@@ -793,7 +805,31 @@ class SHDropdown extends PolymerElement {
     else {
       this.classList.remove('empty');
     }
+    if(!this.multiSelect) {
+      this._updateValue();
+    }
   }
+  //update the value and icon for dropdown
+  _updateValue() {
+    let self;
+    self = this;
+    if(self._options !== undefined) {
+      for (let i = 0; i < self._options.length; i++) {
+        if (self.value === self._options[i].value || self.value === self._options[i].label) {
+          self._options[i].setAttribute('active', true);
+          if (self._options[i].icon !== undefined) {
+            self.setAttribute('icon', self._options[i].icon )
+          }
+        }
+        else {
+          if(self._options[i].icon !== undefined) {
+            self._options[i].removeAttribute('active');
+          }
+        }
+      }
+    }
+  }
+
   _handleActive() {
     let _this;
     _this = this;
@@ -911,6 +947,7 @@ class SHDropdown extends PolymerElement {
       }
     }
   }
+  
   _updateElement() {
     let childElement;
     childElement = this.querySelectorAll('sh-menu-item[active]');

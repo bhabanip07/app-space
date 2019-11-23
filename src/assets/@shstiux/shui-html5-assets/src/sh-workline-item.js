@@ -206,12 +206,25 @@ class SHWorklineItem extends PolymerElement {
           transform: rotate(360deg);
         }
       }
+      /* message */
+      sh-popover {
+        position: absolute;
+        bottom: calc(100% + 8px);
+        cursor: default;
+        max-height: 800px;
+        max-width: 1200px;
+        width: auto;
+        text-align: left;
+      }
     </style>
 
     <!--HTML-->
     <div class="info-wrapper">
       <slot name="info" id="info"></slot>
     </div>
+    <sh-popover sticky visible$="[[messageVisible]]">
+      <slot name="message"></slot>
+    </sh-popover>
     <div class="item-wrapper">
       <div class="progress-wrapper">
         <svg height="56" width="56">
@@ -301,6 +314,11 @@ class SHWorklineItem extends PolymerElement {
       indeterminate: {
         type: Boolean,
         value: false,
+        reflectToAttribute: true,
+        notify: true
+      },
+      messageVisible: {
+        type: Boolean,
         reflectToAttribute: true,
         notify: true
       }

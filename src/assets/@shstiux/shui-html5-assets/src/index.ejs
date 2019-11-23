@@ -7,14 +7,13 @@
   <title>SHUI Component Sandbox</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript">
-      var webcomponentsjsBase = "./node_modules/@webcomponents/webcomponentsjs/";
+    var webcomponentsjsBase = "./node_modules/@webcomponents/webcomponentsjs/";
   </script>
   <script src="./shui.js"></script>
   <link rel="stylesheet" type="text/css" href="./shui-styles.css">
 </head>
 
 <body>
-
   <sh-notifications>
     <sh-notification-item duration="long" visible label="Confirmation Notification" type="confirmation" message="This is the notification text.">
       <sh-button slot="footer" label="Button 2"></sh-button>
@@ -162,14 +161,14 @@
         <sh-progress indeterminate header="Indeterminate" info="Processing files"></sh-progress>
       </sh-accordion>
       <!-- search -->
-      <sh-accordion label="Search" expanded>
+      <sh-accordion label="Search">
         <sh-search label="Search" id="multisearch" icon="save" multiline  fields='["firstname","lastname"]'>
             <sh-empty-state slot="empty" icon="patient" label="No search results">
         </sh-search>
         <sh-search label="Search Body Part" search-array='["Abdomen","Head","Whole Body","Chest","Extremity"]'></sh-search>
       </sh-accordion>
       <!-- input-text -->
-      <sh-accordion label="Input Text" expanded>
+      <sh-accordion label="Input Text">
         <sh-input-text condensed label='Condensed'></sh-input-text>
         <sh-input-text condensed label='Condensed' value='Lorem Ipsum'></sh-input-text>
         <sh-input-text condensed label='Condensed Disabled' disabled></sh-input-text>
@@ -202,7 +201,7 @@
       <!-- input-number -->
       <sh-accordion label="Input Number">
         <sh-input-number label='Window Width'></sh-input-number>
-        <sh-input-number label='Window Width' value='0.5' step='0.5' max="40" min="-9"></sh-input-number>
+        <sh-input-number label='Window Width' value='0.001' step='0.05' max="40" min="-9" decimals='6'></sh-input-number>
         <sh-input-number label='Window Width' value='320' readonly></sh-input-number>
         <sh-input-number label='Window Width' disabled></sh-input-number>
         <sh-input-number label='Window Width' error error-message="Lorem Ipsum"></sh-input-number>
@@ -217,7 +216,7 @@
         <sh-datepicker label='Date Range' range></sh-datepicker>
         <sh-datepicker label='Disabled' disabled></sh-datepicker>
       </sh-accordion>
-      <sh-accordion label="Dropdown">
+      <sh-accordion label="Dropdown" expanded>
         <!-- timepicker -->
         <sh-timepicker label='Scheduled Time'></sh-timepicker>
         <sh-timepicker label='Scheduled Time' mandatory></sh-timepicker>
@@ -229,12 +228,18 @@
         <sh-timepicker label='Scheduled Time' h="03" m="02" s="04" am-pm="AM" safety></sh-timepicker>
         <sh-divider></sh-divider>
         <!-- dropdown -->
+        <sh-dropdown label='Position' value="Head First Supine" icon="head-first-supine">
+          <sh-menu-item label='Head First Supine' icon="head-first-supine"></sh-menu-item>
+          <sh-menu-item label='Head First Left Lateral' icon="head-first-left-lateral"></sh-menu-item>
+          <sh-menu-item label='Head First Right Lateral' icon="head-first-right-lateral" active></sh-menu-item>
+          <sh-menu-item label='Head First Prone' icon="head-first-prone"></sh-menu-item>
+        </sh-dropdown>
         <sh-dropdown label='Presets'>
           <sh-menu-item label='Lung'></sh-menu-item>
           <sh-menu-item label='Head'></sh-menu-item>
           <sh-menu-item label='Bone'></sh-menu-item>
         </sh-dropdown>
-        <sh-dropdown label='Presets' error>
+        <sh-dropdown label='Presets' value="Lung" error>
           <sh-menu-item label='Lung'></sh-menu-item>
           <sh-menu-item label='Head'></sh-menu-item>
           <sh-menu-item label='Bone' active></sh-menu-item>
@@ -260,6 +265,7 @@
       <!-- tools -->
       <sh-accordion label="Tools">
         <sh-grid spacing="s" style="-ms-grid-columns: 1fr 1fr 1fr; grid-template-columns: 1fr 1fr 1fr;">
+         
           <sh-tool stretch label="Select" select style="-ms-grid-column: 1; -ms-grid-row: 1;">
             <sh-menu-item label='3D Rotation' icon="rotate-3d"></sh-menu-item>
             <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
@@ -284,6 +290,35 @@
             <sh-menu-item label='Marker' icon="marker"></sh-menu-item>
             <sh-menu-item label='Zoom' icon="zoom"></sh-menu-item>
           </sh-tool>
+
+
+
+          <sh-tool stretch label="Select" select icononly style="-ms-grid-column: 1; -ms-grid-row: 1;">
+            <sh-menu-item label='3D Rotation' icon="rotate-3d"></sh-menu-item>
+            <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
+            <sh-menu-item label='Airways Analyse' icon="airways-analyse"></sh-menu-item>
+            <sh-menu-item label='Annotation' icon="edit"></sh-menu-item>
+            <sh-menu-item label='Marker' icon="marker"></sh-menu-item>
+            <sh-menu-item label='Zoom' icon="zoom"></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch label="Select" select icononly style="-ms-grid-column: 2; -ms-grid-row: 1;">
+            <sh-menu-item label='3D Rotation' icon="rotate-3d"></sh-menu-item>
+            <sh-menu-item label='2D Rotation' icon="rotate-2d" active></sh-menu-item>
+            <sh-menu-item label='Airways Analyse' icon="airways-analyse"></sh-menu-item>
+            <sh-menu-item label='Annotation' icon="edit"></sh-menu-item>
+            <sh-menu-item label='Marker' icon="marker"></sh-menu-item>
+            <sh-menu-item label='Zoom' icon="zoom"></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch disabled label="Select" icononly select style="-ms-grid-column: 3; -ms-grid-row: 1;">
+            <sh-menu-item label='3D Rotation' icon="rotate-3d"></sh-menu-item>
+            <sh-menu-item label='2D Rotation' icon="rotate-2d" active></sh-menu-item>
+            <sh-menu-item label='Airways Analyse' icon="airways-analyse"></sh-menu-item>
+            <sh-menu-item label='Annotation' icon="edit"></sh-menu-item>
+            <sh-menu-item label='Marker' icon="marker"></sh-menu-item>
+            <sh-menu-item label='Zoom' icon="zoom"></sh-menu-item>
+          </sh-tool>
+
+
           <sh-tool stretch palette style="-ms-grid-column: 1; -ms-grid-row: 2;">
             <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
             <sh-menu-item label='Palette' icon="rotate-3d" active></sh-menu-item>
@@ -296,6 +331,20 @@
             <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
             <sh-menu-item label='3D Rotation' icon="rotate-3d" active></sh-menu-item>
           </sh-tool>
+          
+          <sh-tool stretch palette icononly style="-ms-grid-column: 1; -ms-grid-row: 2;">
+            <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
+            <sh-menu-item label='Palette' icon="rotate-3d" active></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch toggle palette icononly style="-ms-grid-column: 2; -ms-grid-row: 2;">
+            <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
+            <sh-menu-item label='Palette Toggle' icon="rotate-3d" active></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch disabled palette icononly style="-ms-grid-column: 3; -ms-grid-row: 2;">
+            <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
+            <sh-menu-item label='3D Rotation' icon="rotate-3d" active></sh-menu-item>
+          </sh-tool>
+          
           <sh-tool stretch palette style="-ms-grid-column: 1; -ms-grid-row: 3;">
             <sh-menu-item label='2D Rotation'></sh-menu-item>
             <sh-menu-item label='Palette' active></sh-menu-item>
@@ -317,6 +366,14 @@
           <sh-tool stretch condensed label="Button" style="-ms-grid-column: 1; -ms-grid-row: 6;"></sh-tool>
           <sh-tool stretch condensed icon="pan" style="-ms-grid-column: 2; -ms-grid-row: 6;"></sh-tool>
           <sh-tool stretch condensed label="Select" palette style="-ms-grid-column: 3; -ms-grid-row: 6;">
+            <sh-menu-item label='3D Rotation' icon="rotate-3d"></sh-menu-item>
+            <sh-menu-item label='2D Rotation' icon="rotate-2d" active></sh-menu-item>
+            <sh-menu-item label='Airways Analyse' icon="airways-analyse"></sh-menu-item>
+            <sh-menu-item label='Annotation' icon="edit"></sh-menu-item>
+            <sh-menu-item label='Marker' icon="marker"></sh-menu-item>
+            <sh-menu-item label='Zoom' icon="zoom"></sh-menu-item>
+          </sh-tool>
+          <sh-tool stretch condensed label="Select" select icononly style="-ms-grid-column: 2; -ms-grid-row: 1;">
             <sh-menu-item label='3D Rotation' icon="rotate-3d"></sh-menu-item>
             <sh-menu-item label='2D Rotation' icon="rotate-2d" active></sh-menu-item>
             <sh-menu-item label='Airways Analyse' icon="airways-analyse"></sh-menu-item>
@@ -351,8 +408,10 @@
       <!-- thumbnails -->
       <sh-accordion label="Thumbnails" expanded>
         <sh-grid style="grid-template-columns: 1fr 1fr">
-          <sh-thumbnail aspect-ratio="4/3" src="https://upload.wikimedia.org/wikipedia/commons/4/43/Aspect_ratio_4_3_example.jpg"></sh-thumbnail>
-          <sh-thumbnail aspect-ratio="1/1" number="201" label="T1 Cor"></sh-thumbnail>
+          <sh-thumbnail aspect-ratio="4/3" src="https://upload.wikimedia.org/wikipedia/commons/4/43/Aspect_ratio_4_3_example.jpg" badge="new">
+            <sh-text size="title-2" color="primary" slot="info" style="line-height: 16px;">03:45</sh-text>
+          </sh-thumbnail>
+          <sh-thumbnail aspect-ratio="1/1" number="201" label="T1 Cor" badge="warning"></sh-thumbnail>
           <sh-thumbnail aspect-ratio="16/9" src="https://upload.wikimedia.org/wikipedia/commons/7/72/16x9_by_Pengo.svg" label="T1 Sag Dark Fluid Lorem Ipsum Dolor Sit" active focus></sh-thumbnail>
           <sh-thumbnail src="https://upload.wikimedia.org/wikipedia/commons/7/72/16x9_by_Pengo.svg" label="T1 Cor" active></sh-thumbnail>
           <sh-thumbnail label="T1 Sag Dark Fluid Lorem Ipsum Dolor Sit" ></sh-thumbnail>
@@ -465,13 +524,188 @@
     </sh-grid>
 
     <!-- left drawer -->
-    <sh-drawer label="Left Drawer" position="left" id="drawer-left"> </sh-drawer>
+    <sh-drawer label="Left Drawer" position="left" id="drawer-left">
+      <sh-tabs slot="header">
+        <sh-tab-item label="Patient Information" active>
+        </sh-tab-item>
+        <sh-tab-item label="Study History">
+        </sh-tab-item>
+      </sh-tabs>
+      <sh-icon button icon="more" id="target-2" slot="functions"></sh-icon>
+      <sh-input-text label="Name"></sh-input-text>
+      <sh-datepicker label='Date of Birth'></sh-datepicker>
+      <sh-input-text label="ID"></sh-input-text>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Date Ranges</sh-text>
+      <sh-dropdown label='Preset Ranges'>
+        <sh-menu-item label='Today'></sh-menu-item>
+        <sh-menu-item label='This Week'></sh-menu-item>
+        <sh-menu-item label='This Month'></sh-menu-item>
+      </sh-dropdown>
+      <sh-datepicker label='Date Range' range></sh-datepicker>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Study Description</sh-text>
+      <sh-dropdown label='Studies' multi-select>
+        <sh-menu-item checkbox label='Abdomen'></sh-menu-item>
+        <sh-menu-item checkbox label='Chest'></sh-menu-item>
+        <sh-menu-item checkbox label='Neck'></sh-menu-item>
+        <sh-menu-item checkbox label='Brain'></sh-menu-item>
+      </sh-dropdown>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Modalities</sh-text>
+      <sh-grid fit-content spacing="s">
+        <sh-checkbox label='CT' columns="3"></sh-checkbox>
+        <sh-checkbox label='MR' columns="3"></sh-checkbox>
+        <sh-checkbox label='PT' columns="3"></sh-checkbox>
+        <sh-checkbox label='US' columns="3"></sh-checkbox>
+        <sh-checkbox label='CR' columns="3"></sh-checkbox>
+        <sh-checkbox label='DX' columns="3"></sh-checkbox>
+        <sh-checkbox label='MG' columns="3"></sh-checkbox>
+        <sh-checkbox label='XR' columns="3"></sh-checkbox>
+      </sh-grid>
+      <sh-input-text label="Others" style="margin-top: 8px;"></sh-input-text>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Fields</sh-text>
+      <sh-dropdown label='Accession Number'>
+        <sh-menu-item label='1122'></sh-menu-item>
+        <sh-menu-item label='2233'></sh-menu-item>
+        <sh-menu-item label='3344'></sh-menu-item>
+      </sh-dropdown>
+      <sh-dropdown label='Institution Name'>
+        <sh-menu-item label='Mayo Clinic, Rochester, Minnesota'></sh-menu-item>
+        <sh-menu-item label='Massachusetts General Hospital, Boston'></sh-menu-item>
+        <sh-menu-item label='Johns Hopkins Hospital, Baltimore'></sh-menu-item>
+        <sh-menu-item label='Cleveland Clinic'></sh-menu-item>
+        <sh-menu-item label='New York-Presbyterian Hospital-Columbia and Cornell, New York'></sh-menu-item>
+        <sh-menu-item label='UCLA Medical Center, Los Angeles'></sh-menu-item>
+        <sh-menu-item label='UCSF Medical Center, San Francisco'></sh-menu-item>
+      </sh-dropdown>
+      <sh-divider></sh-divider>
+      <sh-button color="secondary" label="Apply" shape="pill-m" slot="footer"></sh-button>
+    </sh-drawer>
 
     <!-- right drawer -->
-    <sh-drawer label="Right Drawer" position="right" id="drawer-right"></sh-drawer>
+    <sh-drawer label="Right Drawer" position="right" id="drawer-right">
+      <sh-tabs slot="header">
+        <sh-tab-item label="Patient Information" active>
+        </sh-tab-item>
+        <sh-tab-item label="Study History">
+        </sh-tab-item>
+      </sh-tabs>
+      <sh-icon button icon="more" id="target-2" slot="functions"></sh-icon>
+      <sh-input-text label="Name"></sh-input-text>
+      <sh-datepicker label='Date of Birth'></sh-datepicker>
+      <sh-input-text label="ID"></sh-input-text>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Date Ranges</sh-text>
+      <sh-dropdown label='Preset Ranges'>
+        <sh-menu-item label='Today'></sh-menu-item>
+        <sh-menu-item label='This Week'></sh-menu-item>
+        <sh-menu-item label='This Month'></sh-menu-item>
+      </sh-dropdown>
+      <sh-datepicker label='Date Range' range></sh-datepicker>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Study Description</sh-text>
+      <sh-dropdown label='Studies' multi-select>
+        <sh-menu-item checkbox label='Abdomen'></sh-menu-item>
+        <sh-menu-item checkbox label='Chest'></sh-menu-item>
+        <sh-menu-item checkbox label='Neck'></sh-menu-item>
+        <sh-menu-item checkbox label='Brain'></sh-menu-item>
+      </sh-dropdown>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Modalities</sh-text>
+      <sh-grid fit-content spacing="s">
+        <sh-checkbox label='CT' columns="3"></sh-checkbox>
+        <sh-checkbox label='MR' columns="3"></sh-checkbox>
+        <sh-checkbox label='PT' columns="3"></sh-checkbox>
+        <sh-checkbox label='US' columns="3"></sh-checkbox>
+        <sh-checkbox label='CR' columns="3"></sh-checkbox>
+        <sh-checkbox label='DX' columns="3"></sh-checkbox>
+        <sh-checkbox label='MG' columns="3"></sh-checkbox>
+        <sh-checkbox label='XR' columns="3"></sh-checkbox>
+      </sh-grid>
+      <sh-input-text label="Others" style="margin-top: 8px;"></sh-input-text>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Fields</sh-text>
+      <sh-dropdown label='Accession Number'>
+        <sh-menu-item label='1122'></sh-menu-item>
+        <sh-menu-item label='2233'></sh-menu-item>
+        <sh-menu-item label='3344'></sh-menu-item>
+      </sh-dropdown>
+      <sh-dropdown label='Institution Name'>
+        <sh-menu-item label='Mayo Clinic, Rochester, Minnesota'></sh-menu-item>
+        <sh-menu-item label='Massachusetts General Hospital, Boston'></sh-menu-item>
+        <sh-menu-item label='Johns Hopkins Hospital, Baltimore'></sh-menu-item>
+        <sh-menu-item label='Cleveland Clinic'></sh-menu-item>
+        <sh-menu-item label='New York-Presbyterian Hospital-Columbia and Cornell, New York'></sh-menu-item>
+        <sh-menu-item label='UCLA Medical Center, Los Angeles'></sh-menu-item>
+        <sh-menu-item label='UCSF Medical Center, San Francisco'></sh-menu-item>
+      </sh-dropdown>
+      <sh-divider></sh-divider>
+      <sh-button color="secondary" label="Apply" shape="pill-m" slot="footer"></sh-button>
+      <sh-button color="tertiary" label="Cancel" shape="pill-m" slot="footer"></sh-button>
+    </sh-drawer>
 
     <!-- top drawer -->
-    <sh-drawer label="Top Drawer" position="top" id="drawer-top"></sh-drawer>
+    <sh-drawer label="Top Drawer" position="top" id="drawer-top">
+      <sh-tabs slot="header">
+        <sh-tab-item label="Patient Information" active>
+        </sh-tab-item>
+        <sh-tab-item label="Study History">
+        </sh-tab-item>
+      </sh-tabs>
+      <sh-icon button icon="more" id="target-2" slot="functions"></sh-icon>
+      <sh-input-text label="Name"></sh-input-text>
+      <sh-datepicker label='Date of Birth'></sh-datepicker>
+      <sh-input-text label="ID"></sh-input-text>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Date Ranges</sh-text>
+      <sh-dropdown label='Preset Ranges'>
+        <sh-menu-item label='Today'></sh-menu-item>
+        <sh-menu-item label='This Week'></sh-menu-item>
+        <sh-menu-item label='This Month'></sh-menu-item>
+      </sh-dropdown>
+      <sh-datepicker label='Date Range' range></sh-datepicker>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Study Description</sh-text>
+      <sh-dropdown label='Studies' multi-select>
+        <sh-menu-item checkbox label='Abdomen'></sh-menu-item>
+        <sh-menu-item checkbox label='Chest'></sh-menu-item>
+        <sh-menu-item checkbox label='Neck'></sh-menu-item>
+        <sh-menu-item checkbox label='Brain'></sh-menu-item>
+      </sh-dropdown>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Modalities</sh-text>
+      <sh-grid fit-content spacing="s">
+        <sh-checkbox label='CT' columns="3"></sh-checkbox>
+        <sh-checkbox label='MR' columns="3"></sh-checkbox>
+        <sh-checkbox label='PT' columns="3"></sh-checkbox>
+        <sh-checkbox label='US' columns="3"></sh-checkbox>
+        <sh-checkbox label='CR' columns="3"></sh-checkbox>
+        <sh-checkbox label='DX' columns="3"></sh-checkbox>
+        <sh-checkbox label='MG' columns="3"></sh-checkbox>
+        <sh-checkbox label='XR' columns="3"></sh-checkbox>
+      </sh-grid>
+      <sh-input-text label="Others" style="margin-top: 8px;"></sh-input-text>
+      <sh-divider></sh-divider>
+      <sh-text size="title-1">Fields</sh-text>
+      <sh-dropdown label='Accession Number'>
+        <sh-menu-item label='1122'></sh-menu-item>
+        <sh-menu-item label='2233'></sh-menu-item>
+        <sh-menu-item label='3344'></sh-menu-item>
+      </sh-dropdown>
+      <sh-dropdown label='Institution Name'>
+        <sh-menu-item label='Mayo Clinic, Rochester, Minnesota'></sh-menu-item>
+        <sh-menu-item label='Massachusetts General Hospital, Boston'></sh-menu-item>
+        <sh-menu-item label='Johns Hopkins Hospital, Baltimore'></sh-menu-item>
+        <sh-menu-item label='Cleveland Clinic'></sh-menu-item>
+        <sh-menu-item label='New York-Presbyterian Hospital-Columbia and Cornell, New York'></sh-menu-item>
+        <sh-menu-item label='UCLA Medical Center, Los Angeles'></sh-menu-item>
+        <sh-menu-item label='UCSF Medical Center, San Francisco'></sh-menu-item>
+      </sh-dropdown>
+      <sh-divider></sh-divider>
+      <sh-button color="secondary" label="Apply" shape="pill-m" slot="footer"></sh-button>
+    </sh-drawer>
 
     <!-- bottom drawer -->
     <sh-drawer label="Bottom Drawer" position="bottom" id="drawer-bottom"></sh-drawer>

@@ -6,10 +6,13 @@ import {
   html
 } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
+import {
+  FlattenedNodesObserver
+} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 
 class SHInputNumber extends PolymerElement {
   static get template() {
-    return html `
+    return html`
     <!--CSS-->
     <style include="shared-styles">
       :host {
@@ -129,7 +132,7 @@ class SHInputNumber extends PolymerElement {
       }
       :host(:not([condensed]):not(.empty)) input:focus+.input-number-label{
         width:calc(100% - 112px);
-      } 
+      }
       :host([readonly]) input:focus+.input-number-label{
         color: var(--text-secondary);
       }
@@ -176,6 +179,11 @@ class SHInputNumber extends PolymerElement {
         padding-bottom: 4px;
         height: 32px;
       }
+
+      :host([condensed]) input:focus+.input-number-label {
+        display: none;
+      }
+      
       :host([condensed]) #plus,
       :host([condensed]) #minus{
         margin-top : -4px;
@@ -206,6 +214,12 @@ class SHInputNumber extends PolymerElement {
       }
       :host([no-clear]) input {
         padding: 16px 80px 0px 8px !important;
+      }
+      :host([condensed][no-clear]) input {
+        padding-top: 4px !important;
+      }
+      :host([condensed][no-clear][no-arrows]) input {
+        padding-top: 4px !important;
       }
       :host([error]) #clear,
       :host([success]) #clear {
@@ -335,16 +349,15 @@ class SHInputNumber extends PolymerElement {
         visibility: hidden;
         opacity: 0;
         overflow: hidden;
-        transition: .2s all ease-in-out, .2s max-height ease-in-out, 0s padding ease-in-out;
         max-height: 0px;
         height: 0px;
         width: 208px;
-        box-shadow: var(--shadow-raised);
         z-index: 9999;
         position: absolute;
         background-color: var(--base-3);
         box-sizing: border-box;
         top: 40px;
+        box-shadow: var(--shadow-raised);
       }
       :host([condensed]) .keypad-wrapper {
         top: 32px;
@@ -370,6 +383,11 @@ class SHInputNumber extends PolymerElement {
         font: var(--header-2);
         color: var(--text-primary);
         cursor: pointer;
+        user-select: none;
+        -webkit-touch-callout:none;
+        -ms-user-select:none;
+        -moz-user-select:none;
+        line-height: 24px;
       }
       .circle-buttons:hover {
         background-color: rgba(var(--ui-1), var(--opacity-5));
@@ -377,9 +395,9 @@ class SHInputNumber extends PolymerElement {
       .circle-buttons:active {
         background-color: rgba(var(--ui-1), var(--opacity-7));
       }
-      .erase-button sh-icon {
-        margin-right: 3px;
-        margin-bottom: 3px
+      :host([keypad-disabled]) .circle-buttons {
+        pointer-events: none;
+        background-color: rgba(var(--ui-1), var(--opacity-7));
       }
       .erase-button {
         background-color: transparent;
@@ -388,11 +406,12 @@ class SHInputNumber extends PolymerElement {
         position: relative;
         display: flex;
         width: 176px;
-        justify-content: space-around;
+        justify-content: space-between;
+        padding-right: 8px;
+        box-sizing: border-box;
       }
       .footer-wrapper {
         position: relative;
-        margin:0 auto;
         display: flex;
         justify-content: flex-end;
       }
@@ -411,7 +430,7 @@ class SHInputNumber extends PolymerElement {
       :host([disabled]) .helper-text {
         color: var(--text-disabled);
       }
-      :host(:not([error])) .error-icon, 
+      :host(:not([error])) .error-icon,
       :host(:not([success])) .success-icon {
         display: none;
       }
@@ -430,10 +449,31 @@ class SHInputNumber extends PolymerElement {
       :host([error]:not(.empty):not([disabled]):not([readonly])) .input-number-label {
         width: calc(100% - 144px) !important;
       }
+      .items-wrapper {
+        max-height: 200px;
+        min-width: 0;
+        overflow: auto;
+        padding: 0 8px;
+        background: rgba(var(--ui-8), var(--opacity-1));
+        width: 208px;
+        position:fixed;
+      }
+      .functions-wrapper>::slotted(*:first-child) {
+        margin-left: 16px !important;
+        margin-right: 8px !important;
+      }
+
+      .functions-wrapper>::slotted(:not(*:first-child)){
+        margin-left: 8px;
+        margin-right: 8px;
+      }
+      :host([no-border]) input {
+        border-bottom: none;
+      }
     </style>
 
     <!--HTML-->
-  
+
     <div class="host-wrapper">
       <div class="content-wrapper">
         <input id="input" type="number" value="{{value::input}}" readonly$="{{readonly}}" min="[[min]]" max="[[max]]" step="[[step]]" disabled$="{{disabled}}">
@@ -447,29 +487,29 @@ class SHInputNumber extends PolymerElement {
           <sh-icon button icon="right-s" id="plus" on-click="_handlePlus" on-mousedown="_startPlusCounter" on-mouseup="_releasePlusCounter" on-touchstart="_startPlusCounter" on-touchend="_releasePlusCounter"></sh-icon>
         </div>
       </div>
-      <div class="keypad-wrapper">
+      <div class="items-wrapper keypad-wrapper">
         <div class="functions-wrapper">
-          <slot name="functions"></slot>
+          <slot name="functions" id="functionsSlot"></slot>
         </div>
         <div class="keypad-main-frame">
-          <div class="circle-buttons">1</div>
-          <div class="circle-buttons">2</div>
-          <div class="circle-buttons">3</div>
-          <div class="circle-buttons">4</div>
-          <div class="circle-buttons">5</div>
-          <div class="circle-buttons">6</div>
-          <div class="circle-buttons">7</div>
-          <div class="circle-buttons">8</div>
-          <div class="circle-buttons">9</div>
-          <div class="circle-buttons">.</div>
-          <div class="circle-buttons">0</div>
+          <div class="circle-buttons" tabindex="0">1</div>
+          <div class="circle-buttons" tabindex="0">2</div>
+          <div class="circle-buttons" tabindex="0">3</div>
+          <div class="circle-buttons" tabindex="0">4</div>
+          <div class="circle-buttons" tabindex="0">5</div>
+          <div class="circle-buttons" tabindex="0">6</div>
+          <div class="circle-buttons" tabindex="0">7</div>
+          <div class="circle-buttons" tabindex="0">8</div>
+          <div class="circle-buttons" tabindex="0">9</div>
+          <div class="circle-buttons" tabindex="0">.</div>
+          <div class="circle-buttons" tabindex="0">0</div>
           <div class="circle-buttons erase-button"><sh-icon icon="delete-number"></sh-icon></div>
         </div>
         <sh-divider class="divider" spacing="m"></sh-divider>
         <div class="footer-wrapper">
           <slot name="footer" id="footer"></slot>
         </div>
-      </div>
+    </div>
       <div class="icon-wrapper">
         <slot name="icon" id="icon"></slot>
         <sh-icon icon="error" class="error-icon" size="s" color="rgb(var(--functional-red))"></sh-icon>
@@ -579,7 +619,8 @@ class SHInputNumber extends PolymerElement {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
-        notify: true
+        notify: true,
+        observer:'_inputDisabledObserver'
       },
       keypad: {
         type: Boolean,
@@ -609,14 +650,33 @@ class SHInputNumber extends PolymerElement {
         value: false,
         reflectToAttribute: true,
         notify: true
+      },
+      keypadActive: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        notify: true,
+        observer: '_handleKeypadActive'
+      },
+      keypadDisabled: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        notify: true
+      },
+      noBorder: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        notify: true
       }
-
     };
   }
 
   constructor() {
     super();
     this.boundMove = this._releasePlusCounter.bind(this);
+    this.eventCounter = 0;
   }
   ready() {
     super.ready();
@@ -640,197 +700,598 @@ class SHInputNumber extends PolymerElement {
     }
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  _inputDisabledObserver(newValue) {
     let self;
     self = this;
-    window.addEventListener('mousemove', self.boundMove);
-    this.$.input.addEventListener('focus', function () {
-      if (self.readonly) {
-        return;
-      }
-      if (self.value === '') {
-        this.removeAttribute('value');
-        this.value = '';
-        this.setAttribute('value', this.value);
-      }
-      self.$.input.onkeydown= function (e) {
-        if (e.which === 38 || e.which === 40) {
-          e.preventDefault();
-        }
-        if (e.keyCode === 38) {
-          e.preventDefault();
-          self._handlePlus();
-        }
-        if (e.keyCode === 40) {
-          self._handleMinus();
-        }
-      }
-      if (self.keypad && self.readonly === false && self.disabled === false) {
-        self.shadowRoot.querySelector('.keypad-wrapper').classList.add('open');
-        self.shadowRoot.querySelector('input').readonly = true;
+    if (newValue) {
+      self.$.input.disabled = true;
+    }
+    else  {
+      self.$.input.disabled = false;
+    }
+  }
 
+  checkIfValueIsEmpty(value) {
+    let self;
+    self = this;
+    if (value === '') {
+      self.removeAttribute('value');
+      self.value = '';
+      self.setAttribute('value', self.value);
+    }
+  }
 
-        if (self.scrollIntoView === true) {
-          let scrollParent,
-            scrollParentTagName,
-            selector,
-            hasShadowRoot,
-            scrollingElement;
-          scrollParent = document.querySelector('#' + self.scrollingParentId);
-          scrollParentTagName = scrollParent.tagName.toString().toLowerCase();
-          switch (scrollParentTagName) {
-            case 'sh-card':
-            case 'sh-pane': {
-              selector = '.body-wrapper';
-              hasShadowRoot = true;
-            }
-            break;
-          case 'sh-page': {
-            selector = '.main-wrapper';
-            hasShadowRoot = true;
-          }
-          break;
-          default: {
-            hasShadowRoot = false;
-          }
-          }
-          if (hasShadowRoot) {
-            scrollingElement = scrollParent.shadowRoot.querySelector(selector);
-          } else {
-            scrollingElement = scrollParent;
-          }
+  openKeypadIfAppropriate(inputBox) {
+    let isKeypad;
+    let isNotReadonly;
+    let isNotDisabled;
+    let self;
 
-          setTimeout(() => {
-            scrollingElement.style.scrollBehaviour = 'smooth';
-            let contentWrapper;
-            contentWrapper = self.shadowRoot.querySelector('.keypad-wrapper');
-            contentWrapper.scrollIntoView({
-              behavior: 'smooth',
-              block: 'nearest'
-            });
-          }, 250);
-          setTimeout(() => {
-            let inputField;
-            inputField = self.shadowRoot.querySelector('#input');
-            inputField.scrollIntoView({
-              behavior: 'smooth',
-              block: 'nearest'
-            });
-          }, 500);
-        }
-        // variable to indicate the presence of children with slot='functions'
-        let haveFunctionIcons;
-        for (let i = 0; i < self.children.length; i++) {
-          let child;
-          child = self.children[i];
-          if (child.slot === 'functions') {
-            haveFunctionIcons = true;
-            break;
-          } else {
-            haveFunctionIcons = false;
-          }
-        }
-        if (haveFunctionIcons) {
-          self.shadowRoot.querySelector('.functions-wrapper').style.marginBottom = '16px';
-        } else {
-          self.shadowRoot.querySelector('.functions-wrapper').style.marginBottom = '0px';
-        }
+    self = this;
+    isKeypad = self.keypad;
+    isNotReadonly = !self.readonly;
+    isNotDisabled = !self.disabled;
+    if (isKeypad && isNotReadonly && isNotDisabled) {
+      self.openKeypad();
+      inputBox.readonly = true;
+    }
+  }
+
+  closeKeypadIfBackTabbedOnInputBox(e) {
+    let self;
+    self = this;
+    if (e.keyCode === 9 && e.shiftKey) {
+      self._finalCheck();
+      self._checkMaxMin();
+      self.closeKeypad();
+    }
+  }
+
+  storeInputCursorPositionIfKeypadIsOpen(inputBox) {
+    let self;
+    self = this;
+    if (self.keypadActive) {
+      inputBox.type = 'text';
+      self.cursorPosition = inputBox.selectionStart;
+    }
+    else {
+      inputBox.type = 'number';
+    }
+  }
+
+  clearValueIfEnterKeyPressedOnClearIcon(e, clearIcon) {
+    let self;
+    self = this;
+    if (e.keyCode === 13 && e.target === clearIcon) {
+      self._clearField();
+    }
+    self.style.outlineOffset = '-2px';
+  }
+
+  validateOnBlurOnKeypadInput(inputBox) {
+    let self;
+    self = this;
+
+    self.closeKeypad();
+    inputBox.type = 'number';
+    self._finalCheck();
+    self._checkMaxMin();
+    if (!self.readonly) {
+      inputBox.readonly = false;
+    }
+  }
+  validateOnBlurOnNormalInput(inputBox) {
+    let self;
+    self = this;
+    inputBox.type = 'number';
+    self._finalCheck();
+    self._checkMaxMin();
+    if (!self.readonly) {
+      inputBox.readonly = false;
+    }
+  }
+
+  haveFooterNodes(footerNodes) {
+    if (footerNodes.length === 0) {
+      return false;
+    }
+    return true;
+  }
+
+  haveFunctionNodes(functionNodes) {
+    if (functionNodes.length === 0) {
+      return false;
+    }
+    return true;
+  }
+
+  determineForwardTabCheckingElement(hasFooterNode, footerNodes) {
+    let self;
+    self = this;
+    if (hasFooterNode) {
+      return footerNodes[footerNodes.length - 1];
+    }
+    else {
+      return self.shadowRoot.querySelector('sh-icon[icon="delete-number"]');
+    }
+  }
+
+  determineBackwardTabCheckingElement(hasFunctionNodes, functionNodes) {
+    let self;
+    self = this;
+    if (hasFunctionNodes) {
+      return functionNodes[0];
+    }
+    else {
+      return self.shadowRoot.querySelectorAll('.circle-buttons')[0];
+    }
+  }
+
+  closeKeypadIfForwardTabbedOnForwardTabElement(e, forwardTabCheckingElement) {
+    let self;
+    self = this;
+    if (e.target === forwardTabCheckingElement) {
+      self.closeKeypad();
+      self._finalCheck();
+      self._checkMaxMin();
+    }
+  }
+
+  closeKeypadIfBackwardTabbedOnBackwardTabElement(e, backwardTabCheckingElement) {
+    let self;
+    self = this;
+    if (e.target === backwardTabCheckingElement) {
+      self.closeKeypad();
+      self._finalCheck();
+      self._checkMaxMin();
+    }
+  }
+  appendValueAndUpdateCursorPosition(e, inputBox) {
+    let self;
+    let buttonValue;
+    let buttonString;
+    let valueString;
+    let isEitherNumberOrDotButton;
+    let isEraseButton;
+
+    self = this;
+    /* temporarily changing the type of input to text to allow the appearance of dot */
+    inputBox.type = 'text';
+    buttonValue = Number(e.target.innerHTML.toString());
+    buttonString = e.target.innerHTML;
+    valueString = self.value.toString();
+    isEitherNumberOrDotButton = (buttonValue >= 0 && buttonValue <= 9) || (buttonString === '.');
+    isEraseButton = e.target.tagName === 'SH-ICON' || e.target.classList.contains('erase-button');
+
+    inputBox.focus();
+    if (inputBox.selectionStart === 0 && self.cursorPosition !== null && self.cursorPosition > 0) {
+      inputBox.selectionStart = self.value.toString().length;
+    }
+    self.cursorPosition = inputBox.selectionStart;
+    /* if button's value is either dot, comma or number, then insert value at cursor position */
+    if (isEitherNumberOrDotButton) {
+      self.value = valueString.slice(0, self.cursorPosition) + buttonString + valueString.slice(self.cursorPosition);
+      inputBox.setSelectionRange(self.cursorPosition + 1, self.cursorPosition + 1);
+    }
+    /* if button is erase button and cursor position is not at the beginning of the input value,
+       then remove the previous character at the cursor position */
+    if (isEraseButton && (self.cursorPosition !== 0)) {
+      self.value = valueString.slice(0, self.cursorPosition - 1) + valueString.slice(self.cursorPosition);
+      inputBox.setSelectionRange(self.cursorPosition - 1, self.cursorPosition - 1);
+    }
+    self.cursorPosition = inputBox.selectionStart;
+    inputBox.focus();
+  }
+
+  clickButtonIfEnterKeyIsPressedOnButton(e, element) {
+    let self;
+    self = this;
+    if (e.keyCode === 13 && !self.keypadDisabled) {
+      element.click();
+      element.focus();
+    }
+  }
+  checkIfClickedOutsideKeypad(e) {
+    let composedPathLength;
+    let clickedOutside;
+    let self;
+
+    self = this;
+    composedPathLength = e.composedPath().length;
+
+    for (let i = 0; i < composedPathLength; i++) {
+      let clickedOutsideConditionFalse;
+      let clickedKeypadWrapperOrInputBox;
+      let clickedFunctionWrapperOrFooterWrapper;
+      let clickedDivider;
+
+      clickedKeypadWrapperOrInputBox =
+        e.composedPath()[i] === self.shadowRoot.querySelector('.keypad-wrapper') ||
+        e.composedPath()[i] === self.shadowRoot.querySelector('input');
+      clickedFunctionWrapperOrFooterWrapper =
+        e.composedPath()[i] === self.shadowRoot.querySelector('.functions-wrapper') ||
+        e.composedPath()[i] === self.shadowRoot.querySelector('.footer-wrapper');
+      clickedDivider =
+        e.composedPath()[i] === self.shadowRoot.querySelector('.divider');
+
+      clickedOutsideConditionFalse = clickedKeypadWrapperOrInputBox || clickedFunctionWrapperOrFooterWrapper || clickedDivider;
+
+      if (clickedOutsideConditionFalse) {
+        clickedOutside = false;
+        break;
+      } else {
+        clickedOutside = true;
       }
+    }
+    return clickedOutside;
+  }
+
+  openKeypad() {
+    let self;
+    self = this;
+    self.keypadActive = true;
+  }
+
+  closeKeypad() {
+    let self;
+    self = this;
+    self.keypadActive = false;
+  }
+
+  addOrSubtractBasedOnKey(e) {
+    let self;
+    self = this;
+    switch (e.which) {
+      case 38: {
+        e.preventDefault();
+        self._handlePlus();
+      }
+        break;
+      case 40: {
+        e.preventDefault();
+        self._handleMinus();
+      }
+        break;
+      default: {
+        // nothing here. Just adding for Sonar.
+      }
+    }
+  }
+  closeKeypadIfTabbedOnAppropriateElement(e) {
+    let forwardTabbed;
+    let backwardTabbed;
+    let footerNodes;
+    let hasFooterNode;
+    let functionNodes;
+    let hasFunctionNodes;
+    let self;
+
+    self = this;
+
+    forwardTabbed = e.keyCode === 9 && !e.shiftKey;
+    backwardTabbed = e.keyCode === 9 && e.shiftKey;
+
+    footerNodes = self.$.footer.assignedNodes({
+      flatten: true
     });
-    this.$.clear.addEventListener('focus', function () {
-      this.onkeyup = function (e) {
-        if (e.keyCode === 13) {
-          self._clearField();
+
+    functionNodes = self.$.functionsSlot.assignedNodes({
+      flatten: true
+    });
+
+    hasFooterNode = self.haveFooterNodes(footerNodes);
+    hasFunctionNodes = self.haveFunctionNodes(functionNodes);
+    if (forwardTabbed) {
+      let forwardTabCheckingElement;
+      forwardTabCheckingElement = self.determineForwardTabCheckingElement(hasFooterNode, footerNodes);
+      self.closeKeypadIfForwardTabbedOnForwardTabElement(e, forwardTabCheckingElement);
+    }
+    else if (backwardTabbed) {
+      let backwardTabCheckingElement;
+      backwardTabCheckingElement = self.determineBackwardTabCheckingElement(hasFunctionNodes, functionNodes);
+      self.closeKeypadIfBackwardTabbedOnBackwardTabElement(e, backwardTabCheckingElement);
+    }
+    else {
+      // invalid condition
+    }
+  }
+
+  hideOrDisplayDividerBasedOnFooter() {
+    let footerNodes;
+    let self;
+
+    self = this;
+    footerNodes = self.$.footer.assignedNodes({
+      flatten: true
+    });
+    if (self.haveFooterNodes(footerNodes)) {
+      self.shadowRoot.querySelector('.divider').style.display = 'initial';
+    }
+    else {
+      self.shadowRoot.querySelector('.divider').style.display = 'none';
+    }
+  }
+  addMarginsToFunctionWrapperBasedOnFunctionSlot() {
+    let haveFunctionNodes;
+    let functionNodes;
+    let functionsWrapper;
+    let requiredFunctionWrapperMarginBottom;
+    let self;
+
+    self = this;
+    functionsWrapper = self.shadowRoot.querySelector('.functions-wrapper');
+    functionNodes = self.$.functionsSlot.assignedNodes({
+      flatten: true
+    });
+    haveFunctionNodes = self.haveFunctionNodes(functionNodes);
+    requiredFunctionWrapperMarginBottom = (haveFunctionNodes) ? '16px' : '0px';
+    functionsWrapper.style.marginBottom = requiredFunctionWrapperMarginBottom;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    // All event listeners to everything go here. Its better to add disconnectedCallback too.
+
+    // Variable declarations
+    let self;
+    let keypadWrapper;
+    let inputBox;
+    let circleButtons;
+    let clearIcon;
+
+    // Variable definitions
+    self = this;
+    keypadWrapper = this.shadowRoot.querySelector('.keypad-wrapper');
+    inputBox = this.$.input;
+    circleButtons = this.shadowRoot.querySelectorAll('.circle-buttons');
+    clearIcon = this.$.clear;
+
+    // Event listeners
+    // Event listener for the window
+    window.addEventListener('mousemove', self.boundMove);
+    // Event listeners for the input field
+    inputBox.addEventListener('focus', function () {
+
+      self.checkIfValueIsEmpty(self.value);
+      self.openKeypadIfAppropriate(inputBox);
+
+      inputBox.onkeydown = function (e) {
+        self.addOrSubtractBasedOnKey(e);
+        if (self.keypadActive) {
+          let isValidInput;
+          switch (e.key) {
+            case '0': isValidInput = true;
+              break;
+            case '1': isValidInput = true;
+              break;
+            case '2': isValidInput = true;
+              break;
+            case '3': isValidInput = true;
+              break;
+            case '4': isValidInput = true;
+              break;
+            case '5': isValidInput = true;
+              break;
+            case '6': isValidInput = true;
+              break;
+            case '7': isValidInput = true;
+              break;
+            case '8': isValidInput = true;
+              break;
+            case '9': isValidInput = true;
+              break;
+            case 'e': isValidInput = true;
+              break;
+            case 'Shift': isValidInput = true;
+              break;
+            case 'Enter': isValidInput = true;
+              break;
+            case 'Tab': isValidInput = true;
+              break;
+            case 'Backspace': isValidInput = true;
+              break;
+            case 'Delete': isValidInput = true;
+              break;
+            case 'Home': isValidInput = true;
+              break;
+            case 'End': isValidInput = true;
+              break;
+            case 'ArrowUp': isValidInput = true;
+              break;
+            case 'ArrowDown': isValidInput = true;
+              break;
+            case 'ArrowRight': isValidInput = true;
+              break;
+            case 'ArrowLeft': isValidInput = true;
+              break;
+            case '-': isValidInput = true;
+              break;
+            case '+': isValidInput = true;
+              break;
+            case ',': isValidInput = true;
+              break;
+            case '=': isValidInput = true;
+              break;
+            case '.': isValidInput = true;
+              break;
+            case 'Space': isValidInput = true;
+              break;
+            default:
+              isValidInput = false;
+          }
+          if (!isValidInput) {
+            e.preventDefault();
+          }
         }
-        if (e.keyCode === 9) {
-          this.style.outline = '2px solid rgb(59, 153, 252)';
-        }
-        this.style.outlineOffset = '-2px';
       };
     });
 
-    this.addEventListener('blur', function (e) {
-      if (!self.keypad) {
-        this._finalCheck();
-        this._checkMaxMin();
-      }
-      if (!self.keypad) {
-        this._finalCheck();
-        this._checkMaxMin();
-      }
-    });
-    this.shadowRoot.querySelector('.keypad-wrapper').addEventListener('blur', function () {
-      self._finalCheck();
-      self._checkMaxMin();
+    inputBox.addEventListener('keydown', function (e) {
+      self.closeKeypadIfBackTabbedOnInputBox(e);
     });
 
+    inputBox.addEventListener('click', function () {
+      self.storeInputCursorPositionIfKeypadIsOpen(inputBox);
+    });
+
+    // Event listener for the clear icon
+    clearIcon.addEventListener('focus', function () {
+      self.onkeyup = function (e) {
+        self.clearValueIfEnterKeyPressedOnClearIcon(e, clearIcon);
+      };
+    });
+
+    // Event listener for the host
+    this.addEventListener('blur', function () {
+      self.validateOnBlurOnNormalInput(inputBox);
+    });
+
+    keypadWrapper.addEventListener('keydown', function (e) {
+      self.closeKeypadIfTabbedOnAppropriateElement(e);
+    });
+
+    // Event listener for the keypad buttons
+    /* extracting the button value and appending to value */
+    circleButtons.forEach(element => {
+      element.addEventListener('click', function (e) {
+        self.appendValueAndUpdateCursorPosition(e, inputBox);
+      });
+      element.addEventListener('keyup', function (e) {
+        self.clickButtonIfEnterKeyIsPressedOnButton(e, element);
+      });
+    });
+
+    // Event listener for the body element
+    /* close keypad after clicking outside the input-number element */
+    document.body.addEventListener('click', function (e) {
+      let hasClickedOutsideKeypad;
+
+      hasClickedOutsideKeypad = self.checkIfClickedOutsideKeypad(e);
+
+      if (hasClickedOutsideKeypad) {
+        self.validateOnBlurOnKeypadInput(inputBox);
+      }
+    });
+    // Setting observers to add tabindex=0 to elements in footer slot and function slot.
+    // Also adjusting divider presence and function wrapper margins.
+    this._footerSlotObserver = new FlattenedNodesObserver(self.$.footer, info => {
+      self._addTabindex(info.addedNodes);
+      self.hideOrDisplayDividerBasedOnFooter();
+    });
+    this._functionSlotObserver = new FlattenedNodesObserver(self.$.functionsSlot, info => {
+      self._addTabindex(info.addedNodes);
+      self.addMarginsToFunctionWrapperBasedOnFunctionSlot();
+    });
+    // Setting condensed to true if parent element is SH-TABLE-CELL
     if (self.parentElement.tagName === 'SH-TABLE-CELL') {
       self.condensed = true;
     }
-    let numVal,
-      numMin,
-      numMax;
-    numVal = Number(self.value);
-    numMin = Number(self.min);
-    numMax = Number(self.max);
-
-    if (self.min && self.max) {
-      if (numVal >= numMin && numVal <= numMax && isNaN(numVal) === false) {
-        this.stableValue = Number(this.value);
-      }
-    } else {
-      if (isNaN(numVal) === false) {
-        this.stableValue = Number(this.value);
-      }
-    }
-    /* extracting the button value and appending to value */
-    this.shadowRoot.querySelectorAll('.circle-buttons').forEach(element => {
-      element.addEventListener('click', function (e) {
-        let buttonValue;
-        buttonValue = Number(e.target.innerHTML.toString());
-        /* if button's value is either dot, comma or number, then append the value of the button */
-        if ((buttonValue >= 0 && buttonValue <= 9)) {
-          self.value = self.value + e.target.innerHTML.toString();
-        }
-        if (e.target.innerHTML == '.') {
-          self.value = self.value + '.';
-        }
-        /* if button is erase icon, then remove the last character of the value (erase from last) */
-        if (e.target.tagName === 'SH-ICON') {
-          self.value = self.value.toString().substring(0, self.value.toString().length - 1);
-        }
-      });
-    });
-    /* close keypad after clicking outside the input-number element */
-    document.body.addEventListener('click', function (e) {
-      let clickedOutside;
-      let composedPathLength;
-      clickedOutside = false;
-      composedPathLength = e.composedPath().length;
-      for (let i = 0; i < composedPathLength; i++) {
-        let clickedOutsideConditionFalse = e.composedPath()[i] === self.shadowRoot.querySelector('.keypad-wrapper') ||
-          e.composedPath()[i] === self.shadowRoot.querySelector('input') ||
-          e.composedPath()[i] === self.shadowRoot.querySelector('.functions-wrapper') ||
-          e.composedPath()[i] === self.shadowRoot.querySelector('.footer-wrapper') ||
-          e.composedPath()[i] === self.shadowRoot.querySelector('.divider');
-        if (clickedOutsideConditionFalse) {
-          clickedOutside = false;
-          break;
-        } else {
-          clickedOutside = true;
-        }
-      }
-      if (clickedOutside === true) {
-        self._finalCheck();
-        self._checkMaxMin();
-        self.shadowRoot.querySelector('.keypad-wrapper').classList.remove('open');
-      }
+    self._checkMaxMin();
+    self._renewStableValue(self.value);
+  }
+  _addTabindex(nodes) {
+    let addedNodes;
+    addedNodes = nodes;
+    addedNodes.forEach(element => {
+      element.setAttribute('tabindex', 0);
     });
   }
+  _handleOffset() {
+    let menu;
+    menu = this.shadowRoot.querySelector('.items-wrapper');
+    let hintHeight;
+    hintHeight = 0;
+    menu.visible = this.active;
+    // position menu in X axis
+    menu.style.left = this.offsetX + 'px';
+    // position menu in Y axis
+    if (this.hint || this.errorMessage) {
+      hintHeight = 24;
+    }
+    // extracting the parent element here
+    let parentEl;
+    parentEl = this.parentElement;
+    let transformPresent;
+    let transformedParent;
+    /**
+     * Check for parent elements up the DOM tree from this dropdown
+     * which have css transform property set.
+     * If the css transform property is set to something, (translation), then
+     * we store that parent element and raise a flag
+     *
+     * Later we use this flag and this stored parent element to correctly
+     * determine the css top value of the internal popover
+     */
+    while (parentEl.tagName !== 'HTML') {
+      if (getComputedStyle(parentEl).transform !== 'none') {
+        transformPresent = true;
+        transformedParent = parentEl;
+        break;
+      } else {
+        transformPresent = false;
+      }
+      parentEl = parentEl.parentElement;
+    }
+    this.offsetY = this.getBoundingClientRect().top;
 
+    /**
+     * Variables used in this function and their intended meanings:
+     *
+     * 1. menu              - the popover
+     *
+     * 2. parentEl          - the parent element as mentioned above
+     *
+     * 3. this.offsetY      - the dropdown's distance from top of the page
+     *                        in pixels got by getBoundingClientRect()
+     *
+     * 4. menu.clientHeight - the popover's height
+     *
+     * 5. this.offsetHeight - the dropdown input's height
+     *
+     * 6. hintHeight        - the height of the hint text
+     *
+     * 7. transformPresent  - flag to indicate presence of parent with css transform
+     *                        property set.
+     *
+     * 8. transformParent   - the parent element with the css transform property set.
+     *
+     * If the bottom of the dropdown container which is measured as
+     * (popover height (this.offsetHeight) + top of dropdown (this.offsetY) +
+     *  dropdown-input height(menu.clientHeight)),
+     * is greater than window inner height, then that means the dropdown container
+     * goes beyond the window.
+     * This means that the dropdown must drop-up.
+     *
+     * If the transform property is set on the parent...
+     * then..
+     * popover top must be 0 - the transformed parents top + dropdown's top - popover's height
+     * (because top 0px on the dropdown stays to the top of the transformed parent
+     * and not at the top of the page. This is why we have to first set the popover to
+     * be at the top of the page by [ 0 - transformed parents top ] which would be like
+     * a reference point and then take the dropdown's top, dropdown's input height,
+     * popover-height, hint-height, etc to correctly set the top value of the popover according
+     * to whether it is drop-up or not).
+     *
+     * Else, go by the normal calculations.
+     */
+
+    if (this.offsetY + menu.clientHeight + this.offsetHeight > window.innerHeight || this.isDropUp) {
+      if (transformPresent) {
+        menu.style.top = 0 - transformedParent.getBoundingClientRect().top + this.offsetY - menu.clientHeight - hintHeight + 'px';
+      } else {
+        menu.style.top = this.offsetY - menu.clientHeight - hintHeight + 'px';
+      }
+    } else {
+      if (transformPresent) {
+        menu.style.top = 0 - transformedParent.getBoundingClientRect().top + this.offsetY + this.offsetHeight + 'px';
+      } else {
+        menu.style.top = this.offsetY + this.offsetHeight + 'px';
+      }
+    }
+  }
   _decimalsObserver(newValue) {
-    let decimalsInNumber = Number(newValue);
+    let decimalsInNumber;
+    decimalsInNumber = Number(newValue);
     /* this below assignment to step of input is to prevent HTML from showing warning
        tooltip */
     this.$.input.step = Math.pow(10, -decimalsInNumber);
@@ -1006,12 +1467,6 @@ class SHInputNumber extends PolymerElement {
     this.setAttribute('value', this.value);
   }
 
-  _findNumberOfOccurences(origStr, searchStr) {
-    let count;
-    count = (origStr.toString().split(searchStr).length - 1);
-    return count;
-  }
-
   _renewStableValue(value) {
     let self;
     let tempValue;
@@ -1020,12 +1475,12 @@ class SHInputNumber extends PolymerElement {
     tempValue = Number(tempValue);
     /**
      *  Below if-check is to save the value as a stable value.
-     *  If the host contains min and max properties, then save the 
+     *  If the host contains min and max properties, then save the
      *  current value as stable value only if it satisfies :
      *  Number(value) >= Number(min) and Number(value) <= Number(max)
-     * 
+     *
      *  If the host does not contain min and max properties,
-     *  then the current value is by default a stable value.  
+     *  then the current value is by default a stable value.
      **/
     if (self.min && self.max) {
       if ((Number(self.value) >= Number(self.min)) && (Number(self.value) <= Number(self.max))) {
@@ -1051,18 +1506,28 @@ class SHInputNumber extends PolymerElement {
       this.classList.add('empty');
     } else {
       this.classList.remove('empty');
+      let valueOfInput;
+      if (this.value !== null && this.value !== undefined) {
+        valueOfInput = this.value.toString();
+        if (valueOfInput !== '' && valueOfInput.indexOf('.') > -1) {
+          let decimalPlaces;
+          decimalPlaces = valueOfInput.split('.')[1].length;
+          this.$.input.step = Math.pow(10, -decimalPlaces);
+        }
+      }
     }
   }
   _finalCheck() {
     let currentInputValue;
     let isInvalidValue;
     currentInputValue = this.value;
-    isInvalidValue = currentInputValue === '';
+    isInvalidValue = currentInputValue === '' || isNaN(currentInputValue);
     if (isInvalidValue) {
       this.$.input.value = null;
+      this.value = '';
       return;
     }
-    // if the value is a valid value, then 
+    // if the value is a valid value, then
     else {
       this.value = Number(parseFloat(this.value));
       // if it is a decimal number, round it to the number of decimal places.
@@ -1110,7 +1575,6 @@ class SHInputNumber extends PolymerElement {
     self.value = Number(self.value).toFixed(finalNumberOfDecimalPoints);
     self._checkMaxMin();
     self._renewStableValue(self.value);
-
     self.minusIcon = false;
     self.plusIcon = true;
     // fire additional custom event
@@ -1194,5 +1658,42 @@ class SHInputNumber extends PolymerElement {
   }
 
 
+  getValue() {
+    let self;
+    let valueInNumber;
+    self = this;
+    if (self.value !== undefined && self.value !== null) {
+      valueInNumber = parseFloat(self.value.toString(), 10);
+      if (!isNaN(valueInNumber)) {
+        return (valueInNumber);
+      } else {
+        return '';
+      }
+    }
+  }
+
+  _handleKeypadActive(keypadIsOpen) {
+    let self;
+    self = this;
+    if (keypadIsOpen) {
+      self.dispatchEvent(new CustomEvent('keypad-opened', {
+        detail: this,
+        composed: true,
+        bubbles: true
+      }));
+      self.shadowRoot.querySelector('.keypad-wrapper').classList.add('open');
+      self.reposition = setInterval(function () {
+        self._handleOffset();
+      }, 10);
+    } else {
+      self.dispatchEvent(new CustomEvent('keypad-closed', {
+        detail: this,
+        composed: true,
+        bubbles: true
+      }));
+      self.shadowRoot.querySelector('.keypad-wrapper').classList.remove('open');
+      clearInterval(self.reposition);
+    }
+  }
 }
 window.customElements.define(SHInputNumber.is, SHInputNumber);

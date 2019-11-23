@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-splash-screen-test</title>
+    <script type="module"src="../src/sh-splash-screen.js"></script>
+    <script type="module"src="../src/sh-button.js"></script>
+    <script type="module"src="../src/sh-input-text.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+    <body>
+        <test-fixture id="SHSplashScreen">
+            <template>
+                <sh-page>
+                    <sh-splash-screen modal label="Cinematic Rendering" progress="50" info="2018 Siemens Healthcare GmbH, all rights reserved." image="url('https://www.siemens.com/content/dam/internet/siemens-com/innovation/pictures-of-the-future/2016/health-and-wellbeing/photos/im2015070938hc-c-300dpi.jpg.adapt.916.high.jpg/1496141729429.jpg')">
+                      <sh-input-text label="Username / E-mail"></sh-input-text>
+                      <sh-input-text label="Password" type="password"></sh-input-text>
+                      <sh-button slot="footer" color="secondary" label="Register"></sh-button>
+                      <sh-button slot="footer" label="Login"></sh-button>
+                    </sh-splash-screen>
+                  </sh-page>
+            </template>
+        </test-fixture>
+
+        <script>
+            suite('Splash screen', function(){
+                let icon, tooltip;
+                setup(function(){
+                    page = fixture("SHSplashScreen");
+                    splashScreen = page.children[0];
+                })
+
+                test('display label of splash screen', function(){
+                   assert.equal(splashScreen.label,'Cinematic Rendering')
+                })
+                
+                test('display label of splash screen', function(){
+                   assert.equal(splashScreen.info,'2018 Siemens Healthcare GmbH, all rights reserved.')
+                })
+                test('display label of splash screen', function(){
+                   assert.equal(splashScreen.progress,'50')
+                })
+            })
+        </script>
+    </body>

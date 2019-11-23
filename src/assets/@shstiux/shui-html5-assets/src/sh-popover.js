@@ -16,10 +16,10 @@ class SHPopover extends PolymerElement {
         font-size: 14px;
         color: var(--text-secondary);
         display: block;
-        position: absolute;
+        position: fixed;
         opacity: 0;
         visibility: hidden;
-        background-color: var(--base-3);
+        background-color: var(--base-4);
         min-width: 200px;
         width: 248px;
         min-height: auto;
@@ -33,7 +33,7 @@ class SHPopover extends PolymerElement {
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
         -moz-osx-font-smoothing: grayscale;
-        padding: 8px 16px;
+        padding: 16px;
         z-index: 999;
         pointer-events: none;
       }
@@ -84,17 +84,27 @@ class SHPopover extends PolymerElement {
         transform: translateY(-8px);
       }
 
+      /* type icons */
+      :host(:not([type="error"])) sh-icon[icon="error"],
+      :host(:not([type="alert"])) sh-icon[icon="warning"],
+      :host(:not([type="confirmation"])) sh-icon[icon="success"] {
+        display: none;
+      }
+ 
+      .header-wrapper sh-icon {
+        margin-right: 8px;
+      }
       @media only screen and (max-width: 640px) {
         :host {
           position: fixed;
           top: 0px !important;
           left: 0px !important;
           height: 100vh !important;
-          background: rgba(0, 0, 0, var(--opacity-3));
+          background: rgba(0,0,0, var(--opacity-4));
           z-index: 999;
           width: 100vw !important;
           opacity: 0;
-          padding: 0;
+          padding: 0 !important;
           transition: .2s all ease-in-out, 0s height ease-in-out .2s, 0s max-height ease-in-out .2s;
         }
 
@@ -102,7 +112,8 @@ class SHPopover extends PolymerElement {
           position: absolute;
           bottom: 0px;
           width: calc(100vw - 32px) !important;
-          padding : 16px;
+          padding: 16px;
+          background: var(--base-4); 
         }
       }
 
@@ -120,6 +131,9 @@ class SHPopover extends PolymerElement {
     <!--HTML-->
     <div class="popover-wrapper">
       <div class="header-wrapper">
+      <sh-icon icon="error" color="rgba(var(--functional-red), 1)" size="s"></sh-icon>
+      <sh-icon icon="warning" color="rgba(var(--functional-yellow), 1)" size="s"></sh-icon>
+      <sh-icon icon="success" color="rgba(var(--functional-green), 1)" size="s"></sh-icon>
         <div class="popover-label">[[label]]</div>
         <slot name="functions"></slot>
       </div>
@@ -152,7 +166,8 @@ class SHPopover extends PolymerElement {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
-        notify: true
+        notify: true,
+        observer: 'visibleChanged'
       },
       sticky: {
         type: Boolean,
@@ -172,6 +187,11 @@ class SHPopover extends PolymerElement {
         reflectToAttribute: true,
         notify: true
       },
+      type: {
+        type: String,
+        reflectToAttribute: true,
+        notify: true
+      },
       popoverPosition: {
         type: JSON,
         value: {
@@ -179,17 +199,10 @@ class SHPopover extends PolymerElement {
           right: 0
         }
       }
-    }
+    };
   }
   ready() {
     super.ready();
-    let targetEl;
-    targetEl = document.getElementById(this.target);
-    if (targetEl) {
-      this.popoverPosition = targetEl.getBoundingClientRect().top;
-      setInterval(this.changeScroll.bind(this), 1000);
-    }
-
     let footerNodes;
     footerNodes = this.$.footer.assignedNodes({ flatten: true }).length;
     if (footerNodes === 0) {
@@ -201,11 +214,20 @@ class SHPopover extends PolymerElement {
     let self;
     self = this;
     this.onkeyup = function (e) {
-      if (e.keyCode === 32 || e.keyCode === 13 || e.keyCode === 27) {
-        if (self.visible) {
+      if ((e.keyCode === 32 || e.keyCode === 13 || e.keyCode === 27)  && self.visible) {
           self._hide();
-        }
       }
+    };
+  }
+
+  visibleChanged(){
+    let targetEl
+    targetEl = document.getElementById(this.target);
+    if(this.visible && targetEl) {
+      setInterval(this.changeScroll.bind(this), 1);
+    }
+    else {
+      clearInterval(this.changeScroll.bind(this), 1);
     }
   }
 
@@ -250,22 +272,21 @@ class SHPopover extends PolymerElement {
   _show() {
     this.visible = true;
     if (this.target) {
-      let targetEl, parentRect, targetRect, thisRect, horizontalCenterOffset, verticalCenterOffset, targetLeft, targetTop;
+      let targetEl, targetRect, thisRect, horizontalCenterOffset, verticalCenterOffset, targetLeft, targetTop;
       targetEl = document.getElementById(this.target);
-      parentRect = this.offsetParent.getBoundingClientRect();
       targetRect = targetEl.getBoundingClientRect();
       thisRect = this.getBoundingClientRect();
       horizontalCenterOffset = (targetRect.width - thisRect.width) / 2;
       verticalCenterOffset = (targetRect.height - thisRect.height) / 2;
-      targetLeft = targetRect.left - parentRect.left;
-      targetTop = targetRect.top - parentRect.top;
+      targetLeft = targetRect.left;
+      targetTop = targetRect.top;
       let popoverLeft, popoverTop, offset;
       // popover offset from target element
       offset = 8;
       switch (this.position) {
         case 'top':
-          popoverLeft = targetLeft + horizontalCenterOffset;
-          popoverTop = targetTop - thisRect.height - offset;
+          popoverLeft = targetLeft - this.offsetWidth/2;
+          popoverTop = targetTop - this.offsetHeight;
           break;
         case 'top-left':
           popoverLeft = targetLeft + 2 * horizontalCenterOffset;
@@ -276,7 +297,7 @@ class SHPopover extends PolymerElement {
           popoverTop = targetTop - thisRect.height - offset;
           break;
         case 'bottom':
-          popoverLeft = targetLeft + horizontalCenterOffset;
+          popoverLeft = targetLeft-this.offsetWidth/2 - offset;
           popoverTop = targetTop + targetRect.height + offset;
           break;
         case 'bottom-left':
@@ -319,15 +340,7 @@ class SHPopover extends PolymerElement {
       if (popoverLeft < 16) {
         popoverLeft = 16;
       }
-      // don't let it bleed through right border
-      if (popoverLeft > this.offsetParent.clientWidth - this.clientWidth - 16) {
-        popoverLeft = this.offsetParent.clientWidth - this.clientWidth - 16;
-      }
-      // don't let it bleed through bottom border
-      if (popoverTop > this.offsetParent.clientHeight - this.clientHeight - 16) {
-        popoverTop = this.offsetParent.clientHeight - this.clientHeight - 16;
-      }
-      // don't let it bleed through top border
+
       if (popoverTop < 16) {
         popoverTop = 16;
       }
@@ -345,9 +358,8 @@ class SHPopover extends PolymerElement {
     if (_this.target) {
       let targetEl;
       targetEl = document.getElementById(_this.target);
-      if (targetEl !== null && _this.popoverPosition !== targetEl.getBoundingClientRect().top) {
-        _this._hide();
-        _this.popoverPosition = targetEl.getBoundingClientRect().top;
+      if (targetEl !== null && this.visible) {
+        _this._show();
       }
     }
   }

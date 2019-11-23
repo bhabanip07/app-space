@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-checkbox-test</title>
+    <script type="module"src="../src/sh-tag.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+
+    <body>
+        <test-fixture id= "SHTag">
+            <template>
+                <sh-tag label="Standard"></sh-tag>
+            </template>
+        </test-fixture>
+        <test-fixture id= "SHTagRemovable">
+            <template>
+                <sh-tag label="Standard" removable></sh-tag>
+            </template>
+        </test-fixture>
+    </body>
+
+    <script>
+        suite('tag Component', function(){
+            var tag;
+            setup(function(){
+                tag = fixture("SHTag"); 
+            })
+            test('check for label property', function(){
+                 assert.equal(tag.label, 'Standard');
+            })
+            test('check for removable  property', function(){
+                 assert.equal(tag.removable, false);
+            })
+        })
+        suite('Removable tag', function(){
+            let removableTag;
+            setup(function(){
+                removableTag = fixture("SHTagRemovable");      
+            })
+            test('check for removable tag', function(){
+                assert.equal(removableTag.removable, true);
+            })
+            test('check for tabindex of clear icon', function(done){
+                let closeIcon;
+                 flush(function() {
+                    closeIcon = removableTag.shadowRoot.querySelector('#clear').getAttribute('tabIndex');
+                    assert.equal(closeIcon, "0");
+                    done();
+                 })
+            })
+            test('check whether tab is removed on click of close icon', function(done){
+                let closeIcon;
+                flush(function() {
+                    closeIcon = removableTag.shadowRoot.querySelector('#clear');
+                    closeIcon.click();
+                    assert.equal(removableTag.style.display, "none");
+                    done();
+                })
+            })
+        })
+    </script>
+</html>

@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <link rel="stylesheet" href="../src/shui-styles.css">
+    <title>sh-inputnumber-test</title>
+    <script type="module" src="../src/sh-icon.js"></script>
+    <script type="module" src="../src/sh-input-number.js"></script>
+    <script type="module" src="../src/sh-page.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+</head>
+<body>
+    <test-fixture id="input-number">
+        <template>
+            <sh-page id="page">
+                <sh-input-number label='Error'></sh-input-number>
+                <sh-table>
+                    <sh-table-row slot='header'>
+                        <sh-table-head>Heading 1</sh-table-head>
+                        <sh-table-head>Heading 2</sh-table-head>
+                    </sh-table-row>
+                    <sh-table-row>
+                        <sh-table-cell>
+                            <sh-input-number></sh-input-number>
+                        </sh-table-cell>
+                        <sh-table-cell>
+                            <sh-input-number></sh-input-number>
+                        </sh-table-cell>
+                    </sh-table-row>
+                </sh-table>
+                <sh-input-number label='Keypad' keypad scroll-into-view scrolling-parent-id="page">
+                </sh-input-number>
+                <sh-card id="card">
+                    <sh-input-number label='Keypad' value='0.01' keypad scroll-into-view scrolling-parent-id="card">
+                    </sh-input-number>
+                </sh-card>
+                <sh-pane slot="left" id="pane">
+                    <sh-input-number label='Keypad' value='0.01' keypad scroll-into-view scrolling-parent-id="pane"></sh-input-number>
+                </sh-pane>
+            </sh-page>
+        </template>
+    </test-fixture>
+    </sh-page>
+
+    <script>
+        var html = document.querySelector('html');
+        suite('Modernizr removed', function () {
+            setup(function () {
+                Modernizr.hovermq = false;
+                page = fixture('input-number');
+                inputNumber = page.children[0];
+                tableInputNumber = page.children[1].children[1].children[0].children[0];
+            })
+            test('modernizr removed', function () {
+                let hasClass = inputNumber.classList.contains('no-hovermq');
+                assert.equal(hasClass, true);
+            })
+        })
+        suite('Modernizr added', function () {
+            setup(function () {
+                Modernizr.hovermq = true;
+                inputNumber = fixture('input-number').children[0];
+            })
+            test('modernizr removed', function () {
+                let hasClass = inputNumber.classList.contains('no-hovermq');
+                assert.equal(hasClass, false);
+            })
+        })
+        suite('input-number', function () {
+            let page, inputNumber, clearIcon, plusIcon, subIcon,
+                insidePageKeypad, insideCardKeypad, insidePaneKeypad,
+                key2, key6, key4, keydot, keyErase;
+            setup(function () {
+                page = fixture('input-number');
+                inputNumber = page.children[0];
+                clearIcon = inputNumber.shadowRoot.querySelector('#clear');
+                minusIcon = inputNumber.shadowRoot.querySelector('#minus');
+                plusIcon = inputNumber.shadowRoot.querySelector('#plus');
+                insidePageKeypad = page.children[2];
+                insideCardKeypad = page.children[3].children[0];
+                insidePaneKeypad = page.children[4].children[0];
+                key2 = insidePageKeypad.shadowRoot.querySelector('.circle-buttons:nth-child(2)');
+                key6 = insidePageKeypad.shadowRoot.querySelector('.circle-buttons:nth-child(6)');
+                key4 = insidePageKeypad.shadowRoot.querySelector('.circle-buttons:nth-child(4)');
+                keydot = insidePageKeypad.shadowRoot.querySelector('.circle-buttons:nth-child(10)');
+                keyErase = insidePageKeypad.shadowRoot.querySelector('.circle-buttons:nth-child(12) sh-icon');
+            })
+            test('input focus event listener value as empty', function () {
+                let focusEvent;
+                focusEvent = new Event('focus');
+                internalInput = inputNumber.shadowRoot.querySelector('input[type="number"]');
+                internalInput.dispatchEvent(focusEvent);
+                inputNumber.value = '';
+                assert.equal(inputNumber.getAttribute('value'), inputNumber.value);
+            })
+            test('input focus event listener internal input keydown = 38 (addition on up arrow)', function () {
+                let focusEvent;
+                focusEvent = new Event('focus');
+                let keydownEvent;
+                inputNumber.value = '32';
+                keydownEvent = new KeyboardEvent('keydown', { 'keyCode': 38, 'which': 38 });
+                internalInput = inputNumber.shadowRoot.querySelector('input[type="number"]');
+                internalInput.dispatchEvent(focusEvent);
+                internalInput.dispatchEvent(keydownEvent);
+                assert.equal(inputNumber.value, 33);
+            })
+            test('input focus event listener internal input keydown = 40 (subtraction on down arrow)', function () {
+                let focusEvent;
+                focusEvent = new Event('focus');
+                let keydownEvent;
+                inputNumber.value = '32';
+                keydownEvent = new KeyboardEvent('keydown', { 'keyCode': 40, 'which': 40 });
+                internalInput = inputNumber.shadowRoot.querySelector('input[type="number"]');
+                internalInput.dispatchEvent(focusEvent);
+                internalInput.dispatchEvent(keydownEvent);
+                assert.equal(inputNumber.value, 31);
+            })
+            test('input focus event listener internal input keydown = 32', function () {
+                let focusEvent;
+                focusEvent = new Event('focus');
+                let keydownEvent;
+                inputNumber.value = '32';
+                keydownEvent = new KeyboardEvent('keydown', { 'keyCode': 32, 'which': 32 });
+                internalInput = inputNumber.shadowRoot.querySelector('input[type="number"]');
+                internalInput.dispatchEvent(focusEvent);
+                internalInput.dispatchEvent(keydownEvent);
+                assert.equal(inputNumber.value, 32);
+            })
+            test('clearing the input works via keyboard', function () {
+                let focusEvent;
+                let keydownEvent;
+                inputNumber.value = '78';
+                focusEvent = new Event('focus');
+                clearIcon.dispatchEvent(focusEvent);
+                keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 13, 'which': 13 });
+                clearIcon.dispatchEvent(keyupEvent);
+                assert.equal(inputNumber.value, '');
+            })
+            test('condensed property set for input number inside table cell', function () {
+                assert.equal(tableInputNumber.condensed, true);
+            })
+            test('outline appears on focus and tab', function () {
+                let focusEvent;
+                let keydownEvent;
+                focusEvent = new Event('focus');
+                clearIcon.dispatchEvent(focusEvent);
+                keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 9, 'which': 9 });
+                clearIcon.dispatchEvent(keyupEvent);
+                assert.equal(clearIcon.style.outline, 'rgb(59, 153, 252) solid 2px');
+            })
+            test('num of decimal points for step = 0.05, value = 0.1, decimals = 0', function () {
+                inputNumber.step = '0.05';
+                inputNumber.value = '0.1';
+                inputNumber.decimals = '0';
+                let numOfDecimalPoints = inputNumber._getNumberOfPrecision();
+                assert.equal(numOfDecimalPoints, 2);
+            })
+            test('num of decimal points for step = 0.05, value = 0.001, decimals = 0', function () {
+                inputNumber.step = '0.05';
+                inputNumber.value = '0.001';
+                inputNumber.decimals = '0';
+                let numOfDecimalPoints = inputNumber._getNumberOfPrecision();
+                assert.equal(numOfDecimalPoints, 3);
+            })
+            test('num of decimal points for step = 0.05, value = 0.001, decimals = 6', function () {
+                inputNumber.step = '0.05';
+                inputNumber.value = '0.001';
+                inputNumber.decimals = '6';
+                let numOfDecimalPoints = inputNumber._getNumberOfPrecision();
+                assert.equal(numOfDecimalPoints, 6);
+            })
+            test('click on plus icon works', function () {
+                inputNumber.step = '0.05';
+                inputNumber.value = '0.001';
+                inputNumber.decimals = '6';
+                plusIcon.click();
+                assert.equal(inputNumber.value, 0.051000);
+            })
+            test('click on minus icon works', function () {
+                inputNumber.step = '0.05';
+                inputNumber.value = '0.001';
+                inputNumber.decimals = '6';
+                minusIcon.click();
+                assert.equal(inputNumber.value, -0.04900);
+            })
+            test('mousedown on minus icon works', function (done) {
+                inputNumber.step = '0.05';
+                inputNumber.value = '0.001';
+                inputNumber.decimals = '6';
+                let mousedownEvent = new MouseEvent('mousedown');
+                let mouseupEvent = new MouseEvent('mouseup');
+                flush(function () {
+                    function mouseDownIt(el) {
+                        el.dispatchEvent(mousedownEvent);
+                        setTimeout(() => {
+                            el.dispatchEvent(mouseupEvent);
+                            assert.equal(inputNumber.value, -0.04900);
+                            done();
+                        }, 100)
+                    }
+                    mouseDownIt(minusIcon);
+                })
+            })
+            test('mousedown on minus icon works', function (done) {
+                inputNumber.step = '0.05';
+                inputNumber.value = '0.001';
+                inputNumber.decimals = '6';
+                let mousedownEvent = new MouseEvent('mousedown');
+                let mouseupEvent = new MouseEvent('mouseup');
+                flush(function () {
+                    function mouseDownIt(el) {
+                        el.dispatchEvent(mousedownEvent);
+                        setTimeout(() => {
+                            el.dispatchEvent(mouseupEvent);
+                            assert.equal(inputNumber.value, 0.051000);
+                            done();
+                        }, 100)
+                    }
+                    mouseDownIt(plusIcon);
+                })
+            })
+            test('click on plus icon emits event', function (done) {
+                inputNumber.addEventListener('plusPressed', function () {
+                    inputNumber.randomValue = true;
+                })
+                inputNumber.step = '0.05';
+                inputNumber.value = '0.001';
+                inputNumber.decimals = '6';
+                plusIcon.click();
+                flush(function () {
+                    assert.equal(inputNumber.randomValue, true);
+                    done();
+                })
+            })
+            test('click on minus icon emits event', function (done) {
+
+                inputNumber.addEventListener('minusPressed', function () {
+                    inputNumber.randomValue = true;
+                })
+                inputNumber.step = '0.05';
+                inputNumber.value = '0.001';
+                inputNumber.decimals = '6';
+                minusIcon.click();
+                flush(function () {
+                    assert.equal(inputNumber.randomValue, true);
+                    done();
+                })
+            })
+            test('mousedown on minus icon emits event', function (done) {
+                inputNumber.step = '0.05';
+                inputNumber.value = '0.001';
+                inputNumber.decimals = '6';
+                let mousedownEvent = new MouseEvent('mousedown');
+                let mouseupEvent = new MouseEvent('mouseup');
+                inputNumber.addEventListener('minusPressed', function () {
+                    inputNumber.randomValue = true;
+                })
+                flush(function () {
+                    function mouseDownIt(el) {
+                        el.dispatchEvent(mousedownEvent);
+                        setTimeout(() => {
+                            el.dispatchEvent(mouseupEvent);
+                            assert.equal(inputNumber.randomValue, true);
+                            done();
+                        }, 100)
+                    }
+                    mouseDownIt(minusIcon);
+                })
+            })
+            test('mousedown on plus icon emits event', function (done) {
+                inputNumber.addEventListener('plusPressed', function () {
+                    inputNumber.randomValue = true;
+                })
+                inputNumber.step = '0.05';
+                inputNumber.value = '0.001';
+                inputNumber.decimals = '6';
+                let mousedownEvent = new MouseEvent('mousedown');
+                let mouseupEvent = new MouseEvent('mouseup');
+                flush(function () {
+                    function mouseDownIt(el) {
+                        el.dispatchEvent(mousedownEvent);
+                        setTimeout(() => {
+                            el.dispatchEvent(mouseupEvent);
+                            assert.equal(inputNumber.randomValue, true);
+                            done();
+                        }, 100)
+                    }
+                    mouseDownIt(plusIcon);
+                })
+            })
+            test('keypad press reflecting on input', function(){
+                key2.click();
+                key4.click();
+                key6.click();
+                assert.equal(insidePageKeypad.value, 246);
+            })
+            test('keypad press with dot reflecting on input', function(){
+                key2.click();
+                keydot.click();
+                key4.click();
+                key6.click();
+                assert.equal(insidePageKeypad.value, 2.46);
+            })
+            test('click on erase button erases value', function(){
+                insidePageKeypad.value = '567';
+                insidePageKeypad.keypadActive = true;
+                internalInput = insidePageKeypad.shadowRoot.querySelector('input[type="number"]');
+                internalInput.click();                 
+                internalInput.selectionStart = insidePageKeypad.value.toString().length;            
+                keyErase.click();                
+                assert.equal(insidePageKeypad.value, 56);
+            })
+            test('blur event on normal input number', function(){
+                inputNumber.max = '100';
+                inputNumber.min = '0';
+                inputNumber.value = '105'
+                let blurEvent = new Event('blur');
+                inputNumber.dispatchEvent(blurEvent);
+                assert.equal(inputNumber.value, 100);
+            })
+            test('blur event on normal input number', function(){
+                inputNumber.max = '100';
+                inputNumber.min = '0';
+                inputNumber.value = '-100'
+                let blurEvent = new Event('blur');
+                inputNumber.dispatchEvent(blurEvent);
+                assert.equal(inputNumber.value, 0);
+            })
+        })
+    </script>
+</body>
+
+</html>

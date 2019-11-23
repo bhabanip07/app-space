@@ -27,6 +27,19 @@ class SHDrawer extends PolymerElement {
         pointer-events: none;
       }
 
+      .drawer-wrapper {
+        background: var(--base-3);
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        box-shadow: var(--shadow-navigation);
+        box-sizing: border-box;
+        height: 100%;
+        width: 352px;
+        max-width: calc(100% - 104px);
+        transition: .2s all ease-in-out;
+      }
+
       .drawer-wrapper> ::slotted(*) {
         margin-bottom: 8px;
       }
@@ -35,22 +48,89 @@ class SHDrawer extends PolymerElement {
         margin-bottom: 0px !important;
       }
 
+      /* slot styles */
+
+      :host(:not([label])) .label-wrapper {
+        display: none;
+      }
+
+      .header-wrapper {
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+        padding: 16px;
+      }
+      
+      .label-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 16px;
+        justify-content: flex-end;
+        min-height: fit-content;
+        min-height: -ms-fit-content;
+        min-height: -moz-fit-content;
+      }
+
+      .functions-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .body-wrapper {
+        flex: 1;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        overflow-x: hidden;
+        padding: 0 16px;
+      }
+      .body-wrapper ::slotted(*) {
+        margin-bottom: 8px;
+      }
+      .footer-wrapper {
+        min-height: fit-content;
+        min-height: -ms-fit-content;
+        min-height: -moz-fit-content;
+        padding: 16px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      .functions-wrapper > ::slotted(*),
+      .footer-wrapper > ::slotted(*) {
+        margin-left: 8px;
+      }
+
+      .drawer-wrapper[empty-header] .header-wrapper {
+        display: none;
+      }
+      .drawer-wrapper:not([empty-header]) .label-wrapper {
+        display: none;
+      }
+      .drawer-wrapper:not([empty-header]) .body-wrapper,
+      :host([label]) .body-wrapper {
+        padding-top: 0px !important;
+      }
+
+      .drawer-wrapper[empty-footer] .footer-wrapper {
+        display: none;
+      }
+
+      .header-wrapper> ::slotted(sh-tabs) {
+        flex: 1;
+      }
+
       /* positioning */
 
-      :host([position="left"]) .drawer-wrapper,
-      .drawer-wrapper {
-        transition: .2s all ease-in-out;
-        position: absolute;
-        background: var(--base-0);
+      :host([position="left"]) .drawer-wrapper {
         left: 0px;
-        box-sizing: border-box;
-        height: 100%;
-        width: 352px;
-        max-width: calc(100% - 104px);
-        box-shadow: var(--shadow-navigation);
-        padding: 16px;
         transform: translateX(-80px);
-        overflow: auto;
       }
 
       :host([position="right"]) .drawer-wrapper {
@@ -97,22 +177,29 @@ class SHDrawer extends PolymerElement {
         min-height: 160px;
       }
 
-      #label {
+      .drawer-label {
         overflow: hidden;
+        width: -webkit-fill-available;
         text-overflow: ellipsis;
         white-space: nowrap;
         color: var(--text-primary);
         font: var(--header-2);
         line-height: 32px !important;
-        flex: 1;
         -webkit-font-smoothing: antialiased !important;
         text-rendering: optimizeLegibility !important;
         -moz-osx-font-smoothing: grayscale !important;
-        padding-bottom: 16px;
       }
 
-      :host(:not([label])) #label {
+      :host(:not([label])) .drawer-label {
         display: none;
+      }
+
+      /* touch */
+      @media (any-pointer:coarse) {
+        .functions-wrapper> ::slotted(*),
+        .footer-wrapper> ::slotted(*) {
+          margin-left: 16px;
+        }
       }
 
       :host(.testing), :host(.testing) *,
@@ -127,9 +214,22 @@ class SHDrawer extends PolymerElement {
     </style>
 
     <!--HTML-->
-    <div class="drawer-wrapper" id="content">
-      <div id="label">[[label]]</div>
-      <slot></slot>
+    <div class="drawer-wrapper" id="content" empty-footer$="[[emptyFooter]]" empty-header$="[[emptyHeader]]">
+      <div class="label-wrapper">
+        <div class="drawer-label">[[label]]</div>
+        <div class="functions-wrapper">
+          <slot name="functions" id="functions"></slot>
+        </div>
+      </div>
+      <div class="header-wrapper">
+        <slot name="header" id="header"></slot>
+      </div>
+      <div class="body-wrapper">
+        <slot id="body"></slot>
+      </div>
+      <div class="footer-wrapper">
+        <slot name="footer" id="footer"></slot>
+      </div>
     </div>
 `;
   }
@@ -157,48 +257,81 @@ class SHDrawer extends PolymerElement {
         reflectToAttribute: true,
         notify: true
       },
+      sticky: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        notify: true
+      },
       drawerWidth: {
         type: String,
         value: '352px',
         reflectToAttribute: true,
         notify: true,
         observer: '_updateDrawerLength'
+      },
+      emptyHeader: {
+        type: Boolean, 
+        value: false
+      },
+      emptyFooter: {
+        type: Boolean,
+        value: false
       }
     }
   }
+
+  ready() {
+    super.ready();
+    let footerNodes, headerNodes;
+    footerNodes = this.$.footer.assignedNodes({
+      flatten: true
+    }).length;
+    if (footerNodes === 0) {
+      this.emptyFooter = true;
+    }
+    headerNodes = this.$.header.assignedNodes({
+      flatten: true
+    }).length;
+    if (headerNodes === 0) {
+      this.emptyHeader = !this.emptyHeader;
+    }
+  }
+
   connectedCallback() {
     super.connectedCallback();
-    // this function checks if the event hits the background or the drawer itself, and closes it accordingly
-    this.addEventListener('click', function () {
-      this._closeDrawer();
+    this.addEventListener('mousedown', function () {
+      if(!this.sticky){
+        this._closeDrawer();
+      }
     });
-    this.$.content.addEventListener('mouseover', function () {
-      this.addEventListener('click', function (e) {
-        e.stopPropagation();
-      });
+    this.$.content.addEventListener('mousedown', function (e) {
+      e.stopPropagation();
     });
   }
   _closeDrawer() {
-    this.visible = false;
+    this.visible = !this.visible;
+
+    // fire event on closing
+    this.dispatchEvent(new CustomEvent('drawer-closed', {
+      detail: this,
+      composed: true,
+      bubbles: true
+    }));
   }
 
   _drawerStatus() {
     if(this.visible){
       let drawer;
       drawer = this;
-      this.$.label.setAttribute('tabindex','0'); 
       //focus inside the drawer to move out of natural tab order
-      this.$.label.focus();
-      this.$.label.style.outline='0';
+      this.shadowRoot.querySelector('.drawer-label').focus();
+      this.shadowRoot.querySelector('.drawer-label').style.outline='0';
 
       for(let i=0;i<this.children.length;i++){      
         this.children[i].setAttribute('tabindex','0');
       }
-      document.onkeyup = function(e){
-        if(e.keyCode === 27)  {
-          drawer._closeDrawer();
-        }
-      }
+
       document.onkeyup = function(e) {
         if (e.keyCode === 27) {
           drawer._closeDrawer();

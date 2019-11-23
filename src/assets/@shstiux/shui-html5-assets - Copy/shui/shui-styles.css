@@ -1,0 +1,333 @@
+/* THEMES */
+html, html[theme="light"] {
+    --highlight-5: rgba(0,0,0,.05); /* 5% highlight */
+    --highlight-10: rgba(0,0,0,.1); /* 10% highlight */
+    --highlight-15: rgba(0,0,0,.15); /* 15% highlight */
+    --highlight-20: rgba(0,0,0,.2); /* 20% highlight */
+    --shadow-light: rgba(0,0,0,.05); /* app-header and panes (big areas) */
+    --shadow-strong: rgba(0,0,0,.1); /* menu-groups, buttons (smaller components) */
+    /* Base Colors */
+    --base-0: rgba(255, 255, 255, 1); /* Access bar */
+    --base-1: rgba(235,235,235,1); /* Pane, Page Background */
+    --base-2: rgba(245,245,245,1); /* Secondary Navigation */
+    --base-3: rgba(255,255,255,1); /* Main Content Area, Accodrion, Modal */
+    /* UI Colors */
+    --ui-0: 0,153,153; /* Petrol */
+    --ui-1: 0,0,0; /* Text, UI Components */
+    --ui-2: 236,102,2; /* Orange (Idle) */
+    --ui-3: 207,75,0; /* Orange (Hover) */
+    --ui-4: 216,88,8; /* Orange (On Press) */
+    --ui-5: 125,125,125; /* Slider Handle */
+    --ui-6: 200,200,200; /* Slider Handle (disabled) */
+    --ui-7: 255,255,255; /* Backgrounds, Overlays */
+    /* Functional Colors */
+    --functional-red: 231,0,29; /* errors, critical messages */
+    --functional-yellow: 255,210,0; /* alerts, attention messages */
+    --functional-green: 0,154,56; /* confirmation */
+    /* Supporting Colors */
+    --support-1: rgba(50,158,188,1); /* blue */
+    --support-2: rgba(139,50,188,1); /* purple */
+    --support-3: rgba(50,188,77,1); /* green */
+    --support-4: rgba(50,188,167,1); /* turquoise */
+    --support-5: rgba(50,144,188,1); /* navy blue */
+    --support-6: rgba(188,50,115,1); /* magenta */
+    /* Type Colors */
+    --super-header: normal 400 20px bree-headline, sans-serif;
+    --header-1: normal 400 16px bree-headline, sans-serif;
+    --header-2: normal 700 16px siemens sans, sans-serif;
+    --title-1: normal 700 14px siemens sans, sans-serif;
+    --title-2: normal 700 12px siemens sans, sans-serif;
+    --body-1: normal 400 14px siemens sans, sans-serif;
+    --body-2: normal 400 12px siemens sans, sans-serif;
+    --text-white: rgba(255,255,255,1);
+    --text-highlight: rgba(207,75,0,1);
+    --text-primary: rgba(0,0,0,0.9);
+    --text-secondary: rgba(0,0,0,0.6);
+    --text-disabled: rgba(0,0,0,0.2);
+    /* Opacities */
+    --opacity-1: 1;
+    --opacity-2: 0.9;
+    --opacity-3: 0.6;
+    --opacity-4: 0.4;
+    --opacity-5: 0.2;
+    --opacity-6: 0.1;
+    --opacity-7: 0.05;
+    /* Color Exceptions */
+    --ui-8: 255,255,255; /* Dropdown, Datepicker and Search auto complete backgrounds */
+    --text-white-disabled: rgba(255,255,255, 0.6); /* Label on primary buttons */
+    --logo-1: #ec6602;
+    --logo-2: #009999;
+    /* Scroll Bar Icons */
+    --arrow-down: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAvklEQVRYhe2X0QnDMAxEr6VLJcs0o3WaZiwXgT+CkFWdXEghOjAkYPwecmScW2sNZ+Z+Kv3yAiVQAn8vsAFYf8BY+1pmHg586UPynoA/D+8vPcGqwHYAoy+QqYSGL1Ylot8AK6Hhw1gCUqZ9QmIE36NbMCNBwT2BjAQN/ybASKTgklEbagmozoACpuAS5kak29NLCC5hjuLRduiE4axARIKCZwQ8CRqeFbAkUnBJpAs8CeuZSv0XlEAJXFwAwAfZRzJMuiMA2AAAAABJRU5ErkJggg==');
+    --arrow-up: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAsUlEQVRYhe3W4QmAIBCG4SuapR2cpkarZWqHljEEAykvz+8Cf3SCP4TofZAO6rz31HL1Teu/BxjAAF8A5rjhNSjjLjkvyEvQG7jHHXoTCOAeVyFqAVwcRtQASnEIIQVw8TVuGCGZgrf4lpynDIJK01G6AWl8Q2/iDSCNqxAcoDYOI3IANA4hpFMgjZcQj5UDhK92V8Q5xJ6bCG4MrwcPMJ4iwhq5cbTfcgMYwABtAUR0AiVTLuJVBNbbAAAAAElFTkSuQmCC');
+    --arrow-right:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAs0lEQVRYhe3XYQpAQBAF4EfO4g5chqOty3AHl1mp/SFRO/PepjCl2D/va1szVDFGPFn1o+mfB3gAY7pk1RjDu8NzUCByd+Ac3ql2IhewXqxJELmAGcBUAmE5hEUQ1rdAjvD0ASnC24hkCKYTShBsK6YRillAIV4xjnsAw8X6kjMvWAAVzgLocAYgCfcCZOEegDTcCpCHWwBFwi2AtkS4BRBSoDR8L8tXcbi5p+r/N/w4AMAGHW8wdt+xYmYAAAAASUVORK5CYII=');
+    --arrow-left: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAuUlEQVRYhe3X4QmAIBAF4Fc0SzvYMjWaLVM7tIwRFERknN67+mEHQQbxPi4Vq0II+LLqT9OLB1gAhv0SV0MOd6exl7zE6sA13Ek7wQBcw49a3gDEwkcAkzVAHa4BUMJzAbTwHAA1PBVAD08BmIRLAWbhUoBpSQDbnj7fPO8BdFqctANmiJRPYIJInQN0RM4kpCJyVwENoVmGFIR2H1AjGBtRDNG+BbhDzNJDKfNU7CP3j/X/GxYOALACckAwdhxwRdcAAAAASUVORK5CYII=');
+}
+html[theme="dark"] {
+    --highlight-5: rgba(255,255,255,.05); /* 5% highlight */
+    --highlight-10: rgba(255,255,255,.1); /* 10% highlight */
+    --highlight-15: rgba(255,255,255,.15); /* 15% highlight */
+    --highlight-20: rgba(255,255,255,.2); /* 20% highlight */
+    --shadow-light: rgba(0,0,0,.15); /* app-header and panes (big areas) */
+    --shadow-strong: rgba(0,0,0,.2); /* menu-groups, buttons (smaller components) */
+    /* Base Colors */
+    --base-0: rgba(20, 20, 20, 1); /* Access bar */
+    --base-1: rgba(30,30,30,1); /* Pane, Page Background */
+    --base-2: rgba(40,40,40,1); /* Secondary Navigation */
+    --base-3: rgba(45,45,45,1); /* Main Content Area, Accordion, Modal */
+    /* UI Colors */
+    --ui-0: 0,153,153; /* Petrol */
+    --ui-1: 255,255,255; /* Text, UI Components */
+    --ui-2: 236,102,2; /* Orange (Idle) */
+    --ui-3: 207,75,0; /* Orange (Hover) */
+    --ui-4: 171,70,6; /* Orange(On Press) */
+    --ui-5: 125,125,125; /* Slider Handle */
+    --ui-6: 60,60,60; /* Slider Handle (disabled) */
+    --ui-7: 0,0,0; /* Backgrounds, Overlays */
+    /* Functional Colors */
+    --functional-red: 231,0,29; /* errors, critical messages */
+    --functional-yellow: 255,210,0; /* alerts, attention messages */
+    --functional-green: 0,154,56; /* confirmation */
+    /* Supporting Colors */
+    --support-1: rgba(50,158,188,1); /* blue */
+    --support-2: rgba(139,50,188,1); /* purple */
+    --support-3: rgba(50,188,77,1); /* green */
+    --support-4: rgba(50,188,167,1); /* turquoise */
+    --support-5: rgba(50,144,188,1); /* navy blue */
+    --support-6: rgba(188,50,115,1); /* magenta */
+    /* Type Colors */
+    --super-header: normal 400 20px bree-headline, sans-serif;
+    --header-1: normal 400 16px bree-headline, sans-serif;
+    --header-2: normal 700 16px siemens sans, sans-serif;
+    --title-1: normal 700 14px siemens sans, sans-serif;
+    --title-2: normal 700 12px siemens sans, sans-serif;
+    --body-1: normal 400 14px siemens sans, sans-serif;
+    --body-2: normal 400 12px siemens sans, sans-serif;
+    --text-white: rgba(255,255,255,1);
+    --text-highlight: rgba(207,75,0,1);
+    --text-primary: rgba(255,255,255,0.9);
+    --text-secondary: rgba(255,255,255,0.6);
+    --text-disabled: rgba(255,255,255,0.2);
+    /* Opacities */
+    --opacity-1: 1;
+    --opacity-2: 0.9;
+    --opacity-3: 0.6;
+    --opacity-4: 0.4;
+    --opacity-5: 0.2;
+    --opacity-6: 0.1;
+    --opacity-7: 0.05;
+    --logo-1: rgba(255,255,255,.9);
+    --logo-2: rgba(255,255,255,.9);
+    /* Color Exceptions */
+    --ui-8: 60,60,60; /* Dropdown, Datepicker and Search auto complete backgrounds */
+    --text-white-disabled: rgba(255,255,255, 0.2); /* Label on primary buttons */
+    /* Scroll Bar Icons */
+    --arrow-down: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAvklEQVRYhe2X0QnDMAxEr6VLJcs0o3WaZiwXgT+CkFWdXEghOjAkYPwecmScW2sNZ+Z+Kv3yAiVQAn8vsAFYf8BY+1pmHg586UPynoA/D+8vPcGqwHYAoy+QqYSGL1Ylot8AK6Hhw1gCUqZ9QmIE36NbMCNBwT2BjAQN/ybASKTgklEbagmozoACpuAS5kak29NLCC5hjuLRduiE4axARIKCZwQ8CRqeFbAkUnBJpAs8CeuZSv0XlEAJXFwAwAfZRzJMuiMA2AAAAABJRU5ErkJggg==');
+    --arrow-up: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAsUlEQVRYhe3W4QmAIBCG4SuapR2cpkarZWqHljEEAykvz+8Cf3SCP4TofZAO6rz31HL1Teu/BxjAAF8A5rjhNSjjLjkvyEvQG7jHHXoTCOAeVyFqAVwcRtQASnEIIQVw8TVuGCGZgrf4lpynDIJK01G6AWl8Q2/iDSCNqxAcoDYOI3IANA4hpFMgjZcQj5UDhK92V8Q5xJ6bCG4MrwcPMJ4iwhq5cbTfcgMYwABtAUR0AiVTLuJVBNbbAAAAAElFTkSuQmCC');
+    --arrow-right:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAs0lEQVRYhe3XYQpAQBAF4EfO4g5chqOty3AHl1mp/SFRO/PepjCl2D/va1szVDFGPFn1o+mfB3gAY7pk1RjDu8NzUCByd+Ac3ql2IhewXqxJELmAGcBUAmE5hEUQ1rdAjvD0ASnC24hkCKYTShBsK6YRillAIV4xjnsAw8X6kjMvWAAVzgLocAYgCfcCZOEegDTcCpCHWwBFwi2AtkS4BRBSoDR8L8tXcbi5p+r/N/w4AMAGHW8wdt+xYmYAAAAASUVORK5CYII=');
+    --arrow-left: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAuUlEQVRYhe3X4QmAIBAF4Fc0SzvYMjWaLVM7tIwRFERknN67+mEHQQbxPi4Vq0II+LLqT9OLB1gAhv0SV0MOd6exl7zE6sA13Ek7wQBcw49a3gDEwkcAkzVAHa4BUMJzAbTwHAA1PBVAD08BmIRLAWbhUoBpSQDbnj7fPO8BdFqctANmiJRPYIJInQN0RM4kpCJyVwENoVmGFIR2H1AjGBtRDNG+BbhDzNJDKfNU7CP3j/X/GxYOALACckAwdhxwRdcAAAAASUVORK5CYII=');
+}
+html[theme="blue"] {
+    --highlight-5: rgba(255,255,255,.05); /* 5% highlight */
+    --highlight-10: rgba(255,255,255,.1); /* 10% highlight */
+    --highlight-15: rgba(255,255,255,.15); /* 15% highlight */
+    --highlight-20: rgba(255,255,255,.2); /* 20% highlight */
+    --shadow-light: rgba(0,0,0,.15); /* app-header and panes (big areas) */
+    --shadow-strong: rgba(0,0,0,.2); /* menu-groups, buttons (smaller components) */
+    /* Base Colors */
+    --base-0: rgba(20, 20, 45, 1); /* Access bar */
+    --base-1: rgba(30,30,55,1); /* Pane, Page Background */
+    --base-2: rgba(40,40,65,1); /* Secondary Navigation */
+    --base-3: rgba(45,45,70,1); /* Main Content Area, Accordion, Modal */
+    /* UI Colors */
+    --ui-0: 0,153,153; /* Petrol */
+    --ui-1: 255,255,255; /* Text, UI Components */
+    --ui-2: 236,102,2; /* Orange (Idle) */
+    --ui-3: 207,75,0; /* Orange (Hover) */
+    --ui-4: 171,70,6; /* Orange(On Press) */
+    --ui-5: 125,125,150; /* Slider Handle*/
+    --ui-6: 60,60,85; /* Slider Handle (disabled) */
+    --ui-7: 0,0,0; /* Backgrounds, Overlays */
+    /* Functional Colors */
+    --functional-red: 231,0,29; /* errors, critical messages */
+    --functional-yellow: 255,210,0; /* alerts, attention messages */
+    --functional-green: 0,154,56; /* confirmation */
+    /* Supporting Colors */
+    --support-1: rgba(50,158,188,1); /* blue */
+    --support-2: rgba(139,50,188,1); /* purple */
+    --support-3: rgba(50,188,77,1); /* green */
+    --support-4: rgba(50,188,167,1); /* turquoise */
+    --support-5: rgba(50,144,188,1); /* navy blue */
+    --support-6: rgba(188,50,115,1); /* magenta */
+    /* Type Colors */
+    --super-header: normal 400 20px bree, sans-serif;
+    --header-1: normal 400 16px bree-headline, sans-serif;
+    --header-2: normal 700 16px siemens sans, sans-serif;
+    --title-1: normal 700 14px siemens sans, sans-serif;
+    --title-2: normal 700 12px siemens sans, sans-serif;
+    --body-1: normal 400 14px siemens sans, sans-serif;
+    --body-2: normal 400 12px siemens sans, sans-serif;
+    --text-white: rgba(255,255,255,1);
+    --text-highlight: rgba(207,75,0,1);
+    --text-primary: rgba(255,255,255,0.9);
+    --text-secondary: rgba(255,255,255,0.6);
+    --text-disabled: rgba(255,255,255,0.2);
+    /* Opacities */
+    --opacity-1: 1;
+    --opacity-2: 0.9;
+    --opacity-3: 0.6;
+    --opacity-4: 0.4;
+    --opacity-5: 0.2;
+    --opacity-6: 0.1;
+    --opacity-7: 0.05;
+    /* Color Exceptions */
+    --ui-8: 60,60,85; /* Dropdown, Datepicker and Search auto complete backgrounds */
+    --text-white-disabled: rgba(255,255,255, 0.2); /* Label on primary buttons */
+    --logo-1: rgba(255,255,255,.9);
+    --logo-2: rgba(255,255,255,.9);
+    /* Scroll Bar Icons */
+    --arrow-down: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAvklEQVRYhe2X0QnDMAxEr6VLJcs0o3WaZiwXgT+CkFWdXEghOjAkYPwecmScW2sNZ+Z+Kv3yAiVQAn8vsAFYf8BY+1pmHg586UPynoA/D+8vPcGqwHYAoy+QqYSGL1Ylot8AK6Hhw1gCUqZ9QmIE36NbMCNBwT2BjAQN/ybASKTgklEbagmozoACpuAS5kak29NLCC5hjuLRduiE4axARIKCZwQ8CRqeFbAkUnBJpAs8CeuZSv0XlEAJXFwAwAfZRzJMuiMA2AAAAABJRU5ErkJggg==');
+    --arrow-up: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAsUlEQVRYhe3W4QmAIBCG4SuapR2cpkarZWqHljEEAykvz+8Cf3SCP4TofZAO6rz31HL1Teu/BxjAAF8A5rjhNSjjLjkvyEvQG7jHHXoTCOAeVyFqAVwcRtQASnEIIQVw8TVuGCGZgrf4lpynDIJK01G6AWl8Q2/iDSCNqxAcoDYOI3IANA4hpFMgjZcQj5UDhK92V8Q5xJ6bCG4MrwcPMJ4iwhq5cbTfcgMYwABtAUR0AiVTLuJVBNbbAAAAAElFTkSuQmCC');
+    --arrow-right:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAs0lEQVRYhe3XYQpAQBAF4EfO4g5chqOty3AHl1mp/SFRO/PepjCl2D/va1szVDFGPFn1o+mfB3gAY7pk1RjDu8NzUCByd+Ac3ql2IhewXqxJELmAGcBUAmE5hEUQ1rdAjvD0ASnC24hkCKYTShBsK6YRillAIV4xjnsAw8X6kjMvWAAVzgLocAYgCfcCZOEegDTcCpCHWwBFwi2AtkS4BRBSoDR8L8tXcbi5p+r/N/w4AMAGHW8wdt+xYmYAAAAASUVORK5CYII=');
+    --arrow-left: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAuUlEQVRYhe3X4QmAIBAF4Fc0SzvYMjWaLVM7tIwRFERknN67+mEHQQbxPi4Vq0II+LLqT9OLB1gAhv0SV0MOd6exl7zE6sA13Ek7wQBcw49a3gDEwkcAkzVAHa4BUMJzAbTwHAA1PBVAD08BmIRLAWbhUoBpSQDbnj7fPO8BdFqctANmiJRPYIJInQN0RM4kpCJyVwENoVmGFIR2H1AjGBtRDNG+BbhDzNJDKfNU7CP3j/X/GxYOALACckAwdhxwRdcAAAAASUVORK5CYII=');
+}
+/* FONTS
+If you change the name of the SHUI dist folder, update the location of each font as well.
+*/
+@font-face {
+    font-family: "sh-icons";
+    font-style: normal;
+    font-weight: 500;
+    src:
+        url("./fonts/sh-icons.woff") format("woff")
+}
+@font-face {
+    font-family: 'siemens sans';
+    font-style: normal;
+    font-weight: 500;
+    src:
+        url("./fonts/sisan03.woff") format("woff"),
+        url("./fonts/sisan03.woff2") format("woff2")
+}
+@font-face {
+    font-family: 'siemens sans';
+    font-style: italic;
+    font-weight: 500;
+    src:
+        url("./fonts/sisan33.woff") format("woff"),
+        url("./fonts/sisan33.woff2") format("woff2")
+}
+@font-face {
+    font-family: 'siemens sans';
+    font-style: normal;
+    font-weight: 900;
+    src:
+        url("./fonts/sisan08.woff") format("woff"),
+        url("./fonts/sisan08.woff2") format("woff2")
+}
+@font-face {
+    font-family: 'siemens sans';
+    font-style: italic;
+    font-weight: 900;
+    src:
+        url("./fonts/sisan38.woff") format("woff"),
+        url("./fonts/sisan38.woff2") format("woff2")
+}
+@font-face {
+    font-family: 'bree';
+    font-style: normal;
+    font-weight: 500;
+    src:
+        url('./fonts/Bree-SH-Text-Regular.woff') format('woff'),
+        url('./fonts/Bree-SH-Text-Regular.woff2') format('woff2')
+}
+@font-face {
+    font-family: 'bree';
+    font-style: normal;
+    font-weight: 300;
+    src:
+        url('./fonts/Bree-SH-Text-Light.woff') format('woff'),
+        url('./fonts/Bree-SH-Text-Light.woff2') format('woff2')
+}
+@font-face {
+    font-family: 'bree';
+    font-style: normal;
+    font-weight: 900;
+    src:
+        url('./fonts/Bree-SH-Text-Bold.woff') format('woff'),
+        url('./fonts/Bree-SH-Text-Bold.woff2') format('woff2')
+}
+@font-face {
+    font-family: 'bree-headline';
+    font-style: normal;
+    font-weight: 500;
+    src:
+        url('./fonts/Bree-SH-Headline-Regular.woff') format('woff'),
+        url('./fonts/Bree-SH-Headline-Regular.woff2') format('woff2')
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: transparent;
+    visibility: hidden;
+}
+::-webkit-scrollbar-track {
+    background-color: rgba(var(--ui-1), var(--opacity-7));
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--ui-1), var(--opacity-6));
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:active,
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(var(--ui-1), var(--opacity-4))
+}
+*:hover::-webkit-scrollbar-button:single-button:decrement {
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    background-repeat: no-repeat;
+    background-image: var(--arrow-up);
+    background-position: center;
+    background-size: contain;
+    display: block;
+    height: 16px;
+    opacity: .1;
+}
+*:hover::-webkit-scrollbar-button:single-button:horizontal:decrement {
+    background-image: var(--arrow-left);
+}
+*:hover::-webkit-scrollbar-button:single-button:increment {
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    background-image: var(--arrow-down);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: rotate(90deg);
+    display: block;
+    height: 16px;
+}
+*:hover::-webkit-scrollbar-button:single-button:horizontal:increment {
+    background-image: var(--arrow-right);
+}
+
+
+/* BODY STYLES */
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: siemens sans, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+}

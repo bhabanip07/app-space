@@ -26,6 +26,7 @@ class SHSwitch extends PolymerElement {
 
       :host([stretch])> ::slotted(sh-switch-item) {
         flex: 1;
+        min-width: 88px;
       }
 
       :host([disabled]) {

@@ -630,7 +630,8 @@ class ShSlider extends PolymerElement {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
-        notify: true
+        notify: true,
+        observer: 'disableInput'
       },
       role: {
         type: String,
@@ -802,18 +803,32 @@ class ShSlider extends PolymerElement {
 
 
   _renderTicks(){
-    let container_height, max;
+    let container_height, max, min;
     container_height = this.$.verticalTrack.offsetHeight;
     max = this.max;
+    min = this.min;
     // rendered_ticks is an array that holds style values (top position) for each tick rendered
     // this is used in the dom-repeat above to create ticks based on the passed top position for each tick.
     this.rendered_ticks = this.ticks.map(function(value){
-      let current_position = value/max;
-      current_position = Math.round(current_position*container_height) - TICK_RADIUS;
+      let current_position = (value - min)/(max - min);
+      current_position = (current_position*container_height) - TICK_RADIUS;
       let style;
       style = `top: ${current_position}px`;
       return {style, position: value };
     });
+  }
+
+  disableInput(){
+    if(this.vertical){
+      if(this.disabled){
+        this.$.verticalInput.disabled = true;
+        this.$.verticalInput.style.color = 'var(--text-disabled)';
+      }
+      else{
+        this.$.verticalInput.disabled = false;
+        this.$.verticalInput.style.color = 'var(--text-secondary)';
+      }
+    }
   }
 
   connectedCallback() {
@@ -1518,19 +1533,6 @@ class ShSlider extends PolymerElement {
     }
   }
 
-  _restoreValue(e){
-    if(e.path[0].id === 'lowerInputText'){
-     if(this.$.lowerInputText.value ==='' || this.$.lowerInputText.value === null || this.$.lowerInputText.value === undefined){
-       this.$.lowerInputText.value = this.lowerValue;
-     }
-    }
-    if(e.path[0].id ==='upperInputText'){
-      if(this.$.upperInputText.value ==='' || this.$.upperInputText.value === null || this.$.upperInputText.value === undefined){
-        this.$.upperInputText.value = this.upperValue;
-      }
-    }
-  }
-
   _handleMinus(){
     if(this.value !== this.min) {
       this.value=parseFloat(this.value)-parseFloat(this.step);
@@ -1573,10 +1575,9 @@ class ShSlider extends PolymerElement {
 
   _handleClick(ev){
     ev.stopPropagation();
-    let percent, value;
+    let percent;
     percent = (parseFloat(ev.target.style.top)+TICK_RADIUS)/this.$.verticalTrack.offsetHeight;
-    value = Math.round(percent*100);
-    this.value = value;
+    this.value = Math.round(percent * (this.max - this.min) + this.min);
     this._calcLeft();
 
     this.$.verticalThumb.style.backgroundColor = 'var(--support-4)';

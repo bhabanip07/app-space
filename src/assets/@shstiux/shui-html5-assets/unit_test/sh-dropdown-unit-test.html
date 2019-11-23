@@ -28,7 +28,7 @@
     <test-fixture id="SHMultiSelectDropdown">
         <template>
             <sh-dropdown multi-select>
-                <sh-menu-item label='Lung'></sh-menu-item>
+                <sh-menu-item active label='Lung'></sh-menu-item>
                 <sh-menu-item label='Head'></sh-menu-item>
                 <sh-menu-item label='Bone'></sh-menu-item>
             </sh-dropdown>
@@ -82,19 +82,44 @@
                 itemsWrapper.dispatchEvent(new KeyboardEvent('keyup', { 'keyCode': 13 }));
                 assert.equal(dropdown.shadowRoot.querySelector('#dropdown-icon').style.outline, 'rgb(59, 153, 252) solid 2px');
             })
+
+            test('MultiSelect Focus Event', function(){
+                var event = new Event('focus');
+                dropdownInput.dispatchEvent(event);
+                dropdownInput.dispatchEvent(new KeyboardEvent('keyup', {'keyCode': 32}));
+                dropdownInput.dispatchEvent(new KeyboardEvent('keyup', {'keyCode': 40}));
+                dropdownInput.dispatchEvent(new KeyboardEvent('keyup', {'keyCode': 13}));
+
+                assert.equal(dropdown.shadowRoot.querySelector('#dropdown-icon').style.outline, 'rgb(59, 153, 252) solid 2px');
+            })
         })
 
         suite('Multiselect Dropdown', function () {
             setup(function () {
                 multiDropdown = fixture('SHMultiSelectDropdown');
+                dropDownContentWrapper = multiDropdown.shadowRoot.querySelector('.content-wrapper');
+                dropdownInput = dropDownContentWrapper.querySelector('input');
             })
-            test('MenuItem with Checkbox', function (done) {
-                flush(function() {
-                    dropDownContentWrapper = multiDropdown.shadowRoot.querySelector('.content-wrapper');
-                    dropdownInput = dropDownContentWrapper.querySelector('input');
-                    assert.equal(multiDropdown.querySelectorAll('sh-menu-item')[0].checkbox, true, "MenuItem has checkbox");
-                    done();
-                });
+
+            test('keyEvents() method - keyCode : 40', function(){
+                event = new KeyboardEvent('keyup', {'keyCode': 40})
+                let currentFocusValue = multiDropdown.currentFocus;
+                multiDropdown.keyEvents(event);
+                assert.equal(currentFocusValue+1, multiDropdown.currentFocus);
+            })
+
+            test('keyEvents() method - keyCode : 38', function(){
+                event = new KeyboardEvent('keyup', {'keyCode': 38})
+                let currentFocusValue = multiDropdown.currentFocus;
+                multiDropdown.keyEvents(event);
+                assert.equal(currentFocusValue-1, -1*multiDropdown.currentFocus);
+            })
+
+            test('_closeDropdown() method',function(){
+                var event = new Event('click');
+                multiDropdown.dispatchEvent(event);
+                multiDropdown._closeDropdown(event);
+                assert.equal(multiDropdown.active, false);
             })
         })
     </script>

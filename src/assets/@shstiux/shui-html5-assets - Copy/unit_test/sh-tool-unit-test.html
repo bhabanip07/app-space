@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <link rel="stylesheet" href="../src/shui-styles.css">
+    <title>sh-accessbar-test</title>
+    <!-- <script type="module" src="../src/sh-access-bar.js"></script> -->
+    <!-- <script type="module" src="../src/sh-accordion.js"></script> -->
+    <!-- <script type="module" src="../src/sh-badge.js"></script> -->
+    <!-- <script type="module" src="../src/sh-button.js"></script> -->
+    <!-- <script type="module" src="../src/sh-breadcrumbs.js"></script> -->
+    <!-- <script type="module" src="../src/sh-breadcrumb-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-card.js"></script> -->
+    <!-- <script type="module" src="../src/sh-checkbox.js"></script> -->
+    <!-- <script type="module" src="../src/sh-datepicker.js"></script> -->
+    <!-- <script type="module" src="../src/sh-divider.js"></script> -->
+    <!-- <script type="module" src="../src/sh-drawer.js"></script> -->
+    <!-- <script type="module" src="../src/sh-dropdown.js"></script> -->
+    <!-- <script type="module" src="../src/sh-empty-state.js"></script> -->
+    <!-- <script type="module" src="../src/sh-grid.js"></script> -->
+    <!-- <script type="module" src="../src/sh-home-screen.js"></script> -->
+    <!-- <script type="module" src="../src/sh-home-card.js"></script> -->
+    <script type="module" src="../src/sh-icon.js"></script>
+    <!-- <script type="module" src="../src/sh-input-number.js"></script> -->
+    <!-- <script type="module" src="../src/sh-input-text.js"></script> -->
+    <!-- <script type="module" src="../src/sh-menu-group.js"></script> -->
+    <script type="module" src="../src/sh-menu-item.js"></script>
+    <!-- <script type="module" src="../src/sh-modal.js"></script> -->
+    <!-- <script type="module" src="../src/sh-nav-bar.js"></script> -->
+    <!-- <script type="module" src="../src/sh-notifications.js"></script> -->
+    <!-- <script type="module" src="../src/sh-notification-item.js"></script> -->
+    <script type="module" src="../src/sh-page.js"></script>
+    <!-- <script type="module" src="../src/sh-pagination.js"></script> -->
+    <!-- <script type="module" src="../src/sh-pane.js"></script> -->
+    <!-- <script type="module" src="../src/sh-patient-illustration.js"></script> -->
+    <!-- <script type="module" src="../src/sh-popover.js"></script> -->
+    <!-- <script type="module" src="../src/sh-progress.js"></script> -->
+    <!-- <script type="module" src="../src/sh-progress-radial.js"></script> -->
+    <!-- <script type="module" src="../src/sh-radio-button.js"></script> -->
+    <!-- <script type="module" src="../src/sh-radio-group.js"></script> -->
+    <!-- <script type="module" src="../src/sh-search.js"></script> -->
+    <!-- <script type="module" src="../src/sh-slider.js"></script> -->
+    <!-- <script type="module" src="../src/sh-spinner.js"></script> -->
+    <!-- <script type="module" src="../src/sh-splash-screen.js"></script> -->
+    <!-- <script type="module" src="../src/sh-stepper.js"></script> -->
+    <!-- <script type="module" src="../src/sh-stepper-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-switch.js"></script> -->
+    <!-- <script type="module" src="../src/sh-switch-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table-cell.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table-head.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table-row.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tabs.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tab-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tag.js"></script> -->
+    <!-- <script type="module" src="../src/sh-text.js"></script> -->
+    <!-- <script type="module" src="../src/sh-thumbnail.js"></script> -->
+    <!-- <script type="module" src="../src/sh-timepicker.js"></script> -->
+    <!-- <script type="module" src="../src/sh-toggle.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tools.js"></script> -->
+    <script type="module" src="../src/sh-tool.js"></script>
+    <!-- <script type="module" src="../src/sh-tooltip.js"></script> -->
+    <!-- <script type="module" src="../src/sh-user-identifier.js"></script> -->
+    <!-- <script type="module" src="../src/sh-workline.js"></script> -->
+    <!-- <script type="module" src="../src/sh-workline-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-wrapper.js"></script> -->
+    <!-- <script type="module" src="../src/global-styles.js"></script> -->
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <script type="text/javascript">
+        var webcomponentsjsBase = "../node_modules/@webcomponents/webcomponentsjs/";
+    </script>
+</head>
+
+<body>
+
+    <test-fixture id="tool">
+        <template>
+            <sh-page>
+                <sh-tool label='Snapshot'></sh-tool>
+                <sh-tool toggle icon='pan' active></sh-tool>
+                <sh-tool palette label='Pan' icon="pan">
+                    <sh-menu-item label='3D Rotation' icon="rotate-3d"></sh-menu-item>
+                    <sh-menu-item label='2D Rotation' icon="rotate-2d"></sh-menu-item>
+                    <sh-menu-item label='Pan' icon="pan" active></sh-menu-item>
+                    <sh-menu-item label='Annotation' icon="edit"></sh-menu-item>
+                    <sh-menu-item label='Marker' icon="marker"></sh-menu-item>
+                    <sh-menu-item label='Zoom'></sh-menu-item>
+                </sh-tool>
+                <sh-tool select label="Preset" value="Bones">
+                    <sh-menu-item label='Bones' active></sh-menu-item>
+                    <sh-menu-item label='Soft Tissue'></sh-menu-item>
+                    <sh-menu-item label='Brain'></sh-menu-item>
+                    <sh-menu-item label='Lung'></sh-menu-item>
+                </sh-tool>
+            </sh-page>
+        </template>
+    </test-fixture>
+    </sh-page>
+
+    <script>
+        var html = document.querySelector('html');
+        suite('Modernizr removed', function () {
+            let page, normalTool, toggleTool, paletteTool, selectTool;
+            setup(function () {
+                Modernizr.hovermq = false;
+                normalTool = fixture('tool').children[0];
+            })
+            test('modernizr removed', function () {
+                let hasClass = normalTool.classList.contains('no-hovermq');
+                assert.equal(hasClass, true);
+            })
+        })
+        suite('Modernizr added', function () {
+            let page, normalTool, toggleTool, paletteTool, selectTool;
+            setup(function () {
+                Modernizr.hovermq = true;
+                normalTool = fixture('tool').children[0];
+            })
+            test('modernizr removed', function () {
+                let hasClass = normalTool.classList.contains('no-hovermq');
+                assert.equal(hasClass, false);
+            })
+        })
+        suite('tool', function () {
+            let page, normalTool, toggleTool, paletteTool, selectTool,iconButton,menuItem;
+            setup(function () {
+                page = fixture('tool');
+                normalTool = page.children[0];
+                toggleTool = page.children[1];
+                paletteTool = page.children[2];
+                selectTool = page.children[3];
+            })
+            test('aria-labelled-by', function () {
+                assert.equal(normalTool.getAttribute('aria-labelledby'), normalTool.label);
+            })
+            test('touchstart event', function (done) {
+                let touchStartEvent = new Event('touchstart');
+                paletteTool.dispatchEvent(touchStartEvent);
+                flush(function(){
+                    setTimeout(() => {                        
+                        assert.equal(paletteTool.expanded, true);
+                        done();
+                    }, 1000);
+                })
+            })
+            test('palette icon button click event', function(){
+                iconButton = paletteTool.shadowRoot.querySelector('sh-icon[button]');
+                menuItem = paletteTool.children[0];
+                iconButton.click();
+                menuItem.click();
+                assert.equal(paletteTool.expanded, false);
+            })
+            test('palette icon button click event', function(){
+                iconButton = selectTool.shadowRoot.querySelector('sh-icon[button]');
+                menuItem = selectTool.children[0];
+                iconButton.click();
+                menuItem.click();
+                assert.equal(selectTool.value, menuItem.label);
+            })
+            test('palette icon button click event', function(){
+                iconButton = paletteTool.shadowRoot.querySelector('sh-icon[button]');
+                menuItem = paletteTool.children[0];
+                iconButton.click();
+                menuItem.click();
+                assert.equal(paletteTool.icon, menuItem.icon);
+            })
+            test('palette icon button click event', function(){
+                iconButton = paletteTool.shadowRoot.querySelector('sh-icon[button]');
+                menuItem = paletteTool.children[5];
+                iconButton.click();
+                menuItem.click();
+                assert.equal(menuItem.active, true);
+            })
+            test('palette icon button click event', function(){
+                iconButton = paletteTool.shadowRoot.querySelector('sh-icon[button]');
+                menuItem = paletteTool.children[5];
+                iconButton.click();
+                menuItem.click();
+                assert.equal(paletteTool.expanded, false);
+            })
+            test('palette tool offset', function(done){
+                iconButton = paletteTool.shadowRoot.querySelector('sh-icon[button]');
+                popover = paletteTool.shadowRoot.querySelector('#menu');
+                menuItem = paletteTool.children[5];
+                paletteTool.style.position = "absolute";
+                paletteTool.style.top = "98%";
+                iconButton.click();
+                menuItem.click();
+                flush(function(){
+                    assert.equal(popover.style.top, paletteTool.getBoundingClientRect().top- popover.clientHeight + paletteTool.offsetHeight + 'px');
+                    done();
+                })
+            })
+            test('toggle tool active', function(done){
+                iconButton = paletteTool.shadowRoot.querySelector('sh-icon[button]');
+                popover = paletteTool.shadowRoot.querySelector('#menu');
+                menuItem = paletteTool.children[5];
+                toggleTool.click();
+                flush(function(){
+                    assert.equal(toggleTool.active, false);
+                    done();
+                })
+            })
+            test('palette tool active', function(done){
+                iconButton = paletteTool.shadowRoot.querySelector('sh-icon[button]');
+                popover = paletteTool.shadowRoot.querySelector('#menu');
+                menuItem = paletteTool.children[5];
+                selectTool.click();
+                flush(function(){
+                    assert.equal(selectTool.expanded, true);
+                    done();
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>

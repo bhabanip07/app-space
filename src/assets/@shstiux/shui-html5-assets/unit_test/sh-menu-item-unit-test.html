@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
-    <title>sh-checkbox-test</title>
+    <title>sh-menu-item-test</title>
     <script type="module"src="../src/sh-menu-item.js"></script>
     <script type="module"src="../src/sh-icon.js"></script>
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
@@ -50,8 +50,7 @@
                 var event = new Event('focus');
                 menuItem.dispatchEvent(event);
                 menuItem.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':9}));
-                debugger;
-                assert.equal(menuItemWrapper.style.border, '2px solid border rgb(59, 153, 252)');
+                assert.equal(menuItemWrapper.style.outline, 'rgb(59, 153, 252) solid 2px');
             })
         })
         suite('Menu item tree structure', function(){

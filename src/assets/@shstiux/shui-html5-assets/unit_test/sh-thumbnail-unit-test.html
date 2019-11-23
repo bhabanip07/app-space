@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
-    <title>sh-checkbox-test</title>
+    <title>sh-thumbnail-test</title>
     <script type="module"src="../src/sh-thumbnail.js"></script>
     <script type="module"src="../src/sh-icon.js"></script>
     <script type="module"src="../src/sh-menu-item.js"></script>
@@ -22,15 +22,14 @@
                         <sh-menu-item label="Export"></sh-menu-item>
                         <sh-menu-item label="Delete"></sh-menu-item>
                     </sh-thumbnail>
-                    <sh-button></sh-button>
                 </sh-grid>
             </template>
         </test-fixture>
     </body>
 
     <script>
-        suite('Text Component', function(){
-            let grid,thumbnail;
+        suite('Thumbnail', function(){
+            let grid,thumbnail,button;
             setup(function(){
                 grid = fixture("SHThumbnail");
                 thumbnail = grid.children[0]; 
@@ -56,34 +55,22 @@
                 })
             })
             test('should show popover on more icon click', function(done){
-                let moreIcon, popover;
+                let moreIcon, popover,visibility;
                 moreIcon = thumbnail.shadowRoot.querySelector('#optionsIcon');
                 flush(function() {
                     moreIcon.click();
-                    popover = thumbnail.shadowRoot.querySelector('#popover').visible;
-                    assert.equal(popover, true);
+                    popover = thumbnail.shadowRoot.querySelector('#popover');
+                    let visibility = getComputedStyle(popover).getPropertyValue("visibility");
+                    assert.equal(visibility, 'visible');
                     done();
                 })
             })
             test('should uncheck checkbox on click', function(done){
                 let moreIcon, checkbox;
                 checkbox = thumbnail.shadowRoot.querySelector('#thumbnailCheckbox');
-                debugger;
                 flush(function() {
                     checkbox.click();
-                    debugger;
-                    assert.equal(checkbox.active, false);
-                    done();
-                })
-            })
-            test('should hide popover on document click', function(done){
-                let moreIcon, popover;
-                moreIcon = thumbnail.shadowRoot.querySelector('#optionsIcon');
-                flush(function() {
-                    moreIcon.click();
-                    popover = thumbnail.shadowRoot.querySelector('#popover').visible;
-                    grid.querySelector('sh-button').click();
-                    assert.equal(popover, false);
+                    assert.equal(checkbox.active, true);
                     done();
                 })
             })

@@ -52,7 +52,8 @@ class SHThumbnail extends PolymerElement {
         border-radius: 2px;
       }
       .options-popover {
-        position: fixed;
+        position: absolute;
+        right: 28px;
       }
       .label {
         position: relative;
@@ -127,16 +128,26 @@ class SHThumbnail extends PolymerElement {
       :host([focus]) {
         border-color: rgb(var(--ui-0));
       }
-      .new-icon {
+
+      /* badge slot */
+      :host(:not([badge])) .thumbnail-badge {
+        display: none;
+      }
+      :host([badge]) .thumbnail-badge {
+        display:block;
         position: absolute;
         top: 10px;
         right: 10px;
+        width: 16px;
+        margin: 8px;
+      }
+      :host([badge="new"]) .thumbnail-badge {
         width: 8px;
-        margin: 12px;
         height: 8px;
         border-radius: 8px;
         background-color: rgb(var(--ui-0));
       }
+
       .thumbnail-icon {
         display: block;
         position: absolute;
@@ -163,18 +174,55 @@ class SHThumbnail extends PolymerElement {
         margin-left: 8px;
       }
 
+      /* badge */
+      .new-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 8px;
+        margin: 12px;
+        height: 8px;
+        border-radius: 8px;
+        background-color: rgb(var(--ui-0));
+      }
+      :host([new]) .thumbnail-badge {
+        display: none !important;
+      }
+
+      /* info slot */
+      .info-slot-wrapper {
+        display:flex;
+        flex-direction:rows;
+        display:block;
+        position:absolute;
+        bottom:10px;
+        left:10px;
+        background: var(--base-2);
+        opacity: var(--opacity-3);
+        padding: 4px;
+        border-radius:2px;
+      }
+      
+      .thumbnail-wrapper[empty-info] .info-slot-wrapper {
+        display: none;
+      }
+
       :host([active]) .icons-wrapper ::slotted(*) {
         color: var(--text-primary);
       }
     </style>
 
     <!--HTML-->
-    <div class="thumbnail-wrapper" id="thumbnailWrapper">
+    <div class="thumbnail-wrapper" id="thumbnailWrapper" empty-info$="[[emptyInfo]]">
       <div class="image-wrapper">
         <div class="image" style$="background-image:url('[[src]]'); padding-top: calc(100% / ([[aspectRatio]]))"></div>
         <sh-icon class="thumbnail-icon" icon$="[[icon]]"></sh-icon>
         <sh-checkbox id="thumbnailCheckbox" label="" class="thumbnail-checkbox" on-click="_checkboxClicked" active$="[[checked]]"></sh-checkbox>
         <div class="new-icon"></div>
+        <sh-badge class="thumbnail-badge" type$="[[badge]]"></sh-badge>
+        <div class="info-slot-wrapper">
+          <slot name="info" id="info"></slot>
+        </div>
       </div>
     </div>
     <div class="label-wrapper" id="labelWrapper">
@@ -231,9 +279,15 @@ class SHThumbnail extends PolymerElement {
         notify: true
       },
       new: {
-        type: Boolean,
-        value: false,
+        type: Boolean, 
+        value: false, 
         reflectToAttribute: true,
+        notify: true
+      },
+      badge: {
+        type: String,
+        value: 'new',
+        reflectToAttribute: false,
         notify: true
       },
       checked: {
@@ -258,8 +312,19 @@ class SHThumbnail extends PolymerElement {
         value: "1/1",
         reflectToAttribute: true,
         notify: true
+      },
+      emptyInfo: {
+        type: Boolean, 
+        value: false
+      },
+      show: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        notify: true,
+        observer: 'showpopover'
       }
-    }
+    };
   }
   ready() {
     super.ready();
@@ -282,23 +347,45 @@ class SHThumbnail extends PolymerElement {
     if(this.checked) {
       this.$.thumbnailCheckbox.active = true;
     }
+    // check for empty slots
+    let infoNodes;
+    infoNodes = this.$.info.assignedNodes({
+      flatten: true
+    }).length;
+    if (infoNodes === 0) {
+      this.emptyInfo = true;
+    }
+
+  }
+
+  showpopover(show){
+    if(show){
+      this.shadowRoot.querySelector('sh-popover').style.visibility = 'visible';
+      this.shadowRoot.querySelector('sh-popover').style.opacity = 1;
+    }
+    else {
+      this.shadowRoot.querySelector('sh-popover').style.visibility = 'hidden';
+      this.shadowRoot.querySelector('sh-popover').style.opacity = 0;
+    }
   }
 
   _showOptions(e) {
-    let self;
+    let self, iconHeight;
     self = this;
-    if (!this.$.popover.visible) {
-      this.$.popover.style.top = e.y + 'px';
-      this.$.popover.style.left = e.x - this.$.popover.offsetWidth + 'px';
-      this.$.popover.visible = true;
+    self.show = !self.show;
+    if (self.show) {
+      iconHeight = 20;
+      this.$.popover.style.top = this.shadowRoot.querySelector('.thumbnail-wrapper').offsetHeight + iconHeight + 'px';
       document.addEventListener('click', function(e) {
         if (e.target !== self) {
-          self.$.popover.visible = false;
+          self.show = false;
         }
       });
     } else {
-      this.$.popover.visible = false;
+        self.show = false;
     }
+    e.stopPropagation();
+    this.dispatchEvent(new CustomEvent('menu-clicked', {detail: this, bubbles: true, composed: true}));
   }
 
   _checkboxClicked(e) {

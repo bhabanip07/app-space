@@ -1,0 +1,91 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+
+    <title>sh-checkbox-test</title>
+    <script type="module" src="../src/sh-checkbox.js"></script>
+    <script type="module" src="../src/sh-icon.js"></script>
+    <script type="module" src="../src/sh-menu-group.js"></script>
+    <script type="module" src="../src/sh-menu-item.js"></script>
+    <script type="module" src="../src/sh-pane.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <style>
+        #SHPane {
+            position: absolute;
+            top: 20%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <test-fixture id="SHPane">
+        <template>
+            <sh-pane slot="left" label='Left Pane'>
+                <sh-checkbox Label="abc"></sh-checkbox>
+                <sh-checkbox Label="xyz"></sh-checkbox>
+            </sh-pane>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('Pane', function () {
+            var pane, paneContentWrapper, paneWrapper, paneHeaderWrapper, paneBodyWrapper, paneFooterWrapper;
+            setup(function () {
+                pane = fixture('SHPane');
+                paneWrapper = pane.shadowRoot.querySelector('.pane-wrapper');
+                paneContentWrapper = pane.shadowRoot.querySelector('.label-wrapper')
+                paneHeaderWrapper = pane.shadowRoot.querySelector('.header-wrapper');
+                paneBodyWrapper = pane.shadowRoot.querySelector('.body-wrapper');
+                paneFooterWrapper = pane.shadowRoot.querySelector('.footer-wrapper');
+                pane.classList.add('testing');
+            })
+            test('Pane : Label', function(){
+                assert.equal(pane.getAttribute('label'), 'Left Pane');
+            })
+
+            test('Pane label : Undefined', function(){
+                pane.setAttribute('label',undefined);
+
+                assert.equal(pane.getAttribute('label'), 'undefined');
+            })
+
+            test('Size : Expanded and Behavior : Condensed', function(){
+                pane.size = 'expanded';
+                pane.behavior = 'condense';
+                pane._handleExpand();
+                
+                assert.equal(pane.size, 'condensed');
+            })
+
+            test('Size : Expanded and Behavior : Collapse', function(){
+                pane.size = 'expanded';
+                pane.behavior = 'collapse';
+                pane._handleExpand();
+                
+                assert.equal(pane.size, 'collapsed');
+            })
+
+            test('Size : Collapsed', function(){
+                pane.size = 'collapsed';
+                pane._handleExpand();
+
+                assert.equal(pane.size, 'expanded');
+            })
+
+            test('Size : Condensed', function(){
+                pane.size = 'condensed';
+                pane._handleExpand();
+
+                assert.equal(pane.size, 'expanded');
+            })
+        })
+    </script>
+
+</body>
+
+</html>

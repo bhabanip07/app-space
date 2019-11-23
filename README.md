@@ -28,5 +28,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Running the application in DEV mode to call nodejs api also 
 
-Rn this comand -- ng serve --proxy-config proxy.conf.json
+Rn this comand to get data via nodejs
+
+-- ng serve --proxy-config proxy.conf.json
+
 reference - https://levelup.gitconnected.com/simple-application-with-angular-6-node-js-express-2873304fff0f

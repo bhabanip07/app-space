@@ -964,7 +964,9 @@ class SHDatepicker extends PolymerElement {
       color: var(--text-disabled) !important;
       background: none !important;
     } 
-    
+    :host([no-border]) input {
+      border-bottom: none;
+    }
     </style>
 
     <div class="datepicker-input-wrapper" on-click="_handleActive">
@@ -1134,6 +1136,12 @@ class SHDatepicker extends PolymerElement {
         value: false,
         notify: true,
         reflectToAttribute: true
+      },
+      noBorder: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        notify: true
       },
       day_values: {
         value() {

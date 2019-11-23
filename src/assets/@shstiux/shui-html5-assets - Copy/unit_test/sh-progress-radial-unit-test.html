@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+
+    <title>sh-checkbox-test</title>
+    <script type="module" src="../src/sh-progress.js"></script>
+    <script type="module" src="../src/sh-progress-radial.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <style>
+        .demo {
+            background-color: var(--base-1);
+            overflow: visible;
+            margin: 24px 0 32px 0;
+            position: relative;
+            border-radius: 2px;
+            border: 1px solid rgba(var(--ui-1), var(--opacity-6));
+            height: fit-content;
+            display: flex;
+        }
+
+        .demo:not(iframe)>div {
+            padding: 48px;
+            display: block;
+            flex-direction: column;
+            margin: auto;
+            justify-content: center;
+            align-items: center;
+            box-sizing: content-box;
+            height: fit-content;
+            width: 280px;
+            min-width: fit-content;
+            max-width: 100%;
+            perspective: 1px
+        }
+    </style>
+</head>
+
+<body>
+    <test-fixture id="SHProgressRadial">
+        <template>
+            <sh-page>
+                <div class="demo">
+                    <div>
+                        <sh-progress-radial value="36" label="36%" info='5 minutes remaining' size="l" header="Topogram"></sh-progress-radial>
+                    </div>
+                </div>
+            </sh-page>
+        </template>
+    </test-fixture>
+
+    <script>
+        let html = document.querySelector('html');
+        suite('Progress-Bar', function () {
+            let progressRadial,
+                progressRadialLabel,
+                circlePath,
+                ringBackground;
+            setup(function () {
+                progressRadial = fixture('SHProgressRadial').children[0].children[0].children[0];
+                progressRadialLabel = progressRadial.shadowRoot.querySelector('.progress-label');
+                ringBackground = progressRadial.shadowRoot.querySelector('.progress-ring__background');
+            })
+
+            test('ProgressRadial Label', function(){
+                assert.equal(progressRadialLabel.innerText, "36%");
+            })
+
+            test('Size Changed to "s"', function(){
+                progressRadial.size = 's';
+                assert.equal(progressRadial.width, 32);
+            })
+
+            test('Size Changed to "m"', function(){
+                progressRadial.size = 'm';
+                assert.equal(progressRadial.width, 64);
+            })
+
+            test('Size Changed to "xl"', function(){
+                progressRadial.size = 'xl';
+                assert.equal(progressRadial.width, 256);
+            })
+
+            test('Circle Path', function(){
+                circlePath = progressRadial.getCirclePath(progressRadial.width);
+                assert.equal(circlePath, ringBackground.getAttribute('d'));
+            })
+        })
+    </script>
+</body>
+</html>
+

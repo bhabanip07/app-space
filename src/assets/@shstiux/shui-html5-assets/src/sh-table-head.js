@@ -11,10 +11,9 @@ class SHTableHead extends PolymerElement {
     <!--CSS-->
     <style include="shared-styles">
       :host {
-        min-width: 40px;
+        min-width: fit-content;
         display: inline-flex;
         box-sizing: border-box;
-        height: fit-content;
         width: -ms-fit-content;
         width: -moz-fit-content;
         margin: 0 12px;
@@ -79,7 +78,7 @@ class SHTableHead extends PolymerElement {
 
       /* number heads */
 
-      :host([number]) {
+      :host([number]) #headWrapper {
         display: flex;
         justify-content: flex-end;
       }
@@ -157,7 +156,7 @@ class SHTableHead extends PolymerElement {
     </style>
 
     <!--HTML-->
-    <div id="headWrapper" class="head-wrapper" on-click="toggleIcon">
+    <div id="headWrapper" class="head-wrapper" on-click="toggleIcon" style$="min-width:{{minWidth}}">
       <slot></slot>
       <sh-icon icon="down-s" color="var(--icon-color)" class="sort-icon" id="sortIcon"></sh-icon>
     </div>
@@ -201,9 +200,10 @@ class SHTableHead extends PolymerElement {
       },
       minWidth: {
         type: String,
+        value: '40px',
         reflectToAttribute: true,
         notify: true,
-        observer: 'adjustMinWidth'
+        observer: 'setMinWidthOfHost'
       },
       sorted: {
         type: Boolean,
@@ -231,8 +231,7 @@ class SHTableHead extends PolymerElement {
         type: Boolean,
         value: false,
         notify:true,
-        reflectToAttribute:true,
-        observer: 'condensedObserver'
+        reflectToAttribute:true
       }
     };
   }
@@ -275,7 +274,9 @@ class SHTableHead extends PolymerElement {
       this.setAttribute('tabindex',0);
     }
   }
-
+  setMinWidthOfHost(newMinWidth) {
+    this.style.minWidth = newMinWidth;
+  }
   connectedCallback() {
     super.connectedCallback();
     this.style.minWidth = this.minWidth;

@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-timepicker-test</title>
+    <script type="module"src="../src/sh-timepicker.js"></script>
+    <script type="module"src="../src/sh-icon.js"></script>
+    <script type="module"src="../src/sh-button.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <link rel="stylesheet" type="text/css" href="test-styles.css">
+  </head>
+
+    <body>
+        <test-fixture id= "SHTimepicker">
+            <template>
+            <sh-page>
+                <sh-timepicker label="Filled" h="03" m="03" s="04" am-pm="PM" style="width:300px;margin-bottom: 200px;"></sh-timepicker>
+                <sh-button label="button"></sh-button>
+            </sh-page>
+            </template>
+        </test-fixture>
+    </body>
+
+    <script>
+        suite('Timepicker Component', function(){
+            let page, timepicker, button;
+            setup(function(){
+                page = fixture("SHTimepicker");
+                timepicker = page.children[0];
+                button = page.querySelector('sh-button');
+            })
+            test('check for red border class for timepicker', function(){
+                let hasErrorClass;
+                timepicker.error =  true;
+                hasErrorClass = timepicker.shadowRoot.querySelector('.timepicker-wrapper').classList.contains('error');
+                assert.equal(hasErrorClass, true);
+            })
+            test('check for yellow border class when safety property is set', function(){
+                let hasSafetyClass;
+                timepicker.safety =  true;
+                hasSafetyClass = timepicker.shadowRoot.querySelector('.timepicker-wrapper').classList.contains('safety');
+                assert.equal(hasSafetyClass, true);
+            })
+            test('check for star symbol when mandatory is set', function(){
+                let hasErrorClass;
+                timepicker.mandatory =  true;
+                mandatorySymbol = timepicker.shadowRoot.querySelector('#mandatoryStarSymbol').style.visibility;
+                assert.equal(mandatorySymbol, 'visible');
+            })
+            test('check for tabindex when disabled property is set', function(){
+                let hasErrorClass,scheduleIcon,timeTabIndex;
+                timepicker.disabled =  true;
+                timeTabIndex = timepicker.getAttribute('tabIndex');
+                scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon').getAttribute('tabIndex');
+                assert.equal(timeTabIndex, '-1');
+                assert.equal(scheduleIcon, '-1');
+            })
+            test('remove colon when value is empty', function(){
+                let separators;
+                timepicker.h =  '';
+                timepicker.m =  '';
+                timepicker.s =  '';
+                timepicker.amPm =  '';
+                timepicker.elementFocused = "active";
+                separators = timepicker.shadowRoot.querySelectorAll('.seperator')[0].classList.contains('colon-active');
+                assert.equal(separators, false);
+            })
+            test('add colon when value is empty', function(){
+                let separators;
+                separators = timepicker.shadowRoot.querySelectorAll('.seperator')[0].classList.contains('colon-active');
+                assert.equal(separators, true);
+            })
+
+            test('check for element blur', function(){
+                timepicker.blur();
+                assert.equal(timepicker.elementFocused, 'active blur');
+            })
+            test('check for active property on icon click', function(done){
+                let scheduleIcon;
+                scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    scheduleIcon.click();
+                    assert.equal(timepicker.active, true);
+                    done();
+                })
+            })
+            test('clear hour minute and second on clear icon click', function(){
+                let clearIcon;
+                clearIcon = timepicker.shadowRoot.querySelector('#closeIcon');
+                clearIcon.click();
+                assert.equal(timepicker.h, '');
+                assert.equal(timepicker.m, '');
+                assert.equal(timepicker.s, '');
+                assert.equal(timepicker.amPm, '');
+            })
+            test('check for hover class', function(){
+               let timeWrapper;
+               let event = new Event('mouseover');
+               timepickerWrapper =   timepicker.shadowRoot.querySelector('.timepicker-wrapper');
+               timepickerWrapper.dispatchEvent(event);
+               timeWrapper =  timepicker.shadowRoot.querySelector('.timepicker-wrapper').classList.contains('hover');
+               assert.equal(timeWrapper,true);
+            })
+            test('check for mouse out event on wrapper', function(){
+               let timeWrapper, timepickerWrapper;
+               let event = new Event('mouseout');
+               timepickerWrapper =   timepicker.shadowRoot.querySelector('.timepicker-wrapper');
+               timepickerWrapper.dispatchEvent(event);
+               timeWrapper =  timepicker.shadowRoot.querySelector('.timepicker-wrapper').classList.contains('hover');
+               assert.equal(timeWrapper,false);
+            })
+
+           test('increment hour on click of up arrow icon ', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    scheduleIcon.click();
+                    let upIcon, hourInput,hour;
+                    upIcon =  timepicker.shadowRoot.querySelectorAll('.hour-control sh-icon')[0];
+                    upIcon.click();
+                    assert.equal(timepicker.h, '04');
+                    done();
+                })
+           })
+           test('decrement hour on click of diwn arrow icon ', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    scheduleIcon.click();
+                    let downIcon, hourInput,hour;
+                    downIcon =  timepicker.shadowRoot.querySelectorAll('.hour-control sh-icon')[1];
+                    downIcon.click();
+                    assert.equal(timepicker.h, '02');
+                    done();
+                })
+           })
+           test('increment minute on click of up arrow icon ', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    scheduleIcon.click();
+                    let upIcon, hourInput,hour;
+                    upIcon =  timepicker.shadowRoot.querySelectorAll('.min-control sh-icon')[0];
+                    upIcon.click();
+                    assert.equal(timepicker.m, '04');
+                    done();
+                })
+           })
+           test('decrement minute on click of diwn arrow icon ', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    scheduleIcon.click();
+                    let downIcon, hourInput,hour;
+                    downIcon =  timepicker.shadowRoot.querySelectorAll('.min-control sh-icon')[1];
+                    downIcon.click();
+                    assert.equal(timepicker.m, '02');
+                    done();
+                })
+           })
+           test('increment second on click of up arrow icon ', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    scheduleIcon.click();
+                    let upIcon, hourInput,hour;
+                    upIcon =  timepicker.shadowRoot.querySelectorAll('.sec-control sh-icon')[0];
+                    upIcon.click();
+                    assert.equal(timepicker.s, '05');
+                    done();
+                })
+           })
+           test('decrement second on click of diwn arrow icon ', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    scheduleIcon.click();
+                    let downIcon, hourInput,hour;
+                    downIcon =  timepicker.shadowRoot.querySelectorAll('.sec-control sh-icon')[1];
+                    downIcon.click();
+                    assert.equal(timepicker.s, '03');
+                    done();
+                })
+           })
+           test('check for am pm change in up or down arrow click ', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    scheduleIcon.click();
+                    let upIcon, hourInput,hour;
+                    upIcon =  timepicker.shadowRoot.querySelectorAll('.ampm-control sh-icon')[0];
+                    upIcon.click();
+                    assert.equal(timepicker.amPm, 'AM');
+                    done();
+                })
+           })
+           test('check for am pm change in up or up arrow click ', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    timepicker.amPm = 'AM';
+                    scheduleIcon.click();
+                    let upIcon, hourInput,hour;
+                    upIcon =  timepicker.shadowRoot.querySelectorAll('.ampm-control sh-icon')[0];
+                    upIcon.click();
+                    assert.equal(timepicker.amPm, 'PM');
+                    done();
+                })
+           })
+           test('should not append zero when hour greater than 10 ', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    timepicker.h = 11;
+                    scheduleIcon.click();
+                    let upIcon, hourInput,hour;
+                    upIcon =  timepicker.shadowRoot.querySelectorAll('.hour-control sh-icon')[0];
+                    upIcon.click();
+                    assert.equal(timepicker.h, '12');
+                    done();
+                })
+           })
+           test('should not append zero when greater less than 10 ', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    timepicker.m = 11;
+                    scheduleIcon.click();
+                    let upIcon, hourInput,hour;
+                    upIcon =  timepicker.shadowRoot.querySelectorAll('.min-control sh-icon')[0];
+                    upIcon.click();
+                    assert.equal(timepicker.m, '12');
+                    done();
+                })
+           })
+           test('should not append zero when second greater than 10 ', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    timepicker.s = 11;
+                    scheduleIcon.click();
+                    let upIcon, hourInput,hour;
+                    upIcon =  timepicker.shadowRoot.querySelectorAll('.sec-control sh-icon')[0];
+                    upIcon.click();
+                    assert.equal(timepicker.s, '12');
+                    done();
+                })
+           })
+           test('update with system time when hour minute secons is empty', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    timepicker.h = "";
+                    timepicker.m = "";
+                    timepicker.s = "";
+                    let d, hour, min, sec;
+                    d = new Date();
+                    hour = d.getHours();
+                    min = d.getMinutes();
+                    sec = d.getSeconds();
+                    scheduleIcon.click();
+                    let upIcon;
+                    upIcon =  timepicker.shadowRoot.querySelectorAll('.min-control sh-icon')[0];
+                    upIcon.click();
+                    assert.equal(timepicker.m, min);
+                    done();
+                })
+           })
+           test('close timepicker on clicking outside', function(done) {
+            let scheduleIcon;
+            scheduleIcon = timepicker.shadowRoot.querySelector('#scheduledIcon');
+                flush(function(){
+                    scheduleIcon.click();
+                    button.click();
+                    assert.equal(timepicker.active, false);
+                    done();
+                })
+           })
+           test('increment time on arrow up of hour input', function() {
+               let hourInput;
+               hourInput = timepicker.shadowRoot.querySelector('#h-label');
+               keydownEvent = new KeyboardEvent('keydown', { key: 'ArrowUp'});
+               hourInput.dispatchEvent(keydownEvent);
+               assert.equal(timepicker.h,'04');
+           })
+           test('decrement time on arrow down of hour input', function() {
+               let hourInput;
+               hourInput = timepicker.shadowRoot.querySelector('#h-label');
+               keydownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown'});
+               hourInput.dispatchEvent(keydownEvent);
+               assert.equal(timepicker.h,'02');
+           })
+        })
+    </script>
+</html>

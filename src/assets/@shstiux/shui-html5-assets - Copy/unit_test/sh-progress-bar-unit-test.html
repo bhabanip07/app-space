@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+
+    <title>sh-checkbox-test</title>
+    <script type="module" src="../src/sh-progress.js"></script>
+    <script type="module" src="../src/sh-progress-radial.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <style>
+        .demo {
+            background-color: var(--base-1);
+            overflow: visible;
+            margin: 24px 0 32px 0;
+            position: relative;
+            border-radius: 2px;
+            border: 1px solid rgba(var(--ui-1), var(--opacity-6));
+            height: fit-content;
+            display: flex;
+        }
+
+        .demo:not(iframe)>div {
+            padding: 48px;
+            display: block;
+            flex-direction: column;
+            margin: auto;
+            justify-content: center;
+            align-items: center;
+            box-sizing: content-box;
+            height: fit-content;
+            width: 280px;
+            min-width: fit-content;
+            max-width: 100%;
+            perspective: 1px
+        }
+    </style>
+</head>
+
+<body>
+    <test-fixture id="SHProgressBar">
+        <template>
+            <sh-page>
+                <div class="demo">
+                    <div>
+                        <sh-progress value='36' header="Send to PACS" label="25%" info='5 minutes remaining'></sh-progress>
+                    </div>
+                </div>
+            </sh-page>
+        </template>
+    </test-fixture>
+
+    <script>
+        let html = document.querySelector('html');
+        suite('Progress-Bar', function () {
+            let progressBar,
+                progressBarLabel,
+                progressBarProgress,
+                progressBarInfo,
+                rect;
+            setup(function () {
+                progressBar = fixture('SHProgressBar').children[0].children[0].children[0];
+                progressBarLabel = progressBar.shadowRoot.querySelector('.progress-label');
+                progressBarHeader = progressBar.shadowRoot.querySelector('.progress-header');
+                progressBarProgress = progressBar.shadowRoot.querySelector('progress');
+                progressBarInfo = progressBar.shadowRoot.querySelector('.progress-info');
+                rect = progressBar.shadowRoot.querySelector('.bar-value');
+            })
+
+            test('Label', function(){
+                assert.equal(progressBarLabel.innerText, "25%");
+            })
+
+            test('ProgressBar Value', function(){
+                assert.equal(rect.style.width, "36%");
+            })
+
+            test('ProgressBar Header', function(){
+                assert.equal(progressBarHeader.innerText, "Send to PACS");
+            })
+
+            test('ProgressBar Info', function(){
+                assert.equal(progressBarInfo.innerText, "5 minutes remaining");
+            })
+        })
+    </script>
+</body>
+</html>

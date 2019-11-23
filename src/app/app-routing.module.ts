@@ -15,6 +15,7 @@ import { RegulatoryRecordComponent } from './regulatory-record/regulatory-record
 import { ContactDocComponent } from './contact-doc/contact-doc.component';
 import { LogOutComponent } from './log-out/log-out.component';
 import { LoginComponent } from './login/login.component';
+import { ShuiReleaseTestComponent } from './shui-release-test/shui-release-test.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'regulatory-record-doc', component: RegulatoryRecordDocComponent },
   { path: 'regulatory-inispection-doc', component: RegulatoryInispectionDocComponent },
   { path: 'log-out', component: LogOutComponent },
+  { path: 'shui-release-test', component: ShuiReleaseTestComponent },
 ];
 
 @NgModule({

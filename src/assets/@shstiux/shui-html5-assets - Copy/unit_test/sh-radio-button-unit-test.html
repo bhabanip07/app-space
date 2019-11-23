@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+
+    <title>sh-checkbox-test</title>
+    <script type="module" src="../src/sh-radio-button.js"></script>
+    <script type="module" src="../src/sh-radio-group.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+</head>
+
+<body>
+    <test-fixture id="SHRadioGroup">
+        <template>
+            <sh-radio-group>
+                <sh-radio-button label="Automatic"></sh-radio-button>
+                <sh-radio-button label="Manual"></sh-radio-button>
+                <sh-radio-button label="Guided"></sh-radio-button>
+            </sh-radio-group>
+        </template>
+    </test-fixture>
+    <script>
+        var page = document.querySelector('html');
+        var radioButton, radioButtonLabel, radioButtonInput, radioButtonLabel, radioButtonContainer;
+        suite('sh-radio-button', function () {
+            setup(function () {
+                radioButton = fixture('SHRadioGroup').children[0];
+                radioButtonInput = radioButton.shadowRoot.querySelector('#pseudoRadio');
+                radioButtonLabel = radioButton.shadowRoot.querySelector('#radio-container label');
+                radioButtonContainer = radioButton.shadowRoot.querySelector('#radio-container')
+                radioButton.classList.add('testing');
+            })
+
+            test('RadioButton Label', function(){
+                assert.equal(radioButtonLabel.innerText, "Automatic");
+            })
+
+            test('Click Event', function(){
+                var event = new Event('click');
+                radioButton.dispatchEvent(event);
+
+                assert.equal(radioButton.active, true);
+            })
+
+            test('RadioButton : Disabled', function(){
+                radioButton.disabled = true;
+                var event = new Event('click');
+                radioButton.dispatchEvent(event);
+
+                assert.equal(radioButton.active, false);
+            })
+
+            test('Focus Event - KeyCode : 9', function(){
+                var event = new Event('focus');
+                radioButton.dispatchEvent(event);
+
+                radioButton.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':9}));
+
+                assert.equal(radioButtonInput.style.outline, "rgb(59, 153, 252) solid 2px");
+                assert.equal(radioButtonInput.style.outlineOffset, "-2px");
+            })
+
+            test('Focus Event - KeyCode : 32', function(){
+                var event = new Event('focus');
+                radioButton.dispatchEvent(event);
+                radioButton.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':32}));
+
+                assert.equal(radioButton.active, true);
+            })
+
+            test('Blur Event', function(){
+                var event = new Event('blur');
+                radioButton.dispatchEvent(event);
+
+                assert.equal(radioButtonInput.style.outline, '');
+                assert.equal(radioButtonInput.style.outlineOffset, '');
+            })
+
+            test('_dispatchEvent method', function(){
+                radioButton._dispatchEvent();
+
+                assert.equal(radioButton.active, true);
+            })
+        })
+    </script>
+</body>
+
+</html>

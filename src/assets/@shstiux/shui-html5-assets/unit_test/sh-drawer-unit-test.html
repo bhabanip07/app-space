@@ -3,7 +3,7 @@
 <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
-        <title>sh-accordion-app test</title>
+        <title>sh-drawer test</title>
         <script type="module"src="../src/sh-drawer.js"></script>
         <script type="module"src="../src/sh-checkbox.js"></script>
         <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
@@ -33,7 +33,7 @@
                 })
 
                 test('Drawer Click', function(){
-                    var event = new Event('click');
+                    var event = new Event('mousedown');
                     drawer.dispatchEvent(event);
                     assert.equal(drawer.visible, false, "Drawer Invisible");
                 })

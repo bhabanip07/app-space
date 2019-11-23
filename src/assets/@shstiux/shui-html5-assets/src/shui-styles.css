@@ -11,6 +11,7 @@ html, html[theme="light"] {
     --base-1: rgba(235,235,235,1); /* Pane, Page Background */
     --base-2: rgba(245,245,245,1); /* Secondary Navigation */
     --base-3: rgba(255,255,255,1); /* Main Content Area, Accodrion, Modal */
+    --base-4: rgba(255,255,255,1); /* Notification, Popover */
     /* UI Colors */
     --ui-0: 0,153,153; /* Petrol */
     --ui-1: 0,0,0; /* Text, UI Components */
@@ -74,7 +75,8 @@ html[theme="dark"] {
     --base-0: rgba(20, 20, 20, 1); /* Access bar */
     --base-1: rgba(30,30,30,1); /* Pane, Page Background */
     --base-2: rgba(40,40,40,1); /* Secondary Navigation */
-    --base-3: rgba(45,45,45,1); /* Main Content Area, Accordion, Modal */
+    --base-3: rgba(50,50,50,1); /* Main Content Area, Accordion, Modal */
+    --base-4: rgba(60,60,60,1); /* Notification, Popover */
     /* UI Colors */
     --ui-0: 0,153,153; /* Petrol */
     --ui-1: 255,255,255; /* Text, UI Components */

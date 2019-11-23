@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-workline-test</title>
+    <script type="module" src="../src/sh-workline.js"></script>
+    <script type="module" src="../src/sh-workline-item.js"></script>
+    <script type="module" src="../src/sh-workline-group.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+</head>
+
+<body>
+    <test-fixture id="SHWorkline">
+        <template>
+            <sh-workline label="Workline Label" handle-active>
+                <sh-workline-item label="Idle (Completed)" color="var(--support-4)" progress="100"></sh-workline-item>
+                <sh-workline-item label="Idle (Disabled)" color="var(--support-4)" progress="100" disabled></sh-workline-item>
+                <sh-workline-item label="Active (Completed)" active color="var(--support-4)" progress="100"></sh-workline-item>
+                <sh-workline-item label="Current (Progress 75%)" info="0:57" color="var(--support-4)" current progress="75"></sh-workline-item>
+                <sh-workline-item label="Upcoming (User)" icon="contrast-administration"></sh-workline-item>
+                <sh-workline-item label="Upcoming" info="5:20" color="var(--support-6)"></sh-workline-item>
+                <sh-workline-item label="Upcoming (Disabled)" info="3:22" color="var(--support-6)" disabled></sh-workline-item>
+                <sh-workline-item label="Upcoming (Readonly)" info="2:01" color="var(--support-6)" readonly></sh-workline-item>
+            </sh-workline>
+        </template>
+    </test-fixture>
+
+    <script>
+        suite('Workline', function(){
+            setup(function(){
+                workline = fixture('SHWorkline');
+                worklineLabel = workline.shadowRoot.querySelector('.workline-label');
+                worklineItem = workline.getElementsByTagName('sh-workline-item')[0];
+            })
+            test('Label', function(){
+                assert.equal(worklineLabel.innerText, "Workline Label");
+            })
+
+            test('_handleSlots() method', function(){
+                workline._handleSlots();
+
+                assert.equal(workline.emptyRight, true);
+                assert.equal(workline.emptyLeft, true);
+            })
+
+            test('Click on WorklineItem', function(){
+                worklineItem.click();
+
+                assert.equal(worklineItem.active, true);
+            })
+        })
+    </script>
+</body>
+</html>

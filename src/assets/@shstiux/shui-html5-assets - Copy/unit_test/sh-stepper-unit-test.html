@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <link rel="stylesheet" href="../src/shui-styles.css">
+    <title>sh-accessbar-test</title>
+    <!-- <script type="module" src="../src/sh-access-bar.js"></script> -->
+    <!-- <script type="module" src="../src/sh-accordion.js"></script> -->
+    <!-- <script type="module" src="../src/sh-badge.js"></script> -->
+    <script type="module" src="../src/sh-button.js"></script>
+    <!-- <script type="module" src="../src/sh-breadcrumbs.js"></script> -->
+    <!-- <script type="module" src="../src/sh-breadcrumb-item.js"></script> -->
+    <script type="module" src="../src/sh-card.js"></script>
+    <!-- <script type="module" src="../src/sh-checkbox.js"></script> -->
+    <!-- <script type="module" src="../src/sh-datepicker.js"></script> -->
+    <!-- <script type="module" src="../src/sh-divider.js"></script> -->
+    <!-- <script type="module" src="../src/sh-drawer.js"></script> -->
+    <!-- <script type="module" src="../src/sh-dropdown.js"></script> -->
+    <!-- <script type="module" src="../src/sh-empty-state.js"></script> -->
+    <!-- <script type="module" src="../src/sh-grid.js"></script> -->
+    <!-- <script type="module" src="../src/sh-home-screen.js"></script> -->
+    <!-- <script type="module" src="../src/sh-home-card.js"></script> -->
+    <script type="module" src="../src/sh-icon.js"></script>
+    <!-- <script type="module" src="../src/sh-input-number.js"></script> -->
+    <!-- <script type="module" src="../src/sh-input-text.js"></script> -->
+    <!-- <script type="module" src="../src/sh-menu-group.js"></script> -->
+    <!-- <script type="module" src="../src/sh-menu-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-modal.js"></script> -->
+    <!-- <script type="module" src="../src/sh-nav-bar.js"></script> -->
+    <!-- <script type="module" src="../src/sh-notifications.js"></script> -->
+    <!-- <script type="module" src="../src/sh-notification-item.js"></script> -->
+    <script type="module" src="../src/sh-page.js"></script>
+    <!-- <script type="module" src="../src/sh-pagination.js"></script> -->
+    <!-- <script type="module" src="../src/sh-pane.js"></script> -->
+    <!-- <script type="module" src="../src/sh-patient-illustration.js"></script> -->
+    <!-- <script type="module" src="../src/sh-popover.js"></script> -->
+    <!-- <script type="module" src="../src/sh-progress.js"></script> -->
+    <!-- <script type="module" src="../src/sh-progress-radial.js"></script> -->
+    <!-- <script type="module" src="../src/sh-radio-button.js"></script> -->
+    <!-- <script type="module" src="../src/sh-radio-group.js"></script> -->
+    <!-- <script type="module" src="../src/sh-search.js"></script> -->
+    <!-- <script type="module" src="../src/sh-slider.js"></script> -->
+    <!-- <script type="module" src="../src/sh-spinner.js"></script> -->
+    <!-- <script type="module" src="../src/sh-splash-screen.js"></script> -->
+    <script type="module" src="../src/sh-stepper.js"></script>
+    <script type="module" src="../src/sh-stepper-item.js"></script>
+    <!-- <script type="module" src="../src/sh-switch.js"></script> -->
+    <!-- <script type="module" src="../src/sh-switch-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table-cell.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table-head.js"></script> -->
+    <!-- <script type="module" src="../src/sh-table-row.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tabs.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tab-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tag.js"></script> -->
+    <!-- <script type="module" src="../src/sh-text.js"></script> -->
+    <!-- <script type="module" src="../src/sh-thumbnail.js"></script> -->
+    <!-- <script type="module" src="../src/sh-timepicker.js"></script> -->
+    <!-- <script type="module" src="../src/sh-toggle.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tools.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tool.js"></script> -->
+    <!-- <script type="module" src="../src/sh-tooltip.js"></script> -->
+    <!-- <script type="module" src="../src/sh-user-identifier.js"></script> -->
+    <!-- <script type="module" src="../src/sh-workline.js"></script> -->
+    <!-- <script type="module" src="../src/sh-workline-item.js"></script> -->
+    <!-- <script type="module" src="../src/sh-wrapper.js"></script> -->
+    <!-- <script type="module" src="../src/global-styles.js"></script> -->
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/polymer/lib/elements/dom-repeat.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <script type="text/javascript">
+        var webcomponentsjsBase = "../node_modules/@webcomponents/webcomponentsjs/";
+    </script>
+</head>
+
+<body>
+
+    <test-fixture id="stepper">
+        <template>
+            <sh-page>
+                <sh-card style="card-height: 320px">
+                    <!-- the stepper value defines which item is active -->
+                    <sh-stepper value="2" slot="header" id="demo-stepper-2">
+                        <sh-stepper-item label="Select Patient"></sh-stepper-item>
+                        <sh-stepper-item label="Edit Data"></sh-stepper-item>
+                        <sh-stepper-item label="Choose Exam"></sh-stepper-item>
+                    </sh-stepper>
+                    <sh-stepper value="2" slot="header" id="demo-stepper-2">
+                    </sh-stepper>
+                    <!-- other components can update the stepper's value -->
+                    <sh-button slot="footer" label="Previous" color="secondary" onclick="previousStep2()"></sh-button>
+                    <sh-button slot="footer" label="Next" onclick="nextStep2()"></sh-button>
+                </sh-card>
+                <script>
+                    function nextStep2() {
+                        var stepper = document.getElementById("demo-stepper-2")
+                        if (stepper.value < 3) {
+                            stepper.value++
+                        }
+                    }
+                    function previousStep2() {
+                        var stepper = document.getElementById("demo-stepper-2")
+                        if (stepper.value > 1) {
+                            stepper.value--
+                        }
+                    }
+                </script>
+            </sh-page>
+        </template>
+    </test-fixture>
+    </sh-page>
+
+    <script>
+        var html = document.querySelector('html');
+        suite('Stepper', function () {
+            let stepper, firstStepperItem, secondStepperItem, thirdStepperItem;
+            setup(function () {
+                stepper = fixture('stepper').children[0].children[0];
+                firstStepperItem = stepper.children[0];
+                secondStepperItem = stepper.children[1];
+                thirdStepperItem = stepper.children[2];
+            })
+            test('check first items number', function () {
+                assert.equal(firstStepperItem.number, 1);
+            })
+            test('check second items number', function () {
+                assert.equal(secondStepperItem.number, 2);
+            })
+            test('check third items number', function () {
+                assert.equal(thirdStepperItem.number, 3);
+            })
+            test('check click on item reflects number to value', function (done) {
+                thirdStepperItem.click();
+                flush(function () {
+                    assert.equal(stepper.value, thirdStepperItem.number);
+                    done();
+                })
+            })
+            test('set value as 5 first stepper item', function (done) {
+                stepper.value = 5;
+                flush(function () {
+                    assert.equal(firstStepperItem.getAttribute('active'), null);
+                    done();
+                })
+            })
+            test('set value as 5 second stepper item', function (done) {
+                stepper.value = 5;
+                flush(function () {
+                    assert.equal(secondStepperItem.getAttribute('active'), null);
+                    done();
+                })
+            })
+            test('set value as 5 third stepper item', function (done) {
+                stepper.value = 5;
+                flush(function () {
+                    assert.equal(thirdStepperItem.getAttribute('active'), null);
+                    done();
+                })
+            })
+            test('set value as 5 first stepper item', function (done) {
+                stepper.value = 5;
+                flush(function () {
+                    assert.equal(firstStepperItem.getAttribute('disabled'), null);
+                    done();
+                })
+            })
+            test('set value as 5 second stepper item', function (done) {
+                stepper.value = 5;
+                flush(function () {
+                    assert.equal(secondStepperItem.getAttribute('disabled'), null);
+                    done();
+                })
+            })
+            test('set value as 5 third stepper item', function (done) {
+                stepper.value = 5;
+                flush(function () {
+                    assert.equal(thirdStepperItem.getAttribute('disabled'), null);
+                    done();
+                })
+            })
+            test('set value as 1.5 1st stepper', function (done) {
+                stepper.value = 1.5;
+                flush(function () {
+                    assert.equal(firstStepperItem.getAttribute('half'), null);
+                    done();
+                })
+            })
+            test('set value as 1.5 2nd stepper', function (done) {
+                stepper.value = 1.5;
+                flush(function () {
+                    assert.equal(secondStepperItem.getAttribute('half'), '');
+                    done();
+                })
+            })
+            test('set value as 1.5 3rd stepper', function (done) {
+                stepper.value = 1.5;
+                flush(function () {
+                    assert.equal(thirdStepperItem.getAttribute('half'), null);
+                    done();
+                })
+            })
+            test('set value as 6.5 1st stepper', function (done) {
+                stepper.value = 6.5;
+                flush(function () {
+                    assert.equal(firstStepperItem.getAttribute('half'), null);
+                    done();
+                })
+            })
+            test('set value as 6.5 2nd stepper', function (done) {
+                stepper.value = 6.5;
+                flush(function () {
+                    assert.equal(secondStepperItem.getAttribute('half'), null);
+                    done();
+                })
+            })
+            test('set value as 6.5 3rd stepper', function (done) {
+                stepper.value = 6.5;
+                flush(function () {
+                    assert.equal(thirdStepperItem.getAttribute('half'), null);
+                    done();
+                })
+            })
+            test('set value as 3 1st stepper', function (done) {
+                stepper.value = 3;
+                flush(function () {
+                    assert.equal(firstStepperItem.getAttribute('active'), null);
+                    done();
+                })
+            })
+            test('set value as 3 2nd stepper', function (done) {
+                stepper.value = 3;
+                flush(function () {
+                    assert.equal(secondStepperItem.getAttribute('active'), null);
+                    done();
+                })
+            })
+            test('set value as 3 3rd stepper', function (done) {
+                stepper.value = 3;
+                flush(function () {
+                    assert.equal(thirdStepperItem.getAttribute('active'), '');
+                    done();
+                })
+            })
+            test('set condensed 1st stepper', function (done) {
+                stepper.condensed = true;
+                flush(function () {
+                    assert.equal(firstStepperItem.condensed, true);
+                    done();
+                })
+            })
+            test('set condensed 2nd stepper', function (done) {
+                stepper.condensed = true;
+                flush(function () {
+                    assert.equal(secondStepperItem.condensed, true);
+                    done();
+                })
+            })
+            test('set condensed 3rd stepper', function (done) {
+                stepper.condensed = true;
+                flush(function () {
+                    assert.equal(thirdStepperItem.condensed, true);
+                    done();
+                })
+            })
+            test('set value = 1', function (done) {
+                stepper.value = 1;
+                flush(function () {
+                    assert.equal(firstStepperItem.getAttribute('tabindex'), '0');
+                    done();
+                })
+            })
+            test('set value = 1', function (done) {
+                stepper.value = 1;
+                flush(function () {
+                    assert.equal(secondStepperItem.getAttribute('tabindex'), null);
+                    done();
+                })
+            })
+            test('set value = 1', function (done) {
+                stepper.value = 1;
+                setTimeout(() => {
+                    assert.equal(thirdStepperItem.getAttribute('tabindex'), null);
+                    done();
+                }, 4000);
+            })
+            test('focus , keyup keyCode=9', function (done) {
+                let focusEvent;
+                focusEvent = new Event('focus');
+                let keyupEvent;
+                keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 9, 'which': 9 });
+                firstStepperItem.dispatchEvent(focusEvent);
+                firstStepperItem.dispatchEvent(keyupEvent);
+                flush(function () {
+                    assert.equal(firstStepperItem.shadowRoot.querySelector('#stepperCircle').style.border, '2px solid rgb(59, 153, 252)');
+                    done();
+                })
+            })
+            test('focus , keyup keyCode=32', function (done) {
+                let focusEvent;
+                focusEvent = new Event('focus');
+                let keyupEvent;
+                keyupEvent = new KeyboardEvent('keyup', { 'keyCode': 32, 'which': 32 });
+                firstStepperItem.dispatchEvent(focusEvent);
+                firstStepperItem.dispatchEvent(keyupEvent);
+                firstStepperItem.addEventListener('clicked', function () {
+                    firstStepperItem.randomAttribute = "set"
+                })
+                flush(function () {
+                    assert.equal(firstStepperItem.randomAttribute, 'set');
+                    done();
+                })
+            })
+            test('blur', function (done) {
+                let blurEvent;
+                blurEvent = new Event('blur');
+                firstStepperItem.dispatchEvent(blurEvent);
+                flush(function () {
+                    assert.equal(firstStepperItem.shadowRoot.querySelector('#stepperCircle').style.border, '');
+                    done();
+                })
+            })
+            test('_handleActive', function (done) {
+                firstStepperItem.disabled = true
+                firstStepperItem.active = true;
+                flush(function () {
+                    assert.equal(firstStepperItem.disabled, false);
+                    done();
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>

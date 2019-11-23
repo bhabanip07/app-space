@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+    <title>sh-search</title>
+    <script type="module"src="../src/sh-search.js"></script>
+    <script type="module"src="../src/sh-icon.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>    
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+
+    <body>
+        <test-fixture id= "SHSearch">
+            <template>
+                <sh-search label="single search" search-array='["Abdomen","Head","Whole Body","Chest","Extremity"]' style="width:200px;"></sh-search>
+            </template>
+        </test-fixture>
+        <test-fixture id= "SHSearchMultiline">
+            <template>
+                <sh-search label="Suggestions (Multi-line)" multiline fields='["name","email"]' search-array='[{"name":"joe","email":"joe@email.com"},{"name":"John Smith","email":"john.smith@email.com"},{"name":"Joseph Davis","email":"joseph.davis@email.com"},{"name":"Jonathan Parker","email":"jonathan.parker@email.com"}]'>
+                </sh-search>
+            </template>
+        </test-fixture>
+    </body>
+
+    <script>
+        suite('Search Component', function(){
+            let search;
+            setup(function(){
+                search = fixture("SHSearch");
+            })
+            test('check for label property', function() {
+                assert.equal(search.label, 'single search');
+            })
+        })
+        suite('Search Component on typing', function(){
+            let search, searchInput;
+            setup(function(){
+                search = fixture("SHSearch");
+                searchInput =  search.shadowRoot.querySelector('#searchBox');
+                searchInput.setAttribute('value','A');
+                search._changeInput('A');
+                search._computeSingleFilter('A');
+            })
+            test('check for close icon display', function() {
+                let closeIcon;
+                closeIcon = search.shadowRoot.querySelector('.closeIcon');
+                assert.equal(closeIcon.style.display, 'block');
+            })
+            test('check for close search container display', function() {
+                let searchDiv;
+                searchDiv = search.shadowRoot.querySelector('#showSearch');
+                assert.equal(searchDiv.style.display, 'block');
+            })
+            test('check for clearing the value', function() {
+                let closeIcon;
+                closeIcon = search.shadowRoot.querySelector('.closeIcon');
+                closeIcon.click();
+                assert.equal(search.value,'');
+            })
+            test('check for focus event on close icon', function(done) {
+                let closeIcon;
+                closeIcon = search.shadowRoot.querySelector('.closeIcon');
+                flush(function(){
+                    var event = new Event('focus');
+                    closeIcon.dispatchEvent(event);
+                    closeIcon.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':9}));
+                    assert.equal(closeIcon.style.outline,'rgb(59, 153, 252) solid 2px');
+                    assert.equal(closeIcon.style.outlineOffset,'-2px');
+                    done();
+                })
+            })
+            test('clear input on clicking clear icon', function(done) {
+                let closeIcon;
+                closeIcon = search.shadowRoot.querySelector('.closeIcon');
+                flush(function(){
+                    var event = new Event('focus');
+                    closeIcon.dispatchEvent(event);
+                    closeIcon.dispatchEvent(new KeyboardEvent('keyup', {'keyCode':13}));
+                    assert.equal(search.value,'');        
+                    done();
+                })
+            })
+            test('check for blur event on close icon', function() {
+                let closeIcon;
+                closeIcon = search.shadowRoot.querySelector('.closeIcon');
+                closeIcon.focus();
+                assert.equal(closeIcon.style.outline,'')
+                assert.equal(closeIcon.style.outlineOffset,'')
+            })
+            test('check for whole string search', function() {
+                search.wholeString = true;
+                assert.equal(search.wholeString, true);
+            })
+        })
+        suite('multiline search', function(){
+            let search;
+            setup(function(){
+                search = fixture("SHSearchMultiline");      
+            })
+            test('check for multline property', function(){
+                assert.equal(search.multiline, true);
+            })
+            test('check for singlesearch property', function(){
+                assert.equal(search.singlesearch, false);
+            })
+            test('check for whole string search', function() {
+                search.wholeString = true;
+                assert.equal(search.wholeString,true)
+            })
+        })
+        suite('multiline search on typing', function(){
+            let search;
+            setup(function(){
+                search = fixture("SHSearchMultiline");  
+                search._changeInput('Ja');
+                search._computeFilter('Ja');    
+            })
+            test('check for close icon display', function() {
+                let closeIcon;
+                closeIcon = search.shadowRoot.querySelector('.closeIcon');
+                assert.equal(closeIcon.style.display, 'block');
+            })
+            test('check for close search container display', function() {
+                let searchDiv;
+                searchDiv = search.shadowRoot.querySelector('#showSearch');
+                assert.equal(searchDiv.style.display, 'block');
+            })
+            test('check for whole string search', function() {
+                search.wholeString = true;
+                assert.equal(search.wholeString,true)
+            })
+        })
+    </script>
+</html>
