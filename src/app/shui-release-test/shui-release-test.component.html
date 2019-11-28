@@ -6,14 +6,14 @@
 
   <div column="12"  style="padding-top: 20px;">
       <sh-grid style="padding-left: 2%; padding-top: 12px;">
-          <sh-input-text label='Name' style="width:200px;" (value-changed)="model.name=$event.target.value"
-          [value]=model.name mandatory></sh-input-text>
-          <sh-input-number label='Age' value="20" style="width:200px;" (value-changed)="model.age=$event.target.value"
+          <sh-input-text label='Name' maxlength="20" style="width:200px;" (value-changed)="model.name=$event.target.value"
+          [value]=model.name ></sh-input-text>
+          <sh-input-number label='Age' style="width:200px;" (value-changed)="model.age=$event.target.value"
           [value]=model.age ></sh-input-number>
-          <sh-datepicker mandatory label='Date Of Birth' style="width:200px;" (value-changed)="model.dob=$event.target.value"
+          <sh-datepicker  label='Date Of Birth' style="width:200px;" (value-changed)="model.dob=$event.target.value"
           [value]=model.dob></sh-datepicker>
-          <sh-input-text label='Address' style="width:200px;" (value-changed)="model.address=$event.target.value"
-          [value]=model.address mandatory></sh-input-text>
+          <sh-input-text label='Address' textarea rows="2" style="width:250px;" (value-changed)="model.address=$event.target.value"
+          [value]=model.address></sh-input-text>
           <input type="file" style="width: 100px;padding-top: 10px;margin-left: 6px;" icon="upload" (change)="upload($event.target.files)" />
           <ng-container *ngIf="uploadSuccess">
             <span style="color: red;font-size: medium;">Uploaded Successful</span>
@@ -22,16 +22,17 @@
        
   </div>
 
-  <sh-input-text label='Attched File' style="width:200px;margin-top:10px;margin-left:30px;" [value]=model.fileName  readonly mandatory ></sh-input-text>
+  <sh-input-text label='Attched File' style="width:200px;margin-top:10px;margin-left:30px;" [value]=model.fileName readonly></sh-input-text>
 
 
   <!-- BUtton -->
-  <sh-button color='Primary' style="margin-left:30px;margin-top:10px;" (click)="save()" label="Save"></sh-button>
-
+  <sh-button color='secondary' style="margin-left:820px;margin-top:10px;" (click)="cancel()" label="Cancel"></sh-button>
+  <sh-button color='Primary' style="margin-left:930px; margin-top:-32px;" (click)="save()" label="Save"></sh-button>
+  
 
   <sh-divider style="padding-top: 15px;"></sh-divider>
 
-<div column="12" style="padding-top: 20px;">
+<div column="12" style="padding-top: 20px; max-height: 350px; overflow-y: scroll">
   <sh-table>
     <sh-table-row slot="header">
         <sh-table-head columns="6">Name</sh-table-head>
@@ -39,9 +40,7 @@
         <sh-table-head columns="4">Date Of Birth</sh-table-head>
         <sh-table-head columns="8">Address</sh-table-head>
         <sh-table-head columns="4">File</sh-table-head>
-        <sh-table-head icon>
-            <sh-icon button icon="more" size="s" ></sh-icon>
-        </sh-table-head>
+        <sh-table-head columns="4">Delete</sh-table-head>
     </sh-table-row>
     <sh-table-row *ngFor="let lc of students">
         <sh-table-cell columns="6">{{lc.name}}</sh-table-cell>
@@ -49,12 +48,18 @@
         <sh-table-cell columns="4">{{lc.dob}}</sh-table-cell>
         <sh-table-cell columns="8">{{lc.address}}</sh-table-cell>
         <sh-table-cell columns="4"><a href={{lc.fileUrl}}>{{lc.fileName}}</a></sh-table-cell>
-        <sh-table-cell icon>
-            <sh-icon button icon="more" (click)="deleteRecord(lc)"></sh-icon>
+        <sh-table-cell columns="4">
+            <sh-icon button icon="delete" (click)="deleteRecord(lc)"></sh-icon>
         </sh-table-cell>
     </sh-table-row>
 </sh-table>
 </div>
 </div>
-
-
+<!-- <div *ngIf='successFlag'>
+  <sh-modal sticky id="fee-modal" label='Success' modal-height='200px' modal-width='320px'>
+    <div style="display: flex">
+       Saved Successfuly !!.
+    </div>
+    <sh-button slot='footer' label='Ok' onclick="document.querySelector('#fee-modal').visible = false"></sh-button>
+  </sh-modal>
+</div> -->

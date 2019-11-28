@@ -24,17 +24,19 @@ export class ShuiReleaseTestComponent implements OnInit {
   }
   deleteRecord(param) {
     debugger;
-    this.shuiTestService.delete(param.fee_Id)
-    .subscribe(data =>
-       {
-        alert(`${this.model.name} deleted succesfuly !!`);
-      },
-      error =>
-      {
-        console.log(`error occured after calling the student/delete().`);
-        alert('error occured');
-      }
-  	)
+    this.students = this.students.filter(entity => entity.fee_Id !== param.fee_Id);
+    alert(`WIP ... ${this.model.name} deleted in local but not in DB ...`);
+    // this.shuiTestService.delete(param.fee_Id)
+    // .subscribe(data =>
+    //    {
+    //     alert(`${this.model.name} deleted succesfuly !!`);
+    //   },
+    //   error =>
+    //   {
+    //     console.log(`error occured after calling the student/delete().`);
+    //     alert('error occured');
+    //   }
+  	// )
   }
   getAllItems(): void {
     this.shuiTestService.get().subscribe(res => {
@@ -47,6 +49,7 @@ export class ShuiReleaseTestComponent implements OnInit {
        {
         this.getAllItems();
         alert(`${this.model.name} saved succesfuly !!`);
+        this.model = new ShuiTest();
       },
       error =>
       {
@@ -56,9 +59,10 @@ export class ShuiReleaseTestComponent implements OnInit {
   	)
   }
   cancel() {
-    this.model = null;
+    this.model = new ShuiTest();
   }
   upload(files: File[]){
+    
     this.uploadAndProgress(files);
   }
   uploadAndProgress(files: File[]){
